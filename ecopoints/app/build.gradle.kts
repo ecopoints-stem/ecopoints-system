@@ -5,6 +5,7 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -67,11 +68,13 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.work)
     implementation(libs.work.runtime.ktx)
+    implementation(libs.glide)
     annotationProcessor(libs.room.compiler)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     kapt(libs.hilt.android.compiler)
     kapt(libs.hilt.compiler)
     kapt(libs.lifecycle.compiler)
+    ksp(libs.glide.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

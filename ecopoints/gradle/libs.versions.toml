@@ -20,6 +20,8 @@ lifecycle = "2.8.3"
 okttp3 = "4.9.0"
 hiltVersion = "2.48"
 workVersion = "2.8.1"
+glide = "4.14.2"
+ksp = "1.9.0-1.0.13"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,9 +55,12 @@ lifecycle-viewmodel-ktx={group="androidx.lifecycle", name="lifecycle-viewmodel-k
 lifecycle-livedata-ktx={group="androidx.lifecycle", name="lifecycle-livedata-ktx", version.ref="lifecycle"}
 lifecycle-compiler={group="androidx.lifecycle", name="lifecycle-compiler", version.ref="lifecycle"}
 logging-interceptor={group="com.squareup.okhttp3", name="logging-interceptor", version.ref="okttp3"}
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group="com.github.bumptech.glide", name = "compiler", version.ref="glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt-android = {id="com.google.dagger.hilt.android" , version.ref="hiltVersion"}
 room = {id="androidx.room", version.ref="room"}
+ksp = {id="com.google.devtools.ksp", version.ref="ksp"}
