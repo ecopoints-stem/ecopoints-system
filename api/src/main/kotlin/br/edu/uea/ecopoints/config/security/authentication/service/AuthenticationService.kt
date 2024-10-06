@@ -31,7 +31,15 @@ class AuthenticationService(
         val userFound = userDetailsService.loadUserByUsername(authRequest.email)
         val userEntity = userRepository.findByEmail(authRequest.email)
 
-
+        val accessToken = createAccessToken(userFound)
+        val refreshToken = createRefreshToken(userFound)
+        tokenRefreshRepository.save(refreshToken,userFound)
+        return LoginResponse(
+            id = userEntity?.id,
+            accessToken = accessToken,
+            role = userEntity?.role.toString(),
+            refreshToken = refreshToken
+        )
     }
 
     fun refreshAccessToken(refreshToken: String) : String? {
