@@ -21,6 +21,4 @@ open class EcoUser (
     open var isPasswordRecovery: Boolean = false,
     @Enumerated(EnumType.STRING)
     open var role: UserTypeRole
-) {
-    protected constructor() : this(null, "","","","",false,ROLE_UNDEFINED)
-}
+)

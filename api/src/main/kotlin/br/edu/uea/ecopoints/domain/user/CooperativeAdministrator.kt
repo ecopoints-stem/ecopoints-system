@@ -21,6 +21,4 @@ class CooperativeAdministrator (
         cascade = [CascadeType.PERSIST,
             CascadeType.REMOVE]
     ) val pickupRequests: MutableList<RecyclingPickupRequest> = mutableListOf()
-) : EcoUser(id = null, name, phone, email, password, role = ROLE_ADMINISTRATOR) {
-    constructor() : this("","","","",null, null, mutableListOf())
-}
+) : EcoUser(id = null, name, phone, email, password, role = ROLE_ADMINISTRATOR)

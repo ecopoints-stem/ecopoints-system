@@ -29,6 +29,4 @@ class RecyclingSorter (
         cascade = [CascadeType.PERSIST,CascadeType.REFRESH],
         fetch = FetchType.LAZY
     ) var records: MutableList<AttendanceRecord> = mutableListOf()
-) : EcoUser(id = null, name, phone, email, password, role = ROLE_EMPLOYEE) {
-    constructor() : this("","","","","", null, mutableListOf())
-}
+) : EcoUser(id = null, name, phone, email, password, role = ROLE_EMPLOYEE)
