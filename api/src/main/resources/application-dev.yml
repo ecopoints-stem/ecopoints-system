@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:buri_db
+    username: ${H2_DB_USERNAME}
+    password: ${H2_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+  mail:
+    host: ${MAIL_SENDER_HOST}
+    port: ${MAIL_SENDER_PORT}
+    username: ${MAIL_SENDER_USERNAME}
+    password: ${MAIL_SENDER_PASSWORD}
+    properties:
+      mail:
+        transport:
+          protocol: ${MAIL_SENDER_PROTOCOL}
+        debug: ${MAIL_SENDER_DEBUG}
+        smtp:
+          auth: ${MAIL_SENDER_AUTH}
+          starttls:
+            enable: ${MAIL_SENDER_STARTTLS_ENABLE}
+jwt:
+  key: ${JWT-KEY}
+  access-token-expiration: 60000
+  refresh-token-expiration: 120000
+mail-sender:
+  host: ${MAIL_SENDER_HOST}
+  port: ${MAIL_SENDER_PORT}
+  username: ${MAIL_SENDER_USERNAME}
+  password: ${MAIL_SENDER_PASSWORD}]
+  protocol: ${MAIL_SENDER_PROTOCOL}
+  auth: ${MAIL_SENDER_AUTH}
+  starttls-enable: ${MAIL_SENDER_STARTTLS_ENABLE}
+  debug: ${MAIL_SENDER_DEBUG}
