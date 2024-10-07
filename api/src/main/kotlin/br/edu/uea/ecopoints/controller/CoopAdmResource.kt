@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 
 
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/admin")
 @Tag(name = "Cooperative Admin Resource")
 class CoopAdmResource (
-    private val coopAdmService: ICoopAdmService
+    private val coopAdmService: ICoopAdmService,
+    private val encoder: PasswordEncoder
 ){
     @PostMapping
     fun save(@RequestBody @Valid coopAdmRegister: CoopAdmRegister) : ResponseEntity<CoopAdmView>{
         val coopAdm = coopAdmRegister.toEntity()
+        coopAdm.password = encoder.encode(coopAdm.password)
         val coopAdmSaved = coopAdmService.save(coopAdm)
         return ResponseEntity.status(HttpStatus.CREATED).body(coopAdmSaved.toView())
     }

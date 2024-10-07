@@ -3,6 +3,7 @@ package br.edu.uea.ecopoints.controller
 import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.config.security.authentication.request.LoginRequest
 import br.edu.uea.ecopoints.config.security.authentication.request.RefreshTokenRequest
+import br.edu.uea.ecopoints.config.security.authentication.request.ResetPasswordRequest
 import br.edu.uea.ecopoints.config.security.authentication.response.LoginResponse
 import br.edu.uea.ecopoints.config.security.authentication.response.RefreshTokenResponse
 import br.edu.uea.ecopoints.config.security.authentication.service.AuthenticationService
@@ -64,5 +65,17 @@ class AuthResource (
             )
         }
         return ResponseEntity.status(HttpStatus.OK).body("Senha temporária enviada para ${userUpdated.email}")
+    }
+
+    @PostMapping("/{userId}/newPassword")
+    fun sendNewPassword(@RequestBody @Valid resetPasswordRequest: ResetPasswordRequest, @PathVariable userId: Long) : ResponseEntity<String>{
+        val user = userService.findById(userId)
+        if(user.isPasswordRecovery && encoder.matches(resetPasswordRequest.temporaryPassword, user.password)){
+            user.isPasswordRecovery=false
+            user.password=resetPasswordRequest.newPassword
+            val userUpdated = userService.save(user)
+        } else {
+
+        }
     }
 }
