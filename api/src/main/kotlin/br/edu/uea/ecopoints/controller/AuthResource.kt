@@ -7,8 +7,12 @@ import br.edu.uea.ecopoints.config.security.authentication.request.ResetPassword
 import br.edu.uea.ecopoints.config.security.authentication.response.LoginResponse
 import br.edu.uea.ecopoints.config.security.authentication.response.RefreshTokenResponse
 import br.edu.uea.ecopoints.config.security.authentication.service.AuthenticationService
+import br.edu.uea.ecopoints.domain.user.model.EcoUser
+import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
+import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.service.user.IUserService
 import br.edu.uea.ecopoints.utils.PasswordGenerator
+import br.edu.uea.ecopoints.view.user.UserView
 import io.jsonwebtoken.ExpiredJwtException
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -44,12 +48,8 @@ class AuthResource (
     @PostMapping("/refresh")
     fun refreshToken(@RequestBody @Valid request: RefreshTokenRequest) : ResponseEntity<RefreshTokenResponse> {
         var tokenResponse: RefreshTokenResponse? = null
-        try {
-            authService.refreshAccessToken(refreshToken = request.refreshToken)?.let { newAccessToken ->
+        authService.refreshAccessToken(refreshToken = request.refreshToken)?.let { newAccessToken ->
                 tokenResponse = RefreshTokenResponse(newAccessToken)
-            }
-        } catch (ex: ExpiredJwtException){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(RefreshTokenResponse(""))
         }
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponse)
     }
@@ -68,14 +68,16 @@ class AuthResource (
     }
 
     @PostMapping("/{userId}/newPassword")
-    fun sendNewPassword(@RequestBody @Valid resetPasswordRequest: ResetPasswordRequest, @PathVariable userId: Long) : ResponseEntity<String>{
+    fun sendNewPassword(@RequestBody @Valid resetPasswordRequest: ResetPasswordRequest, @PathVariable userId: Long) : ResponseEntity<UserView>{
         val user = userService.findById(userId)
+        var userUpdated: EcoUser? = null
         if(user.isPasswordRecovery && encoder.matches(resetPasswordRequest.temporaryPassword, user.password)){
             user.isPasswordRecovery=false
             user.password=resetPasswordRequest.newPassword
-            val userUpdated = userService.save(user)
+            userUpdated = userService.save(user)
         } else {
-
+            throw DomainException("Senha inválida ou não ativou modo de recuperação de senha",ExceptionDetailsStatus.INVALID_INPUT)
         }
+        return ResponseEntity.status(HttpStatus.OK).body(userUpdated.toView())
     }
 }

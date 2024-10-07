@@ -2,6 +2,7 @@ package br.edu.uea.ecopoints.domain.user.model
 
 import br.edu.uea.ecopoints.enums.user.UserTypeRole.ROLE_UNDEFINED
 import br.edu.uea.ecopoints.enums.user.UserTypeRole
+import br.edu.uea.ecopoints.view.user.UserView
 import jakarta.persistence.*
 
 @Entity
@@ -21,4 +22,13 @@ open class EcoUser (
     open var isPasswordRecovery: Boolean = false,
     @Enumerated(EnumType.STRING)
     open var role: UserTypeRole
-)
+) {
+    fun toView() = UserView(
+        id = this.id!!,
+        name = this.name,
+        phone = this.phone,
+        email = this.email,
+        isPasswordRecovery = this.isPasswordRecovery,
+        role = this.role.toString()
+    )
+}
