@@ -1,8 +1,8 @@
-package br.edu.uea.ecopoints.service.impl
+package br.edu.uea.ecopoints.service.impl.user
 
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.repository.user.CoopAdmRepository
-import br.edu.uea.ecopoints.service.ICoopAdmService
+import br.edu.uea.ecopoints.service.user.ICoopAdmService
 import org.springframework.stereotype.Service
 
 @Service

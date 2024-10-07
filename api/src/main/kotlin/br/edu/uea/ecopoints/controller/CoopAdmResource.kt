@@ -1,7 +1,7 @@
 package br.edu.uea.ecopoints.controller
 
 import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
-import br.edu.uea.ecopoints.service.ICoopAdmService
+import br.edu.uea.ecopoints.service.user.ICoopAdmService
 import br.edu.uea.ecopoints.view.user.CoopAdmView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid

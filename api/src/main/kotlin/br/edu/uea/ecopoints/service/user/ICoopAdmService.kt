@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.service
+package br.edu.uea.ecopoints.service.user
 
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.domain.user.Driver

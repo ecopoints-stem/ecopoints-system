@@ -1,8 +1,8 @@
-package br.edu.uea.ecopoints.service.impl
+package br.edu.uea.ecopoints.service.impl.user
 
 import br.edu.uea.ecopoints.domain.user.Driver
 import br.edu.uea.ecopoints.repository.user.DriverRepository
-import br.edu.uea.ecopoints.service.IDriverService
+import br.edu.uea.ecopoints.service.user.IDriverService
 import org.springframework.stereotype.Service
 
 @Service
