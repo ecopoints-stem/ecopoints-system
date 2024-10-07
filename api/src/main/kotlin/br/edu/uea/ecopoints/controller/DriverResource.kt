@@ -4,6 +4,7 @@ import br.edu.uea.ecopoints.domain.user.Driver
 import br.edu.uea.ecopoints.dto.user.DriverRegister
 import br.edu.uea.ecopoints.service.IDriverService
 import br.edu.uea.ecopoints.view.user.DriverView
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/driver")
+@Tag(name = "Driver Resource")
 class DriverResource (
     private val driverService: IDriverService
 ){

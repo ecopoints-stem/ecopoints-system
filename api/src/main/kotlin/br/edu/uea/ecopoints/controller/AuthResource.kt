@@ -4,6 +4,7 @@ import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.config.security.authentication.request.LoginRequest
 import br.edu.uea.ecopoints.config.security.authentication.response.LoginResponse
 import br.edu.uea.ecopoints.config.security.authentication.service.AuthenticationService
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Authentication Resource")
 class AuthResource (
     private val authService: AuthenticationService,
     private val encoder: PasswordEncoder,
