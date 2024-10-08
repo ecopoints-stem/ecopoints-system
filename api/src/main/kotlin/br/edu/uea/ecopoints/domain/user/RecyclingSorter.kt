@@ -4,6 +4,7 @@ import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
 import br.edu.uea.ecopoints.enums.user.UserTypeRole.ROLE_EMPLOYEE
+import br.edu.uea.ecopoints.view.user.RecyclingSorterView
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -22,11 +23,22 @@ class RecyclingSorter (
     val cpf: String,
     @JoinColumn(name = "cooperative_id", nullable = true)
     @ManyToOne(optional = true,
-        cascade = [CascadeType.PERSIST,CascadeType.REFRESH]
+        cascade = [CascadeType.PERSIST,CascadeType.REFRESH],
+        fetch = FetchType.EAGER
     ) var cooperative: Cooperative? = null,
     @OneToMany(
         mappedBy = "recyclingSorter",
         cascade = [CascadeType.PERSIST,CascadeType.REFRESH],
         fetch = FetchType.LAZY
     ) var records: MutableList<AttendanceRecord> = mutableListOf()
-) : EcoUser(id = null, name, phone, email, password, role = ROLE_EMPLOYEE)
+) : EcoUser(id = null, name, phone, email, password, role = ROLE_EMPLOYEE) {
+    fun toRView() = RecyclingSorterView(
+        id = this.id!!,
+        name=this.name,
+        phone = this.phone,
+        email = this.email,
+        password = this.password,
+        cpf = this.cpf,
+        cooperativeId = this.cooperative?.id
+    )
+}

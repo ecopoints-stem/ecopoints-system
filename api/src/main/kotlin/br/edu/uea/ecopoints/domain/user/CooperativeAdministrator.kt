@@ -1,6 +1,7 @@
 package br.edu.uea.ecopoints.domain.user
 
 import br.edu.uea.ecopoints.domain.RecyclingPickupRequest
+import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
 import br.edu.uea.ecopoints.enums.user.UserTypeRole.ROLE_ADMINISTRATOR
 import br.edu.uea.ecopoints.view.user.CoopAdmView
@@ -16,6 +17,8 @@ class CooperativeAdministrator (
     var securityQuestion: String? = null,
     @Column(nullable = false, length = 60)
     var securityResponse: String? = null,
+    @OneToOne(mappedBy = "adm", fetch = FetchType.LAZY, optional = true, cascade =[CascadeType.PERSIST])
+    var cooperative: Cooperative? = null,
     @OneToMany(
         fetch = FetchType.LAZY,
         mappedBy = "requester",
@@ -23,7 +26,7 @@ class CooperativeAdministrator (
             CascadeType.REMOVE]
     ) val pickupRequests: MutableList<RecyclingPickupRequest> = mutableListOf()
 ) : EcoUser(id = null, name, phone, email, password, role = ROLE_ADMINISTRATOR) {
-    fun toView() = CoopAdmView(
+    fun toAView() = CoopAdmView(
         id = this.id!!,
         name= this.name,
         phone = this.phone,

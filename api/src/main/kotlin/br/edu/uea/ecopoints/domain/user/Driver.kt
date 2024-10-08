@@ -23,7 +23,7 @@ class Driver (
             CascadeType.REMOVE])
     val pickupRequests: MutableList<RecyclingPickupRequest> = mutableListOf()
 ) : EcoUser(id = null, name, phone, email, password, role = ROLE_DRIVER) {
-    fun toView() = DriverView(
+    fun toDView() = DriverView(
         id = this.id!!,
         name = this.name,
         phone = this.phone,

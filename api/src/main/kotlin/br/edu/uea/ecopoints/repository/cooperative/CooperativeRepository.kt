@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CooperativeRepository  : JpaRepository<Cooperative, Long>{
-
+    fun findByCnpj(cnpj: String) : Cooperative?
+    fun existsByCnpj(cnpj: String) : Boolean
 }

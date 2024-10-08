@@ -18,7 +18,7 @@ class CustomUserDetailsService (
             ?: throw UsernameNotFoundException("Usuário com email $username não encontrado")
         return User(user.email,user.password,
             true,true,
-            !user.isPasswordRecovery, true,
+            true, true,
             mutableListOf(SimpleGrantedAuthority(user.role.toString())))
     }
 }

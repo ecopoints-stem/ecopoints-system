@@ -28,13 +28,13 @@ class DriverResource (
         val driver = driverDTO.toEntity()
         driver.password = encoder.encode(driver.password)
         val driverSaved = driverService.save(driver)
-        return ResponseEntity.status(HttpStatus.CREATED).body(driverSaved.toView())
+        return ResponseEntity.status(HttpStatus.CREATED).body(driverSaved.toDView())
     }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long) : ResponseEntity<DriverView>{
         val driver = driverService.findById(id)
-        return ResponseEntity.status(HttpStatus.OK).body(driver.toView())
+        return ResponseEntity.status(HttpStatus.OK).body(driver.toDView())
     }
 
     @DeleteMapping("/{id}")

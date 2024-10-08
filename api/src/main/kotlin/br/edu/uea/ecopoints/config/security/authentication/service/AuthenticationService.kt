@@ -38,7 +38,8 @@ class AuthenticationService(
             id = userEntity?.id,
             accessToken = accessToken,
             role = userEntity?.role.toString(),
-            refreshToken = refreshToken
+            refreshToken = refreshToken,
+            isPasswordRecovery = userEntity?.isPasswordRecovery ?: false
         )
     }
 

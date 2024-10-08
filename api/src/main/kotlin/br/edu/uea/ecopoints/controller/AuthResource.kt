@@ -10,10 +10,9 @@ import br.edu.uea.ecopoints.config.security.authentication.service.Authenticatio
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
-import br.edu.uea.ecopoints.service.user.IUserService
+import br.edu.uea.ecopoints.service.user.model.IUserService
 import br.edu.uea.ecopoints.utils.PasswordGenerator
 import br.edu.uea.ecopoints.view.user.UserView
-import io.jsonwebtoken.ExpiredJwtException
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import kotlin.concurrent.thread
 
