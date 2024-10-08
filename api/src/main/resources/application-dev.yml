@@ -33,8 +33,8 @@ spring:
             enable: ${MAIL_SENDER_STARTTLS_ENABLE}
 jwt:
   key: ${JWT-KEY}
-  access-token-expiration: 60000
-  refresh-token-expiration: 120000
+  access-token-expiration: 3600000
+  refresh-token-expiration: 14400000
 mail-sender:
   host: ${MAIL_SENDER_HOST}
   port: ${MAIL_SENDER_PORT}

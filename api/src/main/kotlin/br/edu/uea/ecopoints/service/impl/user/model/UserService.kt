@@ -6,11 +6,13 @@ import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.user.model.EcoUserRepository
 import br.edu.uea.ecopoints.service.user.model.IUserService
 import jakarta.transaction.Transactional
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class UserService (
-    private val userRepository: EcoUserRepository
+    private val userRepository: EcoUserRepository,
+    private val encoder: PasswordEncoder
 ) : IUserService {
     @Transactional
     override fun save(user: EcoUser): EcoUser = userRepository.save(user)
@@ -25,10 +27,9 @@ class UserService (
 
     @Transactional
     override fun resetPassword(user: EcoUser, newPassword: String): EcoUser {
-        user.password = newPassword
+        user.password = encoder.encode(newPassword)
         user.isPasswordRecovery = true
         val userUpdated = this.userRepository.save(user)
         return userUpdated
     }
-
 }

@@ -13,9 +13,9 @@ class CooperativeAdministrator (
     phone: String?,
     email: String,
     password: String,
-    @Column(nullable = false)
+    @Column(nullable = true)
     var securityQuestion: String? = null,
-    @Column(nullable = false, length = 60)
+    @Column(nullable = true, length = 60)
     var securityResponse: String? = null,
     @OneToOne(mappedBy = "adm", fetch = FetchType.LAZY, optional = true, cascade =[CascadeType.PERSIST])
     var cooperative: Cooperative? = null,

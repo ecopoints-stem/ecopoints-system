@@ -73,7 +73,11 @@ class Config (
                     "/swagger-resources/**",
                     "/v3/api-docs/**"
                 ).permitAll()
+                auth.requestMatchers("/admin").hasRole("ADMINISTRATOR")
+                auth.requestMatchers("/employee").hasAnyRole("ADMINISTRATOR", "EMPLOYEE")
+                auth.requestMatchers("/driver").hasAnyRole("ADMINISTRATOR", "DRIVER")
                 auth.requestMatchers( "/auth/**").permitAll()
+                auth.anyRequest().authenticated()
         }.sessionManagement {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         }.addFilterBefore(authFilter,UsernamePasswordAuthenticationFilter::class.java)
