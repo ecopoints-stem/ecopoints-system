@@ -1,5 +1,6 @@
-package br.edu.uea.ecopoints.controller
+package br.edu.uea.ecopoints.controller.user
 
+import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import kotlin.concurrent.thread
 
 @RestController
 @RequestMapping("/employee")
@@ -25,7 +27,8 @@ import org.springframework.web.bind.annotation.RestController
 class RecyclingSorterResource (
     private val recyclingSorterService: IRecyclingSorterService,
     private val cooperativeService: ICooperativeService,
-    private val encoder: PasswordEncoder
+    private val encoder: PasswordEncoder,
+    private val emailService: EmailService
 ) {
     @PostMapping
     fun save(@RequestBody @Valid recyclingSorterRegister: RecyclingSorterRegister) : ResponseEntity<RecyclingSorterView>{
@@ -43,7 +46,15 @@ class RecyclingSorterResource (
         } else {
             recyclingSorterSaved = recyclingSorterService.save(recyclingSorter)
         }
-
+        recyclingSorterSaved?.let { employee ->
+            thread(true){
+                emailService.sendWelcomeMessage(
+                    employee.email,
+                    employee.name,
+                    employee.role.toString().substringAfter("ROLE_")
+                )
+            }
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(recyclingSorterSaved?.toRView())
     }
 

@@ -1,5 +1,6 @@
-package br.edu.uea.ecopoints.controller
+package br.edu.uea.ecopoints.controller.user
 
+import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.dto.user.DriverRegister
 import br.edu.uea.ecopoints.service.user.IDriverService
 import br.edu.uea.ecopoints.view.user.DriverView
@@ -15,19 +16,30 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import kotlin.concurrent.thread
 
 @RestController
 @RequestMapping("/driver")
 @Tag(name = "Driver Resource")
 class DriverResource (
     private val driverService: IDriverService,
-    private val encoder: PasswordEncoder
+    private val encoder: PasswordEncoder,
+    private val emailService: EmailService
 ){
     @PostMapping
     fun save(@RequestBody @Valid driverDTO: DriverRegister) : ResponseEntity<DriverView>{
         val driver = driverDTO.toEntity()
         driver.password = encoder.encode(driver.password)
         val driverSaved = driverService.save(driver)
+        driverSaved.let {
+            thread(true){
+                emailService.sendWelcomeMessage(
+                    it.email,
+                    it.name,
+                    it.role.toString().substringAfter("ROLE_")
+                )
+            }
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(driverSaved.toDView())
     }
 
