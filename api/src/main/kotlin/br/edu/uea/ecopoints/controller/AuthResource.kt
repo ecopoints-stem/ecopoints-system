@@ -15,6 +15,7 @@ import br.edu.uea.ecopoints.dto.user.DriverRegister
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
+import br.edu.uea.ecopoints.exception.ExceptionDetails
 import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.user.ICoopAdmService
 import br.edu.uea.ecopoints.service.user.IDriverService
@@ -25,9 +26,12 @@ import br.edu.uea.ecopoints.view.user.CoopAdmView
 import br.edu.uea.ecopoints.view.user.DriverView
 import br.edu.uea.ecopoints.view.user.RecyclingSorterView
 import br.edu.uea.ecopoints.view.user.UserView
+import io.jsonwebtoken.ExpiredJwtException
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,6 +39,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
 @RestController
@@ -59,11 +64,25 @@ class AuthResource (
     }
 
     @PostMapping("/refresh")
-    fun refreshToken(@RequestBody @Valid request: RefreshTokenRequest) : ResponseEntity<RefreshTokenResponse> {
+    fun refreshToken(@RequestBody @Valid authRefreshRequest: RefreshTokenRequest) : ResponseEntity<Any> {
         var tokenResponse: RefreshTokenResponse? = null
-        authService.refreshAccessToken(refreshToken = request.refreshToken)?.let { newAccessToken ->
+        try {
+            authService.refreshAccessToken(refreshToken = authRefreshRequest.refreshToken)?.let { newAccessToken ->
                 tokenResponse = RefreshTokenResponse(newAccessToken)
+            }
+        } catch (ex: ExpiredJwtException){
+            val responseException = ExceptionDetails(
+                exception = ex.javaClass.toString(),
+                title = "Token de refresh expirou",
+                status = ExceptionDetailsStatus.TOKEN_EXPIRED,
+                timestamp = LocalDateTime.now(),
+                details = mutableMapOf(
+                    (ex.cause?.message ?: "expirou access token") to ex.message
+                )
+            )
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseException)
         }
+
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponse)
     }
 

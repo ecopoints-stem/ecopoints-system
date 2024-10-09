@@ -21,7 +21,8 @@ import java.time.LocalDateTime
 @Component
 class JwtAuthenticationFilter (
     private val userDetails: CustomUserDetailsService,
-    private val tokenService: TokenService
+    private val tokenService: TokenService,
+    private val mapper: ObjectMapper
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -57,7 +58,6 @@ class JwtAuthenticationFilter (
             )
             response.status=HttpServletResponse.SC_UNAUTHORIZED
             response.contentType = MediaType.APPLICATION_JSON_VALUE
-            val mapper = ObjectMapper()
             val errorString = mapper.writeValueAsString(responseException)
             response.writer.write(errorString)
             return
