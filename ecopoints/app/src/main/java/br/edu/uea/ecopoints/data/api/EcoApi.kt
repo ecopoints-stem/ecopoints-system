@@ -15,7 +15,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
 
-interface EcoUserApi {
+interface EcoApi {
     @POST("/auth")
     suspend fun login(@Body userInfo: UserLogin) : Response<UserLoginTokens>
     @POST("/auth/admin")
