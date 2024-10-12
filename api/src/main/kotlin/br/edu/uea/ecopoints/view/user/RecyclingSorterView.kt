@@ -5,7 +5,6 @@ data class RecyclingSorterView(
     val name: String,
     val phone: String?,
     val email: String,
-    val password: String,
     val cpf: String,
     val cooperativeId: Long?
 )
