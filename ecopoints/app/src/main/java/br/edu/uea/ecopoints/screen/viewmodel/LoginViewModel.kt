@@ -34,7 +34,7 @@ class LoginViewModel @Inject constructor(
                             with(shared.edit()){
                                 response.body()?.let {
                                     putLong("id",it.id)
-                                    putString("role",it.role)
+                                    putString("role",it.role?.substringAfter("ROLE_"))
                                     putString("accessToken",it.accessToken)
                                     putString("refreshToken",it.refreshToken)
                                     putString("email",email)

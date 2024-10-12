@@ -12,10 +12,12 @@ import br.edu.uea.ecopoints.domain.network.request.UserLogin
 import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface EcoApi {
+    // Rotas para /auth
     @POST("/auth")
     suspend fun login(@Body userInfo: UserLogin) : Response<UserLoginTokens>
     @POST("/auth/admin")
@@ -28,4 +30,16 @@ interface EcoApi {
     suspend fun resetPasswordById(@Path("userId") userId: Long) : Response<String>
     @POST("/auth/{userId}/newPassword")
     suspend fun createNewPassword(@Path("userId") userId: Long, @Body resetPassword: ResetPasswordRequest) : Response<UserApp>
+
+    // Rotas para /employee
+    @GET("/employee/{id}")
+    suspend fun findEmployeeById(@Path("id") id: Long) : Response<Employee>
+
+    // Rotas para /driver
+    @GET("/driver/{id}")
+    suspend fun findDriverById(@Path("id") id: Long) : Response<Driver>
+
+    // Rotas para /admin
+    @GET("/admin/{id}")
+    suspend fun findAdminById(@Path("id") id: Long) : Response<CoopAdmin>
 }

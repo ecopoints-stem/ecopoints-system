@@ -1,5 +1,6 @@
 package br.edu.uea.ecopoints.screen
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -59,6 +60,9 @@ class LoginActivity : AppCompatActivity() {
                 binding.pbCls.isVisible = state.isProgressVisible
                 binding.tvErrorMessage.text = state.errorMessage
                 binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
+                if(state.isAuthenticated){
+                    startActivity(Intent(this,TestActivity::class.java))
+                }
         }
     }
 
