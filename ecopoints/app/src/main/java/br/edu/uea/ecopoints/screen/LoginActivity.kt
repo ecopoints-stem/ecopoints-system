@@ -29,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var edtPassword: TextInputEditText
     private lateinit var clCreateNewAccount: ConstraintLayout
     private lateinit var btLogin: MaterialButton
+    private lateinit var userRole: String
 
     @Inject
     lateinit var ecoApi: EcoApi
@@ -41,9 +42,9 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupView()
-        val role: String = intent.getStringExtra("roleSelected") ?: ""
-        if(role.isNotBlank()){
-            when(role){
+        userRole = intent.getStringExtra("roleSelected") ?: ""
+        if(userRole.isNotBlank()){
+            when(userRole){
                 "employee" -> imageViewRoleIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.worker_icon))
                 "admin" -> imageViewRoleIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.admin_icon))
                 "driver" -> imageViewRoleIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.driver_icon))
@@ -61,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.tvErrorMessage.text = state.errorMessage
                 binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
                 if(state.isAuthenticated){
-                    startActivity(Intent(this,TestActivity::class.java))
+                    //startActivity(Intent(this,TestActivity::class.java))
                 }
         }
     }
@@ -76,6 +77,10 @@ class LoginActivity : AppCompatActivity() {
             } else{
                 loginViewModel.authenticate(edtEmail.text.toString(),edtPassword.text.toString())
             }
+        }
+        clCreateNewAccount.setOnClickListener {
+            //Envia para a tela de cadastro de acordo com o perfil de usuário
+
         }
     }
 

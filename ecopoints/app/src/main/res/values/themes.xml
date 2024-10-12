@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowBackground">@color/app_background</item>
+        <item name="colorPrimary">@color/blue</item>
     </style>
 
     <style name="Theme.Ecopoints" parent="Base.Theme.Ecopoints" />

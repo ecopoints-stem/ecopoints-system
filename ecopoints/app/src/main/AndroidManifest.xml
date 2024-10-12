@@ -16,8 +16,15 @@
         android:theme="@style/Theme.Ecopoints"
         tools:targetApi="31">
         <activity
-            android:name=".screen.TestActivity"
+            android:name=".screen.register.CoopAdminActivity"
             android:exported="false" />
+        <activity
+            android:name=".screen.register.DriverRegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screen.register.EmployeeRegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Ecopoints" />
         <activity
             android:name=".screen.LoginActivity"
             android:exported="false" />
