@@ -72,15 +72,21 @@ object DataNetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient) : Retrofit {
+    fun providesObjectMapper() : ObjectMapper{
+        return ObjectMapper().apply {
+            registerModule(JavaTimeModule())
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient, mapper: ObjectMapper) : Retrofit {
         return Retrofit
             .Builder()
             .baseUrl(BASE_URL_API).addConverterFactory(
                 JacksonConverterFactory.create(
-                    ObjectMapper().apply {
-                        registerModule(JavaTimeModule())
-                        disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                    }
+                    mapper
                 )
             ).client(client).build()
     }
