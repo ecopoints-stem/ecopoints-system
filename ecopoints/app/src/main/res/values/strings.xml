@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ecopoints</string>
+    <string name="sp_id">id</string>
+    <string name="sp_role">role</string>
+    <string name="sp_accessToken">accessToken</string>
+    <string name="sp_refreshToken">refreshToken</string>
+    <string name="sp_email">email</string>
+    <string name="sp_password">password</string>
 </resources>

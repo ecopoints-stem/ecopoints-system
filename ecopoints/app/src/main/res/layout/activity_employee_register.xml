@@ -7,4 +7,167 @@
     android:layout_height="match_parent"
     tools:context=".screen.register.EmployeeRegisterActivity">
 
+    <TextView
+        android:id="@+id/tvRegisterTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Cadastro"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Nome"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCnpj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/tilName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edCnj"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="CNPJ (Contratante)"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCpf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/tilCnpj">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edCpf"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="CPF"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/tilCpf">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPhone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Telefone"
+            android:inputType="phone"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/tilPhone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Email"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/border"
+        app:layout_constraintTop_toBottomOf="@id/tilEmail">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Password"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
+        android:text="Cadastrar"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

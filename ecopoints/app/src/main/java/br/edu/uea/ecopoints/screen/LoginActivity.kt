@@ -14,6 +14,10 @@ import androidx.core.view.isVisible
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.databinding.ActivityLoginBinding
+import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
+import br.edu.uea.ecopoints.screen.register.CoopAdminRegisterActivity
+import br.edu.uea.ecopoints.screen.register.DriverRegisterActivity
+import br.edu.uea.ecopoints.screen.register.EmployeeRegisterActivity
 import br.edu.uea.ecopoints.screen.viewmodel.LoginViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -61,8 +65,12 @@ class LoginActivity : AppCompatActivity() {
                 binding.pbCls.isVisible = state.isProgressVisible
                 binding.tvErrorMessage.text = state.errorMessage
                 binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
-                if(state.isAuthenticated){
-                    //startActivity(Intent(this,TestActivity::class.java))
+                if(state.isAuthenticated && matchesRole(state.auth,userRole)){
+                    when(userRole){
+                        "admin" -> {
+
+                        }
+                    }
                 }
         }
     }
@@ -80,7 +88,12 @@ class LoginActivity : AppCompatActivity() {
         }
         clCreateNewAccount.setOnClickListener {
             //Envia para a tela de cadastro de acordo com o perfil de usuário
-
+            when(userRole) {
+                "admin" -> startActivity(Intent(this,CoopAdminRegisterActivity::class.java))
+                "driver" -> startActivity(Intent(this,DriverRegisterActivity::class.java))
+                "employee" -> startActivity(Intent(this,EmployeeRegisterActivity::class.java))
+                else -> startActivity(Intent(this,MainActivity::class.java))
+            }
         }
     }
 
@@ -90,5 +103,13 @@ class LoginActivity : AppCompatActivity() {
         edtPassword = binding.edtPassword
         clCreateNewAccount = binding.clCreateAccountText
         btLogin = binding.btLogin
+    }
+
+    private fun matchesRole(auth: UserLoginTokens?, roleChoicer: String): Boolean {
+        val userRoleAPI = auth?.role
+        val userRoleChoicer = roleChoicer.uppercase()
+        val result = userRoleAPI?.contains(userRoleChoicer)
+        Log.i("ECO","api: $userRoleAPI user choice: $userRoleChoicer result: $result")
+        return result ?: false
     }
 }
