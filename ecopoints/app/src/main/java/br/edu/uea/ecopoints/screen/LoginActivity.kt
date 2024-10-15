@@ -19,6 +19,9 @@ import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.databinding.ActivityLoginBinding
 import br.edu.uea.ecopoints.domain.network.response.UserId
 import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
+import br.edu.uea.ecopoints.screen.home.admin.HomeAdminActivity
+import br.edu.uea.ecopoints.screen.home.driver.HomeDriverActivity
+import br.edu.uea.ecopoints.screen.home.employee.HomeEmployeeActivity
 import br.edu.uea.ecopoints.screen.register.CoopAdminRegisterActivity
 import br.edu.uea.ecopoints.screen.register.DriverRegisterActivity
 import br.edu.uea.ecopoints.screen.register.EmployeeRegisterActivity
@@ -73,9 +76,9 @@ class LoginActivity : AppCompatActivity() {
             binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
             if(state.isAuthenticated && matchesRole(state.auth,userRole) && state.auth?.isPasswordRecovery != true){
                 when(userRole){
-                    "admin" -> {
-
-                    }
+                    "admin" -> startActivity(Intent(this,HomeAdminActivity::class.java))
+                    "driver" -> startActivity(Intent(this,HomeDriverActivity::class.java))
+                    "employee" -> startActivity(Intent(this,HomeEmployeeActivity::class.java))
                 }
             } else if(state.isAuthenticated && state.auth?.isPasswordRecovery==true){
                 val intent : Intent = Intent(this,ResetPasswordActivity::class.java)
