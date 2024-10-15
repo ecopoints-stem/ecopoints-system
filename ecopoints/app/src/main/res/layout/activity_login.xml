@@ -113,8 +113,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/rounded_edittext"
             android:hint="Senha"
-            android:maxLines="1"
             android:inputType="textPassword"
+            android:maxLines="1"
             android:textColor="@color/blue"
             android:textSize="16sp"
             android:textStyle="bold" />

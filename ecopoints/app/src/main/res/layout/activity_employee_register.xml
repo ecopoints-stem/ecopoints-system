@@ -101,7 +101,7 @@
             android:background="@drawable/rounded_edittext"
             android:inputType="number"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -131,7 +131,7 @@
             android:background="@drawable/rounded_edittext"
             android:inputType="phone"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -160,7 +160,7 @@
             android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -189,7 +189,7 @@
             android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
