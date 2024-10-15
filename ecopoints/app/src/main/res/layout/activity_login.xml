@@ -127,8 +127,7 @@
             android:background="@drawable/rounded_edittext"
             android:padding="10dp"
             android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray"
-            android:hint="Insira o texto aqui" />
+            android:textColorHint="@android:color/darker_gray"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 
