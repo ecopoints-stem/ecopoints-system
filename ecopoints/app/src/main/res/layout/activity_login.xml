@@ -157,6 +157,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/tvResetPassword"
+        app:layout_constraintTop_toBottomOf="@id/tvErrorMessage"
+        app:layout_constraintBottom_toTopOf="@id/tilEmail"
+        app:layout_constraintStart_toStartOf="@id/btLogin"
+        app:layout_constraintEnd_toEndOf="@id/btLogin"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:textColor="@color/red"
+        android:text="Esqueci minha senha ?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btLogin"
         android:layout_width="match_parent"

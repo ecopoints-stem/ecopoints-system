@@ -1,27 +1,35 @@
 package br.edu.uea.ecopoints.screen
 
+import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.databinding.ActivityLoginBinding
+import br.edu.uea.ecopoints.domain.network.response.UserId
 import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
 import br.edu.uea.ecopoints.screen.register.CoopAdminRegisterActivity
 import br.edu.uea.ecopoints.screen.register.DriverRegisterActivity
 import br.edu.uea.ecopoints.screen.register.EmployeeRegisterActivity
+import br.edu.uea.ecopoints.screen.resetpassword.ResetPasswordActivity
 import br.edu.uea.ecopoints.screen.viewmodel.LoginViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var clCreateNewAccount: ConstraintLayout
     private lateinit var btLogin: MaterialButton
     private lateinit var userRole: String
+    private lateinit var textViewResetPassword: TextView
 
     @Inject
     lateinit var ecoApi: EcoApi
@@ -56,22 +65,35 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         setupListeners()
-    }
 
-    override fun onStart() {
-        super.onStart()
         loginViewModel.state.observe(this){
-            state ->
-                binding.pbCls.isVisible = state.isProgressVisible
-                binding.tvErrorMessage.text = state.errorMessage
-                binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
-                if(state.isAuthenticated && matchesRole(state.auth,userRole)){
-                    when(userRole){
-                        "admin" -> {
+                state ->
+            binding.pbCls.isVisible = state.isProgressVisible
+            binding.tvErrorMessage.text = state.errorMessage
+            binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
+            if(state.isAuthenticated && matchesRole(state.auth,userRole)){
+                when(userRole){
+                    "admin" -> {
 
-                        }
                     }
                 }
+            }
+        }
+        loginViewModel.qtdTentatives.observe(this){ qtd ->
+            if (qtd>=3){
+                textViewResetPassword.isVisible = true
+            }
+        }
+        loginViewModel.passwordRecovery.observe(this) { recovery: UserId? ->
+            if (recovery != null) {
+                recovery.userId?.let {
+                    Log.i("ECO", "Achou um ID e enviou email de recuperação $it")
+                    Toast.makeText(this, "Email de recuperação enviado", Toast.LENGTH_LONG).show()
+                }
+                if(recovery.userId==null){
+
+                }
+            }
         }
     }
 
@@ -95,6 +117,16 @@ class LoginActivity : AppCompatActivity() {
                 else -> startActivity(Intent(this,MainActivity::class.java))
             }
         }
+        textViewResetPassword.setOnClickListener {
+            if (edtEmail.text.isNullOrBlank()) {
+                Toast.makeText(this@LoginActivity, "Sem email informado de recuperação", Toast.LENGTH_SHORT).show()
+            } else {
+                val email = edtEmail.text.toString()
+                lifecycleScope.launch {
+                    loginViewModel.resetPassword(email)
+                }
+            }
+        }
     }
 
     private fun setupView() {
@@ -103,6 +135,7 @@ class LoginActivity : AppCompatActivity() {
         edtPassword = binding.edtPassword
         clCreateNewAccount = binding.clCreateAccountText
         btLogin = binding.btLogin
+        textViewResetPassword = binding.tvResetPassword
     }
 
     private fun matchesRole(auth: UserLoginTokens?, roleChoicer: String): Boolean {

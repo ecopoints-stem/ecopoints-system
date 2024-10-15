@@ -7,8 +7,10 @@ import br.edu.uea.ecopoints.domain.entity.model.UserApp
 import br.edu.uea.ecopoints.domain.network.request.AdminRegister
 import br.edu.uea.ecopoints.domain.network.request.DriverRegister
 import br.edu.uea.ecopoints.domain.network.request.EmployeeRegister
+import br.edu.uea.ecopoints.domain.network.request.MessageEmailSendNewPassword
 import br.edu.uea.ecopoints.domain.network.request.ResetPasswordRequest
 import br.edu.uea.ecopoints.domain.network.request.UserLogin
+import br.edu.uea.ecopoints.domain.network.response.UserId
 import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
 import retrofit2.Response
 import retrofit2.http.Body
@@ -27,9 +29,11 @@ interface EcoApi {
     @POST("/auth/driver")
     suspend fun createDriver(@Body driver: DriverRegister) : Response<Driver>
     @POST("/auth/resetPassword/{userId}")
-    suspend fun resetPasswordById(@Path("userId") userId: Long) : Response<String>
+    suspend fun resetPasswordById(@Path("userId") userId: Long) : Response<MessageEmailSendNewPassword>
     @POST("/auth/{userId}/newPassword")
     suspend fun createNewPassword(@Path("userId") userId: Long, @Body resetPassword: ResetPasswordRequest) : Response<UserApp>
+    @GET("/auth/userId/{email}")
+    suspend fun getUserIdByEmail(@Path("email") email: String) : Response<UserId>
 
     // Rotas para /employee
     @GET("/employee/{id}")

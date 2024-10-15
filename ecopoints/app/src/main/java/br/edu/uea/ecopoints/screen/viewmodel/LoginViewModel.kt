@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.domain.network.request.UserLogin
+import br.edu.uea.ecopoints.domain.network.response.UserId
 import br.edu.uea.ecopoints.screen.state.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +21,13 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel()  {
     private val _state = MutableLiveData<LoginState>()
     val state: LiveData<LoginState> = _state
+    private val _qtdTentatives = MutableLiveData<Int>(0)
+    val qtdTentatives : LiveData<Int> = _qtdTentatives
+    private val _passwordRecovery = MutableLiveData<UserId?>(null)
+    val passwordRecovery: LiveData<UserId?> = _passwordRecovery
 
     fun authenticate(email: String, password: String) {
+        _qtdTentatives.value = _qtdTentatives.value!!+1
         _state.value = LoginState.Loading
         val userInfo = UserLogin(email, password)
         viewModelScope.launch{
@@ -55,4 +61,25 @@ class LoginViewModel @Inject constructor(
             })
         }
     }
+
+    fun resetPassword(email: String) {
+        viewModelScope.launch {
+            val userIdByEmail = ecoApi.getUserIdByEmail(email)
+            if (userIdByEmail.isSuccessful) {
+                userIdByEmail.body()?.let {
+                    it.userId?.let { id ->
+                        val resetPasswordResponse = ecoApi.resetPasswordById(id)
+                        if (resetPasswordResponse.isSuccessful) {
+                            _passwordRecovery.value = it
+                        } else {
+                            _passwordRecovery.value = UserId(null)
+                        }
+                    }
+                }
+            } else {
+                _passwordRecovery.value = UserId(null)
+            }
+        }
+    }
+
 }
