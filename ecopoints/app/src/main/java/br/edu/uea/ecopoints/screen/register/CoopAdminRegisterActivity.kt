@@ -16,30 +16,38 @@ import dagger.hilt.android.AndroidEntryPoint
 class CoopAdminRegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCoopAdminRegisterBinding
 
-    //Campos de Entrada e seus respectivos Layouts
+    //Campos de Entrada e seus respectivos Layouts e variáveis
     private lateinit var tilName: TextInputLayout
     private lateinit var edtName: TextInputEditText
+    private var name: String = ""
 
     private lateinit var tilCnpj: TextInputLayout
     private lateinit var edtCnpj: TextInputEditText
+    private var cnpj: String? = null
 
     private lateinit var tilCompanyName: TextInputLayout
     private lateinit var edtCompanyName: TextInputEditText
+    private var companyName: String? = null
 
     private lateinit var tilSecurityQuestion: TextInputLayout
     private lateinit var edtSecurityQuestion: TextInputEditText
+    private var securityQuestion: String? = null
 
     private lateinit var tilSecurityResponse: TextInputLayout
     private lateinit var edtSecurityResponse: TextInputEditText
+    private var securityResponse: String? = null
 
     private lateinit var tilPhone: TextInputLayout
     private lateinit var edtPhone: TextInputEditText
+    private var phone: String? = null
 
     private lateinit var tilEmail: TextInputLayout
     private lateinit var edtEmail: TextInputEditText
+    private var email : String = ""
 
     private lateinit var tilPassword: TextInputLayout
     private lateinit var edtPassword: TextInputEditText
+    private var password: String = ""
 
     // Botão de cadastrar
     private lateinit var btnSave: MaterialButton
@@ -57,27 +65,17 @@ class CoopAdminRegisterActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         btnSave.setOnClickListener {
-            Log.i("ECO","""
-                    Name: ${edtName.text.isNullOrBlank()}
-                    Phone: ${edtPhone.text ?: "NULL" }
-                    Email: ${edtEmail.text ?: "NULL" }
-                    Password: ${edtEmail.text ?: "NULL" }
-                    Security Question: ${edtSecurityQuestion.text ?: "NULL" }
-                    Security Response: ${edtSecurityResponse.text ?: "NULL" }
-                    Cooperative Name: ${edtCompanyName.text ?: "NULL" }
-                    Cooperative CNPJ: ${edtCnpj.text ?: "NULL" }
-                """.trimIndent())
             if(verifyInputs()){
-
+                populateParams()
                 adminRegisterViewModel.save(
-                    name = edtName.text!!.toString(),
-                    phone = edtPhone.text?.toString(),
-                    email = edtEmail.text!!.toString(),
-                    password = edtPassword.text!!.toString(),
-                    securityQuestion = edtSecurityQuestion.text?.toString(),
-                    securityResponse = edtSecurityResponse.text?.toString(),
-                    cooperativeName = edtCompanyName.text?.toString(),
-                    cooperativeCnpj = null
+                    name = name,
+                    phone = phone,
+                    email = email,
+                    password = password,
+                    securityQuestion = securityQuestion,
+                    securityResponse = securityResponse,
+                    cooperativeName = companyName,
+                    cooperativeCnpj = cnpj
                 )
             }else{
                 Toast.makeText(this,"Requisição não realizada", Toast.LENGTH_SHORT).show()
@@ -114,41 +112,71 @@ class CoopAdminRegisterActivity : AppCompatActivity() {
     }
 
     private fun verifyInputs() : Boolean{
-        var isValid = true
-
-        if(edtName.text.isNullOrBlank()){
-            isValid = false
-            edtName.error = "Campo vazio"
+        var isValid = false
+        if(!edtName.text.isNullOrBlank() &&
+            !edtEmail.text.isNullOrBlank() &&
+            !edtPassword.text.isNullOrBlank()){
+            if(edtPassword.text!!.length < 7){
+                edtPassword.error = "Senha muito curta (min 7)"
+            } else {
+                isValid = true
+            }
+        } else {
+            if(edtName.text.isNullOrBlank()){
+                edtName.error = "Campo obrigatório"
+            }
+            if(edtEmail.text.isNullOrBlank()){
+                edtEmail.error = "Campo obrigatório"
+            }
+            if(edtPassword.text.isNullOrBlank()){
+                edtPassword.error = "Campo obrigatório"
+            } else if(edtPassword.text!!.length < 7){
+                edtPassword.error = "Senha muito curta (min 7)"
+            }
         }
-        if(edtCnpj.text.isNullOrBlank()){
-            edtCnpj.text = null
-        }
-        if(edtCompanyName.text.isNullOrBlank()){
-            edtCompanyName.text = null
-        }
-        if(edtSecurityQuestion.text.isNullOrBlank()){
-            edtSecurityQuestion.text = null
-        }
-        if(edtSecurityResponse.text.isNullOrBlank()){
-            edtSecurityResponse.text = null
-        }
-        if(edtPhone.text.isNullOrBlank()){
-            edtPhone.text=null
-        } else if(edtPhone.text.toString().length>=13){
-            isValid = false
-            edtPhone.error="Telefone não pode ter mais de 13 dígitos"
-        }
-        if(edtEmail.text.isNullOrBlank()){
-            isValid = false
-            tilEmail.error="Campo vazio"
-        }
-        if(edtPassword.text.isNullOrBlank()){
-            isValid = false
-            tilPassword.error = "Campo vazio"
-        } else if(edtPassword.text.toString().length<7){
-            tilPassword.error="Senha muito curta. Faça com pelo menos 7"
-        }
-
         return isValid
+    }
+
+    private fun populateParams() {
+        edtName.text?.toString()?.let {
+            if(it.isNotBlank()){
+                name = it
+            }
+        }
+        edtCnpj.text?.toString()?.let {
+            if (it.isNotBlank()){
+                cnpj = it
+            }
+        }
+        edtCompanyName.text?.toString()?.let {
+            if(it.isNotBlank()){
+                companyName = it
+            }
+        }
+        edtSecurityQuestion.text?.toString()?.let {
+            if(it.isNotBlank()){
+                securityQuestion = it
+            }
+        }
+        edtSecurityResponse.text?.toString()?.let {
+            if(it.isNotBlank()){
+                securityResponse = it
+            }
+        }
+        edtPhone.text?.toString()?.let {
+            if(it.isNotBlank()){
+                phone = it
+            }
+        }
+        edtEmail.text?.toString()?.let {
+            if(it.isNotBlank()){
+                email = it
+            }
+        }
+        edtPassword.text?.toString()?.let {
+            if(it.isNotBlank()){
+                password = it
+            }
+        }
     }
 }
