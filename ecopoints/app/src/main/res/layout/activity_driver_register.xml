@@ -27,16 +27,23 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/border"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        android:hint="Nome"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edName"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Nome"
+            android:background="@drawable/rounded_edittext"
             android:inputType="text"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -49,16 +56,23 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/border"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxStrokeColor="@color/black"
+        android:hint="CNH"
         app:layout_constraintTop_toBottomOf="@id/tilName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edCnh"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="CNH"
+            android:background="@drawable/rounded_edittext"
             android:inputType="text"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -72,16 +86,23 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/border"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxStrokeColor="@color/black"
+        android:hint="Telefone"
         app:layout_constraintTop_toBottomOf="@id/tilCnh">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edPhone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Telefone"
+            android:background="@drawable/rounded_edittext"
             android:inputType="phone"
-            android:textColor="@color/white"
+            android:maxLines="1"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -94,16 +115,23 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/border"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxStrokeColor="@color/black"
+        android:hint="Email"
         app:layout_constraintTop_toBottomOf="@id/tilPhone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edEmail"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Email"
+            android:background="@drawable/rounded_edittext"
             android:inputType="text"
-            android:textColor="@color/white"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -116,15 +144,22 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/border"
+        android:hint="Password"
+        app:boxBackgroundMode="outline"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxStrokeColor="@color/black"
         app:layout_constraintTop_toBottomOf="@id/tilEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Password"
+            android:background="@drawable/rounded_edittext"
             android:inputType="text"
+            android:maxLines="1"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -135,9 +170,9 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/white"
         android:text="Cadastrar"
