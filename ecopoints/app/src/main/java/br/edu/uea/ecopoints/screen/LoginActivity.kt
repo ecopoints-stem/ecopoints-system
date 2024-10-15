@@ -71,12 +71,24 @@ class LoginActivity : AppCompatActivity() {
             binding.pbCls.isVisible = state.isProgressVisible
             binding.tvErrorMessage.text = state.errorMessage
             binding.tvErrorMessage.isVisible = state.isErrorMessageVisible
-            if(state.isAuthenticated && matchesRole(state.auth,userRole)){
+            if(state.isAuthenticated && matchesRole(state.auth,userRole) && state.auth?.isPasswordRecovery != true){
                 when(userRole){
                     "admin" -> {
 
                     }
                 }
+            } else if(state.isAuthenticated && state.auth?.isPasswordRecovery==true){
+                val intent : Intent = Intent(this,ResetPasswordActivity::class.java)
+                when(userRole){
+                    "admin" -> intent.putExtra("roleSelected","admin")
+                    "employee" -> intent.putExtra("roleSelected","employee")
+                    "driver" -> intent.putExtra("roleSelected","driver")
+                    else -> intent.putExtra("roleSelected","")
+                }
+                startActivity(intent)
+            } else if(state.isAuthenticated && !matchesRole(state.auth,userRole)){
+                Toast.makeText(this, "Você escolheu o perfil errado", Toast.LENGTH_LONG).show()
+                startActivity(Intent(this,MainActivity::class.java))
             }
         }
         loginViewModel.qtdTentatives.observe(this){ qtd ->
@@ -89,9 +101,10 @@ class LoginActivity : AppCompatActivity() {
                 recovery.userId?.let {
                     Log.i("ECO", "Achou um ID e enviou email de recuperação $it")
                     Toast.makeText(this, "Email de recuperação enviado", Toast.LENGTH_LONG).show()
+                    binding.tvResetPassword.isVisible = false
                 }
                 if(recovery.userId==null){
-
+                    Toast.makeText(this,"Houve erro no pedido de recuperação de senha",Toast.LENGTH_SHORT).show()
                 }
             }
         }
