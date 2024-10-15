@@ -7,5 +7,6 @@ interface IUserService {
     fun findById(id: Long) : EcoUser
     fun existsById(id: Long) : Boolean
     fun findByEmail(email: String) : EcoUser
+    fun findUserIdByEmail(email: String) : Long?
     fun resetPassword(user: EcoUser, newPassword: String) : EcoUser
 }

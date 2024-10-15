@@ -24,6 +24,14 @@ class UserService (
     override fun existsById(id: Long): Boolean = userRepository.existsById(id)
 
     override fun findByEmail(email: String): EcoUser = userRepository.findByEmail(email) ?: throw RuntimeException("Erro, não encontrado")
+    override fun findUserIdByEmail(email: String): Long? {
+        val userFound: EcoUser? = userRepository.findByEmail(email)
+        var id: Long? = null
+        if (userFound!=null){
+            id = userFound.id
+        }
+        return id
+    }
 
     @Transactional
     override fun resetPassword(user: EcoUser, newPassword: String): EcoUser {

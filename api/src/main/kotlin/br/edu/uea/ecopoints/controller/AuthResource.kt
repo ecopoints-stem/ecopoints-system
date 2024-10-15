@@ -10,9 +10,7 @@ import br.edu.uea.ecopoints.config.security.authentication.service.Authenticatio
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
-import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
-import br.edu.uea.ecopoints.dto.user.DriverRegister
-import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
+import br.edu.uea.ecopoints.dto.user.*
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.exception.ExceptionDetails
@@ -34,6 +32,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -87,16 +86,18 @@ class AuthResource (
     }
 
     @PostMapping("/resetPassword/{userId}")
-    fun resetPassword(@PathVariable userId: Long) : ResponseEntity<String>{
+    fun resetPassword(@PathVariable userId: Long) : ResponseEntity<UserResetPasswordInfo>{
         val newPassword = PasswordGenerator.generateNewPassword()
         val user = userService.findById(userId)
-        val userUpdated = userService.resetPassword(user, newPassword)
-        thread(true){
-            emailService.sendResetPasswordMessage(
-                userUpdated.email,userUpdated.name,newPassword
-            )
+        if(!user.isPasswordRecovery){
+            val userUpdated = userService.resetPassword(user, newPassword)
+            thread(true){
+                emailService.sendResetPasswordMessage(
+                    userUpdated.email,userUpdated.name,newPassword
+                )
+            }
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Senha temporária enviada para ${userUpdated.email}")
+        return ResponseEntity.status(HttpStatus.OK).body(UserResetPasswordInfo("Senha temporária enviada para o email ${user.email}"))
     }
 
     @PostMapping("/{userId}/newPassword")
@@ -184,5 +185,11 @@ class AuthResource (
             }
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(driverSaved.toDView())
+    }
+
+    @GetMapping("/userId/{email}")
+    fun getUserIdByEmail(@PathVariable("email") email: String) : ResponseEntity<UserInfo>{
+        val info = UserInfo(userService.findUserIdByEmail(email))
+        return ResponseEntity.status(HttpStatus.OK).body(info)
     }
 }
