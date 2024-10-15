@@ -57,7 +57,18 @@ class CoopAdminRegisterActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         btnSave.setOnClickListener {
+            Log.i("ECO","""
+                    Name: ${edtName.text.isNullOrBlank()}
+                    Phone: ${edtPhone.text ?: "NULL" }
+                    Email: ${edtEmail.text ?: "NULL" }
+                    Password: ${edtEmail.text ?: "NULL" }
+                    Security Question: ${edtSecurityQuestion.text ?: "NULL" }
+                    Security Response: ${edtSecurityResponse.text ?: "NULL" }
+                    Cooperative Name: ${edtCompanyName.text ?: "NULL" }
+                    Cooperative CNPJ: ${edtCnpj.text ?: "NULL" }
+                """.trimIndent())
             if(verifyInputs()){
+
                 adminRegisterViewModel.save(
                     name = edtName.text!!.toString(),
                     phone = edtPhone.text?.toString(),
