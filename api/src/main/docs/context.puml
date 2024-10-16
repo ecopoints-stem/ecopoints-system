@@ -1,0 +1,16 @@
+@startuml Ecopoints
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+SHOW_PERSON_PORTRAIT()
+LAYOUT_LEFT_RIGHT()
+
+title Diagrama de Contexto Geral Sistema Ecopoints
+
+
+Person(user_app, "Usuário" ,"Administrador de Cooperativa, Motorista ou Separador de resíduo")
+
+Container(buri_container,"Sistema Ecopoints","Sistema de gerenciamento de cooperativas e busca de resíduos recicláveis da Academia STEM - Pilar excelência")
+
+Rel(user_app,buri_container,"utiliza")
+
+@enduml

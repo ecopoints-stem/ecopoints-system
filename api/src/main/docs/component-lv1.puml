@@ -1,0 +1,20 @@
+@startuml Ecopoints
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_PORTRAIT()
+LAYOUT_LEFT_RIGHT()
+
+title Diagrama de Container Sistema Ecopoints
+
+Person(user, "Usuário")
+Enterprise_Boundary(ecopoints_system,"Sistema Ecopoints"){
+    Component(backend,"API de gerenciamento de cooperativas","Kotlin e Spring Boot 3.3.4")
+    Component(app,"Aplicativo de celular","Kotlin e Android")
+}
+
+Rel(app,backend,"usa os serviços oferecidos pela")
+Rel(user,app,"utiliza")
+
+@enduml

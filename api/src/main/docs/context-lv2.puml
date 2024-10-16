@@ -1,0 +1,28 @@
+@startuml Ecopoints
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_PORTRAIT()
+
+title Diagrama de Contexto Detalhado Sistema Ecopoints
+
+
+Person(admin, "Administrador" ,"Responsável pelo pedido de busca de material, controle de funcionários, assim como o registo e venda da materiais na cooperativa.")
+Person(employee,"Separador de material","Funcionário responsável pela organização do material em suas respectivas categorias, assim como a pesagem e controle no sistema")
+Person(driver,"Motorista","Responsável por buscar resíduos recicláveis e levar a cooperativa solicitante")
+
+Enterprise_Boundary(ecopoints_company,"Ecopoints"){
+    System(ecopoints_system,"Sistema Ecopoints")
+    System_Ext(google_email,"Provedor de Email do Google")
+    System_Ext(railway,"Plataforma de Provisionamento de Infraestrutura Railway")
+}
+
+Rel(admin,ecopoints_system,"administra uma cooperativa pelo")
+Rel(employee,ecopoints_system,"separa materiais recicláveis pelo")
+Rel(driver,ecopoints_system,"busca materiais recicláveis pelo")
+Rel(ecopoints_system,google_email,"usa um email da")
+Rel(ecopoints_system,railway,"Tem seu backend hospedado no")
+
+
+@enduml

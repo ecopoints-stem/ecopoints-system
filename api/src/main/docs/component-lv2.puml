@@ -1,0 +1,21 @@
+@startuml Ecopoints
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+SHOW_PERSON_PORTRAIT()
+LAYOUT_LEFT_RIGHT()
+
+title Diagrama de Container Sistema Ecopoints
+
+Enterprise_Boundary(ecopoints_system,"Sistema Ecopoints"){
+    Component(auth,"Rota de Autenticação e distribuição de tokens de acesso","JWT, Bearer e Authorization do HTTP")
+    Component(register,"Rota de registo e gerencimanto de usuários","SQL")
+    Component(default,"Rota de gerenciamento dos usecases padrão")
+    ContainerDb(db, "Banco de Dados", "Postgresql 14")
+
+}
+Rel(auth,db,"consulta senhas e estado do usuário")
+Rel(register,db,"Faz operações no")
+Rel(default,db,"Realiza casos de uso e persiste no")
+@enduml

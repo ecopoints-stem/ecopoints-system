@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DATABASE}
+    username: ${PG_USER}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      properties:
+        hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: ${MAIL_SENDER_HOST}
+    port: ${MAIL_SENDER_PORT}
+    username: ${MAIL_SENDER_USERNAME}
+    password: ${MAIL_SENDER_PASSWORD}
+    properties:
+      mail:
+        transport:
+          protocol: ${MAIL_SENDER_PROTOCOL}
+        debug: ${MAIL_SENDER_DEBUG}
+        smtp:
+          auth: ${MAIL_SENDER_AUTH}
+          starttls:
+            enable: ${MAIL_SENDER_STARTTLS_ENABLE}
+jwt:
+  key: ${JWT-KEY}
+  access-token-expiration: 3600000
+  refresh-token-expiration: 10800000
+mail-sender:
+  host: ${MAIL_SENDER_HOST}
+  port: ${MAIL_SENDER_PORT}
+  username: ${MAIL_SENDER_USERNAME}
+  password: ${MAIL_SENDER_PASSWORD}]
+  protocol: ${MAIL_SENDER_PROTOCOL}
+  auth: ${MAIL_SENDER_AUTH}
+  starttls-enable: ${MAIL_SENDER_STARTTLS_ENABLE}
+  debug: ${MAIL_SENDER_DEBUG}
