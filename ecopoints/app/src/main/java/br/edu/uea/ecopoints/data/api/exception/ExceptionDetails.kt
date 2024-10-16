@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 data class ExceptionDetails (
     @JsonProperty("title") val title: String,
     @JsonProperty("status") val status: ExceptionDetailsStatus,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS")
     @JsonProperty("timestamp")
     val timestamp: LocalDateTime,
     @JsonProperty("exception")

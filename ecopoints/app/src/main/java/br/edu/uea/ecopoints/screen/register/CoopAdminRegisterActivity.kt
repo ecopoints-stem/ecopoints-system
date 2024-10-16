@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import br.edu.uea.ecopoints.databinding.ActivityCoopAdminRegisterBinding
+import br.edu.uea.ecopoints.screen.state.register.AdminRegisterState
 import br.edu.uea.ecopoints.screen.viewmodel.register.AdminRegisterViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -61,6 +64,28 @@ class CoopAdminRegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupView()
         setupListeners()
+        adminRegisterViewModel.state.observe(this){
+            state: AdminRegisterState ->
+                binding.pbCls.isVisible = state.isProgressVisible
+                state.admin?.let { adm ->
+                    Log.i("ECO","Requisição bem sucedida")
+                    Toast.makeText(this,"Usuário com email ${adm.email} cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+                }
+                binding.pbCls.isVisible = state.isProgressVisible
+                if(state.isErrorMessageVisible){
+                    Toast.makeText(this,"Erro ${state.errorMessage}", Toast.LENGTH_SHORT).show()
+                    state.errorResponseApi?.let { error ->
+                        val detailsMessage = error.details.entries.joinToString(separator = "\n") {
+                            "${it.key}: ${it.value ?: "Informação não disponível"}"
+                        }
+                        AlertDialog.Builder(this).setTitle(
+                            "ERRO STATUS ${error.status}"
+                        ).setMessage(
+                            detailsMessage
+                        ).setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }.show()
+                    }
+                }
+        }
     }
 
     private fun setupListeners() {

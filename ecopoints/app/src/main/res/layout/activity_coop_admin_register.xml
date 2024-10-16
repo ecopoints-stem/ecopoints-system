@@ -165,6 +165,20 @@
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
+${error.title}
+    <ProgressBar
+        android:id="@+id/pb_cls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="60dp"
+        android:minHeight="60dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPhone"
