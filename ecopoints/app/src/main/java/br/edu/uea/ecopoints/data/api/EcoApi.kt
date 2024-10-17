@@ -3,10 +3,13 @@ package br.edu.uea.ecopoints.data.api
 import br.edu.uea.ecopoints.domain.entity.CoopAdmin
 import br.edu.uea.ecopoints.domain.entity.Driver
 import br.edu.uea.ecopoints.domain.entity.Employee
+import br.edu.uea.ecopoints.domain.entity.Material
+import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
 import br.edu.uea.ecopoints.domain.entity.model.UserApp
 import br.edu.uea.ecopoints.domain.network.request.AdminRegister
 import br.edu.uea.ecopoints.domain.network.request.DriverRegister
 import br.edu.uea.ecopoints.domain.network.request.EmployeeRegister
+import br.edu.uea.ecopoints.domain.network.request.MaterialRegister
 import br.edu.uea.ecopoints.domain.network.request.MessageEmailSendNewPassword
 import br.edu.uea.ecopoints.domain.network.request.ResetPasswordRequest
 import br.edu.uea.ecopoints.domain.network.request.UserLogin
@@ -17,6 +20,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface EcoApi {
     // Rotas para /auth
@@ -46,4 +50,10 @@ interface EcoApi {
     // Rotas para /admin
     @GET("/admin/{id}")
     suspend fun findAdminById(@Path("id") id: Long) : Response<CoopAdmin>
+    @POST("/admin/material")
+    suspend fun createNewMaterial(@Body material: MaterialRegister) : Response<Material>
+    @GET("/admin/material")
+    suspend fun getMaterialByName(@Query("name") name: String) : Response<List<Material>>
+    @GET("/admin/material/{type}")
+    suspend fun getMaterialByType(@Path("type") type: MaterialType) : Response<List<MaterialType>>
 }
