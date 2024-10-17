@@ -1,12 +1,11 @@
-package br.edu.uea.ecopoints.repository.cooperative.material
+package br.edu.uea.ecopoints.service.cooperative
 
 import br.edu.uea.ecopoints.domain.cooperative.material.TypeOfMaterial
 import br.edu.uea.ecopoints.enums.material.MaterialType
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
 
-@Repository
-interface MaterialTypeRepository : JpaRepository<TypeOfMaterial, Long> {
+interface IMaterialService {
+    fun save(material: TypeOfMaterial) : TypeOfMaterial
+    fun findById(id: Long) : TypeOfMaterial
     fun findByNameStartingWithIgnoreCase(prefix: String): List<TypeOfMaterial>
     fun findByType(type: MaterialType): List<TypeOfMaterial>
 }

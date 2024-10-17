@@ -1,9 +1,13 @@
 package br.edu.uea.ecopoints.controller.user
 
 import br.edu.uea.ecopoints.config.email.service.EmailService
+import br.edu.uea.ecopoints.domain.cooperative.material.TypeOfMaterial
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
+import br.edu.uea.ecopoints.dto.cooperative.Material
 import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
+import br.edu.uea.ecopoints.enums.material.MaterialType
 import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
+import br.edu.uea.ecopoints.service.cooperative.IMaterialService
 import br.edu.uea.ecopoints.service.user.ICoopAdmService
 import br.edu.uea.ecopoints.view.user.CoopAdmView
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -21,6 +25,7 @@ import kotlin.concurrent.thread
 class CoopAdmResource (
     private val coopAdmService: ICoopAdmService,
     private val cooperativeService: ICooperativeService,
+    private val materialService: IMaterialService,
     private val encoder: PasswordEncoder,
     private val emailService: EmailService
 ){
@@ -56,6 +61,24 @@ class CoopAdmResource (
     fun findById(@PathVariable id: Long) : ResponseEntity<CoopAdmView>{
         val coopAdmSaved = coopAdmService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(coopAdmSaved.toAView())
+    }
+
+    @PostMapping("/material")
+    fun createNewMaterial(@RequestBody @Valid dto: Material) : ResponseEntity<TypeOfMaterial>{
+        val material = materialService.save(dto.toEntity())
+        return ResponseEntity.status(HttpStatus.CREATED).body(material)
+    }
+
+    @GetMapping("/material")
+    fun findByNameStartingWith(@RequestParam("name") name: String) : ResponseEntity<List<TypeOfMaterial>>{
+        val list = materialService.findByNameStartingWithIgnoreCase(name)
+        return ResponseEntity.status(HttpStatus.OK).body(list)
+    }
+
+    @GetMapping("/material/{type}")
+    fun findByType(@PathVariable type: MaterialType) : ResponseEntity<List<TypeOfMaterial>> {
+        val list = materialService.findByType(type)
+        return ResponseEntity.status(HttpStatus.OK).body(list)
     }
 
     @DeleteMapping("/{id}")
