@@ -17,8 +17,8 @@ data class RecyclingSorterRegister(
     ) val password: String,
     @field:NotBlank @field:Size(max = 11,
         message = "CPF deve ter , no máximo, 11 caracteres"
-    ) @CPF(message = "CPF inválido") val cpf: String,
-    @field:Nullable @CNPJ(message = "CPNJ inválido") val cnpj: String? = null,
+    ) @CPF val cpf: String,
+    @field:Nullable @CNPJ val cnpj: String? = null,
 ) {
     fun toEntity() = RecyclingSorter(
         name = this.name,

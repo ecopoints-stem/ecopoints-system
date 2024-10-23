@@ -18,7 +18,7 @@ data class CoopAdmRegister(
     @field:Nullable val securityQuestion: String? = null,
     @field:Nullable @field:Size(max = 60, message = "security response deve ter no máximo, 60 caracteres") val securityResponse: String? = null,
     @field:Nullable val cooperativeName: String?=null,
-    @field:Nullable @field:CNPJ(message = "CNPJ deve ser válido") val cooperativeCnpj: String?=null,
+    @field:Nullable @field:CNPJ val cooperativeCnpj: String?=null,
 ) {
     fun toEntity() = CooperativeAdministrator(
         name = this.name,
