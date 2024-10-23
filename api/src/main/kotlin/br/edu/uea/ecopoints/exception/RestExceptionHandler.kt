@@ -1,6 +1,7 @@
 package br.edu.uea.ecopoints.exception
 
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
+import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -49,5 +50,19 @@ class RestExceptionHandler {
                 (ex.cause?.message ?: "erro de domínio") to ex.message
             )
         ))
+    }
+
+    @ExceptionHandler(DataAccessException::class)
+    fun handlerValidException(ex: DataAccessException): ResponseEntity<ExceptionDetails> {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+            .body(
+                ExceptionDetails(
+                    title = "Conflict! Consult the documentation",
+                    timestamp = LocalDateTime.now(),
+                    status = ExceptionDetailsStatus.INVALID_INPUT,
+                    exception = ex.javaClass.toString(),
+                    details = mutableMapOf(ex.cause.toString() to ex.message)
+                )
+            )
     }
 }
