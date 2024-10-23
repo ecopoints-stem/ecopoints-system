@@ -14,9 +14,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class EmployeeRegisterViewModel constructor(
+class EmployeeRegisterViewModel @Inject constructor(
     private val ecoApi: EcoApi,
     private val mapper: ObjectMapper
 ) : ViewModel() {
