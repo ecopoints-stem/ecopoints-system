@@ -1,13 +1,18 @@
 package br.edu.uea.ecopoints.screen.register
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.ActivityEmployeeRegisterBinding
+import br.edu.uea.ecopoints.screen.state.register.EmployeeRegisterState
 import br.edu.uea.ecopoints.screen.viewmodel.register.EmployeeRegisterViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
@@ -54,10 +59,78 @@ class EmployeeRegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupView()
         setupListeners()
+        employeeRegisterViewModel.state.observe(this){ state: EmployeeRegisterState ->
+            binding.pbCls.isVisible = state.isProgressVisible
+            state.employee?.let { employee ->
+                Log.i("ECO","Requisição bem sucedida")
+                Toast.makeText(this,"Usuário com email ${employee.email} cadastrado com sucesso!", Toast.LENGTH_SHORT).show()
+            }
+            if(state.isErrorMessageVisible){
+                Toast.makeText(this,"Erro ${state.errorMessage}", Toast.LENGTH_SHORT).show()
+                state.errorResponseApi?.let { error ->
+                    val detailsMessage = error.details.entries.joinToString(separator = "\n") {
+                        "${it.key}: ${it.value ?: "Informação não disponível"}"
+                    }
+                    AlertDialog.Builder(this).setTitle(
+                        "ERRO STATUS ${error.status}"
+                    ).setMessage(
+                        detailsMessage
+                    ).setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }.show()
+                }
+            }
+        }
     }
 
     private fun setupListeners() {
+        btnSave.setOnClickListener {
+            if(verifyInputs()){
+                populateParams()
+                employeeRegisterViewModel.save(
+                    name = name,
+                    phone = phone,
+                    email = email,
+                    password = password,
+                    cpf = cpf,
+                    cnpj = cnpj
+                )
+                eraseVariablesValues()
+            } else{
+                Toast.makeText(this,"Requisição não realizada", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
+    private fun populateParams() {
+        edtName.text?.toString()?.let {
+            if(it.isNotBlank()){
+                name = it
+            }
+        }
+        edtCpf.text?.toString()?.let {
+            if (it.isNotBlank()){
+                cpf = it
+            }
+        }
+        edtCnpj.text?.toString()?.let {
+            if (it.isNotBlank()){
+                cnpj = it
+            }
+        }
+        edtPhone.text?.toString()?.let {
+            if(it.isNotBlank()){
+                phone = it
+            }
+        }
+        edtEmail.text?.toString()?.let {
+            if(it.isNotBlank()){
+                email = it
+            }
+        }
+        edtPassword.text?.toString()?.let {
+            if(it.isNotBlank()){
+                password = it
+            }
+        }
     }
 
     private fun setupView() {
@@ -84,7 +157,35 @@ class EmployeeRegisterActivity : AppCompatActivity() {
 
     private fun verifyInputs() : Boolean {
         var isValid = false
-
+        if( !edtName.text.isNullOrBlank() &&
+            !edtEmail.text.isNullOrBlank() &&
+            !edtPassword.text.isNullOrBlank() &&
+            !edtCnpj.text.isNullOrBlank() &&
+            !edtCpf.text.isNullOrBlank()){
+            if(edtPassword.text!!.length < 7){
+                edtPassword.error = "Senha muito curta (min 7)"
+            } else {
+                isValid = true
+            }
+        } else{
+            if(edtCnpj.text.isNullOrBlank()){
+                edtCnpj.error = "CNPJ da empresa deve ser informado"
+            }
+            if(edtCpf.text.isNullOrBlank()){
+                edtCpf.error = "Campo obrigatório"
+            }
+            if(edtName.text.isNullOrBlank()){
+                edtName.error = "Campo obrigatório"
+            }
+            if(edtEmail.text.isNullOrBlank()){
+                edtEmail.error = "Campo obrigatório"
+            }
+            if(edtPassword.text.isNullOrBlank()){
+                edtPassword.error = "Campo obrigatório"
+            } else if(edtPassword.text!!.length < 7){
+                edtPassword.error = "Senha muito curta (min 7)"
+            }
+        }
         return isValid
     }
 
