@@ -1,6 +1,5 @@
 package br.edu.uea.ecopoints.screen.viewmodel.register
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,61 +7,59 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.data.api.exception.ExceptionDetails
-import br.edu.uea.ecopoints.domain.entity.Driver
-import br.edu.uea.ecopoints.domain.network.request.DriverRegister
-import br.edu.uea.ecopoints.screen.state.register.DriverRegisterState
+import br.edu.uea.ecopoints.domain.entity.Employee
+import br.edu.uea.ecopoints.domain.network.request.EmployeeRegister
+import br.edu.uea.ecopoints.screen.state.register.EmployeeRegisterState
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
-class DriverRegisterViewModel @Inject constructor(
+class EmployeeRegisterViewModel constructor(
     private val ecoApi: EcoApi,
-    private val shared: SharedPreferences,
     private val mapper: ObjectMapper
 ) : ViewModel() {
-    private val _state = MutableLiveData<DriverRegisterState>()
-    val state: LiveData<DriverRegisterState> = _state
+    private val _state = MutableLiveData<EmployeeRegisterState>()
+    val state: LiveData<EmployeeRegisterState> = _state
 
-    fun save(name: String, phone: String?,
-             email: String, password: String,
-             cnh: String, cpf: String) {
-        val driverRegister = DriverRegister(
+    fun save(name: String, email: String,
+             password: String,phone: String?,
+             cpf: String, cnpj: String?){
+        val employeeRegister = EmployeeRegister(
             name = name,
             phone = phone,
             email = email,
             password = password,
-            cnh = cnh,
+            cnpj = cnpj,
             cpf = cpf
         )
-        Log.i("ECO","Mandando esse json pra la $driverRegister")
-        _state.value = DriverRegisterState.Loading
-        viewModelScope.launch (Dispatchers.IO){
-            val driverResponse = ecoApi.createDriver(driverRegister)
-            if(driverResponse.isSuccessful){
+        Log.i("ECO","Mandando esse json pra la $employeeRegister")
+        _state.value = EmployeeRegisterState.Loading
+        viewModelScope.launch (Dispatchers.IO) {
+            val employeeResponse = ecoApi.createEmployee(employeeRegister)
+            if(employeeResponse.isSuccessful){
                 Log.i("ECO","Requisição de criação de driver bem sucedida")
-                driverResponse.body()?.let { driver: Driver ->
-                    Log.i("ECO","Admin $driver")
+                employeeResponse.body()?.let { employee: Employee ->
+                    Log.i("ECO","Employee $employee")
                     _state.postValue(
-                        DriverRegisterState.Success(
-                            driver
+                        EmployeeRegisterState.Success(
+                            employee
                         )
                     )
                 }
             } else {
                 //Deu erro, precisa mostrar ao usuário
-                val errorBody = driverResponse.errorBody()?.string()
+                val errorBody = employeeResponse.errorBody()?.string()
                 Log.e("ECO","errorBody $errorBody")
                 errorBody?.let { apiErrorBody ->
                     try {
                         val exceptionDetails = mapper.readValue(apiErrorBody, ExceptionDetails::class.java)
                         Log.i("ECO", "Exceptions Details $exceptionDetails")
-                        _state.postValue(DriverRegisterState.InconsistentInput("Erro na API code ${driverResponse.code()}",exceptionDetails))
+                        _state.postValue(EmployeeRegisterState.InconsistentInput("Erro na API code ${employeeResponse.code()}",exceptionDetails))
                     } catch (ex: Exception){
                         Log.e("ECO",ex.message ?: "Erro em deserializar")
-                        _state.postValue(DriverRegisterState.Failed(null,"Erro na API code ${driverResponse.code()}"))
+                        _state.postValue(EmployeeRegisterState.Failed(null,"Erro na API code ${employeeResponse.code()}"))
                     }
                 }
             }
