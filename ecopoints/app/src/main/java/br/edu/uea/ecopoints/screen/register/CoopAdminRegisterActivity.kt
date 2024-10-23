@@ -102,6 +102,7 @@ class CoopAdminRegisterActivity : AppCompatActivity() {
                     cooperativeName = companyName,
                     cooperativeCnpj = cnpj
                 )
+                eraseVariablesValues()
             }else{
                 Toast.makeText(this,"Requisição não realizada", Toast.LENGTH_SHORT).show()
             }
@@ -203,5 +204,16 @@ class CoopAdminRegisterActivity : AppCompatActivity() {
                 password = it
             }
         }
+    }
+
+    private fun eraseVariablesValues(){
+        name = ""
+        cnpj = null
+        companyName = null
+        securityQuestion = null
+        securityResponse = null
+        phone = null
+        email = ""
+        password = ""
     }
 }

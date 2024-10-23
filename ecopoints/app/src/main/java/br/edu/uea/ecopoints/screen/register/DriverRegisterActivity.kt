@@ -95,6 +95,7 @@ class DriverRegisterActivity : AppCompatActivity() {
                     cpf = cpf,
                     cnh = cnh
                 )
+                eraseVariablesValues()
             } else{
                 Toast.makeText(this,"Requisição não realizada", Toast.LENGTH_SHORT).show()
             }
@@ -188,5 +189,14 @@ class DriverRegisterActivity : AppCompatActivity() {
                 password = it
             }
         }
+    }
+
+    private fun eraseVariablesValues(){
+        name = ""
+        cpf = ""
+        cnh = ""
+        phone = null
+        email = ""
+        password = ""
     }
 }
