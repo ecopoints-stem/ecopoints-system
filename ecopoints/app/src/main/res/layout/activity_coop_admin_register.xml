@@ -165,7 +165,7 @@
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
-${error.title}
+
     <ProgressBar
         android:id="@+id/pb_cls"
         android:layout_width="wrap_content"
