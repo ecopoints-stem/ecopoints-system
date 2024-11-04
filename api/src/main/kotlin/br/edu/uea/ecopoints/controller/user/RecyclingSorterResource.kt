@@ -1,9 +1,13 @@
 package br.edu.uea.ecopoints.controller.user
 
 import br.edu.uea.ecopoints.config.email.service.EmailService
-import br.edu.uea.ecopoints.domain.cooperative.Cooperative
+import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
+import br.edu.uea.ecopoints.dto.cooperative.AttendanceRegister
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
+import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus.INVALID_INPUT
+import br.edu.uea.ecopoints.exception.DomainException
+import br.edu.uea.ecopoints.service.cooperative.IAttendanceRecordService
 import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.user.IRecyclingSorterService
 import br.edu.uea.ecopoints.view.user.RecyclingSorterView
@@ -12,13 +16,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import kotlin.concurrent.thread
 
 @RestController
@@ -27,6 +25,7 @@ import kotlin.concurrent.thread
 class RecyclingSorterResource (
     private val recyclingSorterService: IRecyclingSorterService,
     private val cooperativeService: ICooperativeService,
+    private val attendanceRecordService: IAttendanceRecordService,
     private val encoder: PasswordEncoder,
     private val emailService: EmailService
 ) {
@@ -62,6 +61,54 @@ class RecyclingSorterResource (
     fun findById(@PathVariable id: Long) : ResponseEntity<RecyclingSorterView>{
         val recyclingSorter = recyclingSorterService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(recyclingSorter.toRView())
+    }
+
+    @PostMapping("/{id}/attendance")
+    fun saveAttendanceRecord(@PathVariable id: Long, @RequestBody info: AttendanceRegister) : ResponseEntity<AttendanceRecord?>{
+        val employee = recyclingSorterService.findById(id)
+        val lastAttendance = attendanceRecordService.findLastByEmployeeId(employee.id!!)
+        var attendanceRecord: AttendanceRecord? = null
+        val attendanceSp = attendanceRecordService.findByRecyclingSorterIdAndPDate(id,info.pDate)
+
+        if(lastAttendance!=null){
+            if(lastAttendance.exitTime==null && info.pDate.isAfter(lastAttendance.pDate)){
+                throw DomainException("O ponto do dia ${lastAttendance.pDate} não foi fechado, favor corrigir com o adm",INVALID_INPUT)
+            } else if(lastAttendance.exitTime==null && (info.pDate==lastAttendance.pDate && info.entryTime==lastAttendance.entryTime && info.exitTime!=null)){
+                val cooperative = cooperativeService.findById(info.cooperativeId)
+                attendanceSp?.let {
+                    it.exitTime = info.exitTime
+                    attendanceRecord = attendanceRecordService.save(it)
+                }
+            } else {
+                val cooperative = cooperativeService.findById(info.cooperativeId)
+                attendanceRecord = attendanceRecordService.save(
+                    AttendanceRecord(
+                        id = null,
+                        entryTime = info.entryTime,
+                        exitTime = info.exitTime,
+                        status = info.status,
+                        pDate = info.pDate,
+                        cooperative = cooperative,
+                        recyclingSorter = employee
+                    )
+                )
+            }
+        } else{
+            //é o primeiro registro de ponto do funcionário na cooperativa
+            val cooperative = cooperativeService.findById(info.cooperativeId)
+            attendanceRecord = attendanceRecordService.save(
+                AttendanceRecord(
+                    id = null,
+                    entryTime = info.entryTime,
+                    exitTime = info.exitTime,
+                    status = info.status,
+                    pDate = info.pDate,
+                    cooperative = cooperative,
+                    recyclingSorter = employee
+                )
+            )
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceRecord)
     }
 
     @DeleteMapping("/{id}")
