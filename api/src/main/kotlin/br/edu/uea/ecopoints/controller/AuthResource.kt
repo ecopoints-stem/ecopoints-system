@@ -106,7 +106,7 @@ class AuthResource (
         var userUpdated: EcoUser? = null
         if(user.isPasswordRecovery && encoder.matches(resetPasswordRequest.temporaryPassword, user.password)){
             user.isPasswordRecovery=false
-            user.password= encoder.encode(resetPasswordRequest.newPassword)
+            user.password=resetPasswordRequest.newPassword
             userUpdated = userService.save(user)
         } else {
             throw DomainException("Senha inválida ou não ativou modo de recuperação de senha",ExceptionDetailsStatus.INVALID_INPUT)
