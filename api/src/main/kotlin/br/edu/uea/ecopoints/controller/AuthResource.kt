@@ -103,7 +103,7 @@ class AuthResource (
     @PostMapping("/{userId}/newPassword")
     fun sendNewPassword(@RequestBody @Valid resetPasswordRequest: ResetPasswordRequest, @PathVariable userId: Long) : ResponseEntity<UserView>{
         val user = userService.findById(userId)
-        var userUpdated: EcoUser? = null
+        val userUpdated: EcoUser?
         if(user.isPasswordRecovery && encoder.matches(resetPasswordRequest.temporaryPassword, user.password)){
             user.isPasswordRecovery=false
             user.password= encoder.encode(resetPasswordRequest.newPassword)
