@@ -1,5 +1,6 @@
 package br.edu.uea.ecopoints.domain.cooperative
 
+import br.edu.uea.ecopoints.domain.cooperative.material.TypeOfMaterial
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import jakarta.persistence.*
@@ -17,5 +18,13 @@ class Cooperative (
     @OneToMany(fetch = FetchType.LAZY,
         mappedBy = "cooperative",
         cascade = [CascadeType.PERSIST, CascadeType.REMOVE]
-    ) val employees: MutableList<RecyclingSorter> = mutableListOf()
+    ) val employees: MutableList<RecyclingSorter> = mutableListOf(),
+    @ManyToMany(
+        fetch = FetchType.EAGER,
+        cascade = [CascadeType.PERSIST]
+    ) @JoinTable(
+        name = "cooperative_material",
+        joinColumns = [JoinColumn(name = "cooperative_id")],
+        inverseJoinColumns = [JoinColumn(name = "material_id")]
+    ) val material: List<TypeOfMaterial> = mutableListOf()
 )
