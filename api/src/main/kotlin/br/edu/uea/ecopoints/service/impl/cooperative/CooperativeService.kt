@@ -18,6 +18,7 @@ class CooperativeService (
     }
 
     override fun findByCnpj(cnpj: String): Cooperative = cooperativeRepository.findByCnpj(cnpj) ?: throw DomainException("Cooperativa com cnpj $cnpj não encontrado", ExceptionDetailsStatus.INVALID_INPUT)
+    override fun findByCnpjWithEmployees(cnpj: String): Cooperative = cooperativeRepository.findByCnpjWithEmployees(cnpj) ?: throw DomainException("Cooperativa com cnpj $cnpj não encontrado", ExceptionDetailsStatus.INVALID_INPUT)
 
     override fun existsById(id: Long): Boolean = cooperativeRepository.existsById(id)
 

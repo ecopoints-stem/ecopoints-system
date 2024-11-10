@@ -16,8 +16,7 @@ class Cooperative (
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     var adm: CooperativeAdministrator? = null,
     @OneToMany(fetch = FetchType.LAZY,
-        mappedBy = "cooperative",
-        cascade = [CascadeType.PERSIST, CascadeType.REMOVE]
+        mappedBy = "cooperative"
     ) val employees: MutableList<RecyclingSorter> = mutableListOf(),
     @ManyToMany(
         fetch = FetchType.EAGER,

@@ -7,6 +7,7 @@ import br.edu.uea.ecopoints.config.security.authentication.request.ResetPassword
 import br.edu.uea.ecopoints.config.security.authentication.response.LoginResponse
 import br.edu.uea.ecopoints.config.security.authentication.response.RefreshTokenResponse
 import br.edu.uea.ecopoints.config.security.authentication.service.AuthenticationService
+import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
@@ -28,6 +29,7 @@ import io.jsonwebtoken.ExpiredJwtException
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
+import org.hibernate.Hibernate
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -118,19 +120,32 @@ class AuthResource (
     fun saveAdm(@RequestBody @Valid coopAdmRegister: CoopAdmRegister) : ResponseEntity<CoopAdmView> {
         val coopAdm = coopAdmRegister.toEntity()
         coopAdm.password = encoder.encode(coopAdm.password)
-        var coopAdmSaved : CooperativeAdministrator? = null
-        if(coopAdmRegister.cooperativeCnpj!=null){
+        val coopAdmSaved : CooperativeAdministrator?
+        if(coopAdmRegister.cooperativeCnpj!=null && coopAdmRegister.cooperativeName!=null){
             if(cooperativeService.existsByCpnj(coopAdmRegister.cooperativeCnpj)){
                 val cooperative = cooperativeService.findByCnpj(coopAdmRegister.cooperativeCnpj)
                 coopAdm.cooperative = cooperative
+                cooperative.adm = coopAdm
                 coopAdmSaved = coopAdmService.save(coopAdm)
-                cooperative.adm = coopAdmSaved
+                cooperativeService.save(cooperative)
+            } else {
+                val cooperative = Cooperative(
+                        id = null,
+                        name = coopAdmRegister.cooperativeName,
+                        cnpj = coopAdmRegister.cooperativeCnpj,
+                        adm = null,
+                        employees = mutableListOf(),
+                        material = mutableListOf()
+                    )
+                coopAdm.cooperative = cooperative
+                cooperative.adm = coopAdm
+                coopAdmSaved = coopAdmService.save(coopAdm)
                 cooperativeService.save(cooperative)
             }
         } else {
             coopAdmSaved = coopAdmService.save(coopAdm)
         }
-        coopAdmSaved?.let { adm ->
+        coopAdmSaved.let { adm ->
             thread(true){
                 emailService.sendWelcomeMessage(
                     adm.email,
@@ -146,19 +161,21 @@ class AuthResource (
     fun saveEmployee(@RequestBody @Valid recyclingSorterRegister: RecyclingSorterRegister)  : ResponseEntity<RecyclingSorterView> {
         val recyclingSorter = recyclingSorterRegister.toEntity()
         recyclingSorter.password = encoder.encode(recyclingSorter.password)
-        var recyclingSorterSaved: RecyclingSorter? = null
+        val recyclingSorterSaved: RecyclingSorter?
         if(recyclingSorterRegister.cnpj!=null){
             if(cooperativeService.existsByCpnj(recyclingSorterRegister.cnpj)) {
-                val cooperative = cooperativeService.findByCnpj(recyclingSorterRegister.cnpj)
-                recyclingSorter.cooperative = cooperative
                 recyclingSorterSaved = recyclingSorterService.save(recyclingSorter)
+                val cooperative = cooperativeService.findByCnpjWithEmployees(recyclingSorterRegister.cnpj)
+                recyclingSorterSaved.cooperative = cooperative
                 cooperative.employees.add(recyclingSorterSaved)
                 cooperativeService.save(cooperative)
+            } else {
+                throw DomainException(message = "CPNJ ${recyclingSorterRegister.cnpj} não cadastrado",ExceptionDetailsStatus.INVALID_INPUT)
             }
         } else {
             recyclingSorterSaved = recyclingSorterService.save(recyclingSorter)
         }
-        recyclingSorterSaved?.let { employee ->
+        recyclingSorterSaved.let { employee ->
             thread(true){
                 emailService.sendWelcomeMessage(
                     employee.email,

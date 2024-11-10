@@ -9,12 +9,16 @@ class EmailTemplateConfig {
     @Bean("welcomeMessageTemplate")
     fun welcomeMessageTemplate() : SimpleMailMessage {
         val welcomeTemplate = SimpleMailMessage()
-        welcomeTemplate.subject = "Bem vindo ao sistema Ecopoints !!!"
+        welcomeTemplate.subject = "Cadastro realizado com sucesso no sistema Ecopoints"
         welcomeTemplate.text = """
-            Olá %s,
+            Prezado Colaborador %s,
             
-            Seja muito bem vindo ao Sistema Ecopoints, o aplicativo de gerenciamento de resíduos recicláveis da Academia STEM.
-            De acordo com seu cadastro, o seu papel é de %s. Aproveite os nossos serviços !
+            Leia com atenção !, este é um email automático, por favor não responda esse email pois você não terá retorno.
+            Você realizou o cadastro de uma conta para o perfil %s no aplicativo Ecopoints. Seja muito bem vindo ao Sistema Ecopoints, o aplicativo 
+            de gerenciamento de resíduos recicláveis da Academia STEM.
+            
+            Atenciosamente,
+            TI - Academia STEM, Pilar Excelência
         """.trimIndent()
         return welcomeTemplate
     }
@@ -22,16 +26,17 @@ class EmailTemplateConfig {
     @Bean("resetPasswordMessageTemplate")
     fun resetPasswordMessageTemplate() : SimpleMailMessage {
         val resetPasswordTemplate = SimpleMailMessage()
-        resetPasswordTemplate.subject = "Recuperação de senha"
+        resetPasswordTemplate.subject = "Alteração de senha"
         resetPasswordTemplate.text = """
-            Olá %s,
+            Prezado Colaborador,
+            %s
+            Você está recebendo uma nova senha para a recuperação da sua conta e novo login.
+            Para isso basta copiar a senha abaixo e colar no campo "senha" da sua tela de login, pois o aplicativo irá redirecioná-lo
+            para a tela de configuração de nova senha.
+            Sua nova senha da conta é: %s
             
-            Vimos que foi solicitado a recuperação de senha pelo aplicativo. Os procedimentos para a configuração da nova senha serão os seguintes:
-            
-            1) Insira a senha temporária gerada automaticamente pelo sistema
-                - SENHA: %s
-            2) Na Tela seguinte, insira a nova senha e confirme sua senha.
-            3) Por fim, você irá novamente fazer login no aplicativo, porém agora com a senha alterada.
+            Atenciosamente,
+            TI - Academia STEM, Pilar Excelência
         """.trimIndent()
         return resetPasswordTemplate
     }
