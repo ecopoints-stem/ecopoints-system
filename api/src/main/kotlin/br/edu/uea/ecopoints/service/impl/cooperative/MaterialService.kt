@@ -6,12 +6,14 @@ import br.edu.uea.ecopoints.enums.material.MaterialType
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.cooperative.material.MaterialTypeRepository
 import br.edu.uea.ecopoints.service.cooperative.IMaterialService
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
 class MaterialService (
     private val materialRepository: MaterialTypeRepository
 ) : IMaterialService {
+    @Transactional
     override fun save(material: TypeOfMaterial): TypeOfMaterial = this.materialRepository.save(material)
 
     override fun findById(id: Long): TypeOfMaterial = this.materialRepository.findById(id).orElseThrow{

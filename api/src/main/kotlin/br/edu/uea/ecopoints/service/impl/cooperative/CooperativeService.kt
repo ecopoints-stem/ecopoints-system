@@ -5,12 +5,14 @@ import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.cooperative.CooperativeRepository
 import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
 class CooperativeService (
     private val cooperativeRepository: CooperativeRepository
 ) : ICooperativeService {
+    @Transactional
     override fun save(cooperative: Cooperative): Cooperative = cooperativeRepository.save(cooperative)
 
     override fun findById(id: Long): Cooperative = cooperativeRepository.findById(id).orElseThrow{

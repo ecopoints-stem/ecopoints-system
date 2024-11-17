@@ -5,12 +5,14 @@ import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.user.RecyclingSorterRepository
 import br.edu.uea.ecopoints.service.user.IRecyclingSorterService
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
 class RecyclingSorterService(
     private val recyclingSorterRepository: RecyclingSorterRepository
 ) : IRecyclingSorterService {
+    @Transactional
     override fun save(recyclingSorter: RecyclingSorter): RecyclingSorter = this.recyclingSorterRepository.save(recyclingSorter)
 
     override fun findById(id: Long): RecyclingSorter = this.recyclingSorterRepository.findById(id).orElseThrow{
