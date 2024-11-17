@@ -15,8 +15,6 @@ data class ExceptionDetails (
     val title: String,
     val status: ExceptionDetailsStatus,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer::class)
-    @JsonSerialize(using = LocalDateTimeSerializer::class)
     val timestamp: LocalDateTime,
     val exception: String,
     val details: MutableMap<String, String?>

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Component
 class JwtAuthenticationFilter (
@@ -51,7 +52,7 @@ class JwtAuthenticationFilter (
                 exception = ex.javaClass.toString(),
                 title = "Token de acesso expirou",
                 status = ExceptionDetailsStatus.TOKEN_EXPIRED,
-                timestamp = LocalDateTime.now(),
+                timestamp = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
                 details = mutableMapOf(
                     (ex.cause?.message ?: "expirou access token") to ex.message
                 )

@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @RestControllerAdvice
 class RestExceptionHandler {
@@ -24,7 +25,7 @@ class RestExceptionHandler {
         return ResponseEntity(
             ExceptionDetails(
                 title = "Bad Request! Consult the documentation",
-                timestamp = LocalDateTime.now(),
+                timestamp = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
                 status = ExceptionDetailsStatus.INVALID_INPUT,
                 exception = ex.javaClass.toString(),
                 details = errors
@@ -43,7 +44,7 @@ class RestExceptionHandler {
         }
         return ResponseEntity.status(httpStatus).body(ExceptionDetails(
             title = "Error ${ex.message}",
-            timestamp = LocalDateTime.now(),
+            timestamp = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
             exception = ex.javaClass.toString(),
             status = ex.type,
             details = mutableMapOf(
@@ -58,7 +59,7 @@ class RestExceptionHandler {
             .body(
                 ExceptionDetails(
                     title = "Conflict! Consult the documentation",
-                    timestamp = LocalDateTime.now(),
+                    timestamp = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
                     status = ExceptionDetailsStatus.INVALID_INPUT,
                     exception = ex.javaClass.toString(),
                     details = mutableMapOf(ex.cause.toString() to ex.message)

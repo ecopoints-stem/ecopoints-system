@@ -5,7 +5,8 @@ import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.dto.cooperative.AttendanceRegister
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
-import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus.INVALID_INPUT
+import br.edu.uea.ecopoints.enums.AttendanceRecordStatus
+import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.service.cooperative.IAttendanceRecordService
 import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
@@ -68,45 +69,32 @@ class RecyclingSorterResource (
         val employee = recyclingSorterService.findById(id)
         val lastAttendance = attendanceRecordService.findLastByEmployeeId(employee.id!!)
         var attendanceRecord: AttendanceRecord? = null
-        val attendanceSp = attendanceRecordService.findByRecyclingSorterIdAndPDate(id,info.personDate)
-
-        if(lastAttendance!=null){
-            if(lastAttendance.exitTime==null && info.personDate.isAfter(lastAttendance.pDate)){
-                throw DomainException("O ponto do dia ${lastAttendance.pDate} não foi fechado, favor corrigir com o adm",INVALID_INPUT)
-            } else if(lastAttendance.exitTime==null && (info.personDate==lastAttendance.pDate && info.entryTime==lastAttendance.entryTime && info.exitTime!=null)){
-                val cooperative = cooperativeService.findById(info.cooperativeId)
-                attendanceSp?.let {
-                    it.exitTime = info.exitTime
-                    attendanceRecord = attendanceRecordService.save(it)
+        //TODO: Criar coisas aqui
+        if (employee.cooperative==null)
+            throw DomainException("Você não está associado a uma cooperativa para conseguir bater ponto, verifique com Adm",ExceptionDetailsStatus.INVALID_INPUT)
+        if(lastAttendance==null){
+            // Primeiro registro de trabalho do employee nessa cooperativa
+            attendanceRecord = attendanceRecordService.save(
+                AttendanceRecord(id=null, pDate = info.personDate ,entryTime = info.entryTime, exitTime = info.exitTime, status = info.status, cooperative = employee.cooperative!!, recyclingSorter = employee)
+            )
+        } else{
+            if(info.personDate.isBefore(lastAttendance.pDate) && lastAttendance.exitTime==null){
+                lastAttendance.status = AttendanceRecordStatus.ABSENT
+                attendanceRecordService.save(lastAttendance)
+                throw DomainException(message = "Você não bateu o horário de saída em ${lastAttendance.pDate}",ExceptionDetailsStatus.INVALID_INPUT)
+            } else if(info.personDate==lastAttendance.pDate){
+                //As datas coincidem, como já tinha um desse com a mesma data só pode ser o registro de saída
+                if(lastAttendance.exitTime==null && info.entryTime==lastAttendance.entryTime && info.exitTime!=null){
+                    lastAttendance.exitTime = info.exitTime
+                    attendanceRecordService.save(lastAttendance)
+                } else {
+                    throw DomainException("Apenas um registro de trabalho por dia, tente novament amanhã", ExceptionDetailsStatus.INVALID_INPUT)
                 }
-            } else {
-                val cooperative = cooperativeService.findById(info.cooperativeId)
+            } else{
                 attendanceRecord = attendanceRecordService.save(
-                    AttendanceRecord(
-                        id = null,
-                        entryTime = info.entryTime,
-                        exitTime = info.exitTime,
-                        status = info.status,
-                        pDate = info.personDate,
-                        cooperative = cooperative,
-                        recyclingSorter = employee
-                    )
+                    AttendanceRecord(id=null, pDate = info.personDate ,entryTime = info.entryTime, exitTime = info.exitTime, status = info.status, cooperative = employee.cooperative!!, recyclingSorter = employee)
                 )
             }
-        } else{
-            //é o primeiro registro de ponto do funcionário na cooperativa
-            val cooperative = cooperativeService.findById(info.cooperativeId)
-            attendanceRecord = attendanceRecordService.save(
-                AttendanceRecord(
-                    id = null,
-                    entryTime = info.entryTime,
-                    exitTime = info.exitTime,
-                    status = info.status,
-                    pDate = info.personDate,
-                    cooperative = cooperative,
-                    recyclingSorter = employee
-                )
-            )
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(attendanceRecord)
     }
