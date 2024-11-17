@@ -28,6 +28,7 @@ import br.edu.uea.ecopoints.view.user.UserView
 import io.jsonwebtoken.ExpiredJwtException
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletResponse
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.hibernate.Hibernate
 import org.springframework.http.HttpStatus
@@ -169,10 +170,7 @@ class AuthResource (
                 recyclingSorterSaved.cooperative = cooperative
                 cooperative.employees.add(recyclingSorterSaved)
                 cooperativeService.save(cooperative)
-                println(recyclingSorterSaved.toString())
-                println(recyclingSorterSaved.toString())
-                println(recyclingSorterSaved.toString())
-                println(recyclingSorterSaved.toString())
+                recyclingSorterService.save(recyclingSorterSaved)
             } else {
                 throw DomainException(message = "CPNJ ${recyclingSorterRegister.cnpj} não cadastrado",ExceptionDetailsStatus.INVALID_INPUT)
             }
@@ -188,7 +186,7 @@ class AuthResource (
                 )
             }
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(recyclingSorterSaved?.toRView())
+        return ResponseEntity.status(HttpStatus.CREATED).body(recyclingSorterSaved.toRView())
     }
 
     @PostMapping("/driver")

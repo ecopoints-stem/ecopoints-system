@@ -11,6 +11,7 @@ import br.edu.uea.ecopoints.service.cooperative.IMaterialService
 import br.edu.uea.ecopoints.service.user.ICoopAdmService
 import br.edu.uea.ecopoints.view.user.CoopAdmView
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,6 +31,7 @@ class CoopAdmResource (
     private val emailService: EmailService
 ){
     @PostMapping
+    @Transactional
     fun save(@RequestBody @Valid coopAdmRegister: CoopAdmRegister) : ResponseEntity<CoopAdmView>{
         val coopAdm = coopAdmRegister.toEntity()
         coopAdm.password = encoder.encode(coopAdm.password)
