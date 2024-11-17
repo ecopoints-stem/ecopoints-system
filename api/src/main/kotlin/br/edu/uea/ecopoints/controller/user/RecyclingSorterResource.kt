@@ -68,12 +68,12 @@ class RecyclingSorterResource (
         val employee = recyclingSorterService.findById(id)
         val lastAttendance = attendanceRecordService.findLastByEmployeeId(employee.id!!)
         var attendanceRecord: AttendanceRecord? = null
-        val attendanceSp = attendanceRecordService.findByRecyclingSorterIdAndPDate(id,info.pDate)
+        val attendanceSp = attendanceRecordService.findByRecyclingSorterIdAndPDate(id,info.personDate)
 
         if(lastAttendance!=null){
-            if(lastAttendance.exitTime==null && info.pDate.isAfter(lastAttendance.pDate)){
+            if(lastAttendance.exitTime==null && info.personDate.isAfter(lastAttendance.pDate)){
                 throw DomainException("O ponto do dia ${lastAttendance.pDate} não foi fechado, favor corrigir com o adm",INVALID_INPUT)
-            } else if(lastAttendance.exitTime==null && (info.pDate==lastAttendance.pDate && info.entryTime==lastAttendance.entryTime && info.exitTime!=null)){
+            } else if(lastAttendance.exitTime==null && (info.personDate==lastAttendance.pDate && info.entryTime==lastAttendance.entryTime && info.exitTime!=null)){
                 val cooperative = cooperativeService.findById(info.cooperativeId)
                 attendanceSp?.let {
                     it.exitTime = info.exitTime
@@ -87,7 +87,7 @@ class RecyclingSorterResource (
                         entryTime = info.entryTime,
                         exitTime = info.exitTime,
                         status = info.status,
-                        pDate = info.pDate,
+                        pDate = info.personDate,
                         cooperative = cooperative,
                         recyclingSorter = employee
                     )
@@ -102,7 +102,7 @@ class RecyclingSorterResource (
                     entryTime = info.entryTime,
                     exitTime = info.exitTime,
                     status = info.status,
-                    pDate = info.pDate,
+                    pDate = info.personDate,
                     cooperative = cooperative,
                     recyclingSorter = employee
                 )

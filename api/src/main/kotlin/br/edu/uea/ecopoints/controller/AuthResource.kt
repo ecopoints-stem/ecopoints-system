@@ -169,6 +169,10 @@ class AuthResource (
                 recyclingSorterSaved.cooperative = cooperative
                 cooperative.employees.add(recyclingSorterSaved)
                 cooperativeService.save(cooperative)
+                println(recyclingSorterSaved.toString())
+                println(recyclingSorterSaved.toString())
+                println(recyclingSorterSaved.toString())
+                println(recyclingSorterSaved.toString())
             } else {
                 throw DomainException(message = "CPNJ ${recyclingSorterRegister.cnpj} não cadastrado",ExceptionDetailsStatus.INVALID_INPUT)
             }
