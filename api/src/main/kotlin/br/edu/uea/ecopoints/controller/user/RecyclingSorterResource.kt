@@ -34,19 +34,22 @@ class RecyclingSorterResource (
     fun save(@RequestBody @Valid recyclingSorterRegister: RecyclingSorterRegister) : ResponseEntity<RecyclingSorterView>{
         val recyclingSorter = recyclingSorterRegister.toEntity()
         recyclingSorter.password = encoder.encode(recyclingSorter.password)
-        var recyclingSorterSaved: RecyclingSorter? = null
+        val recyclingSorterSaved: RecyclingSorter?
         if(recyclingSorterRegister.cnpj!=null){
             if(cooperativeService.existsByCpnj(recyclingSorterRegister.cnpj)) {
-                val cooperative = cooperativeService.findByCnpj(recyclingSorterRegister.cnpj)
-                recyclingSorter.cooperative = cooperative
                 recyclingSorterSaved = recyclingSorterService.save(recyclingSorter)
+                val cooperative = cooperativeService.findByCnpjWithEmployees(recyclingSorterRegister.cnpj)
+                recyclingSorterSaved.cooperative = cooperative
                 cooperative.employees.add(recyclingSorterSaved)
                 cooperativeService.save(cooperative)
+                recyclingSorterService.save(recyclingSorterSaved)
+            } else {
+                throw DomainException(message = "CPNJ ${recyclingSorterRegister.cnpj} não cadastrado",ExceptionDetailsStatus.INVALID_INPUT)
             }
         } else {
             recyclingSorterSaved = recyclingSorterService.save(recyclingSorter)
         }
-        recyclingSorterSaved?.let { employee ->
+        recyclingSorterSaved.let { employee ->
             thread(true){
                 emailService.sendWelcomeMessage(
                     employee.email,
@@ -55,7 +58,7 @@ class RecyclingSorterResource (
                 )
             }
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(recyclingSorterSaved?.toRView())
+        return ResponseEntity.status(HttpStatus.CREATED).body(recyclingSorterSaved.toRView())
     }
 
     @GetMapping("/{id}")
