@@ -1,7 +1,7 @@
 FROM gradle:8-jdk17 AS build
 WORKDIR /app
 
-COPY build.gradle.kts settings.gradle.kts ./
+COPY build.gradle.kts settings.gradle.kts gradlew ./
 COPY gradle gradle
 RUN chmod +x gradlew
 
@@ -11,8 +11,8 @@ RUN ./gradlew build -x test
 
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar ecopoints-api.jar
+COPY --from=build /app/build/libs/*.jar ecopoints.jar
 
 EXPOSE 8080 587
 
-ENTRYPOINT ["java", "-jar", "ecopoints-api.jar"]
+ENTRYPOINT ["java", "-jar", "ecopoints.jar"]
