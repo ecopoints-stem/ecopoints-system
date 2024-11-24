@@ -52,6 +52,12 @@ kotlin {
 	}
 }
 
+tasks.jar{
+	manifest{
+		attributes["Main-Class"]="br.edu.uea.ecopoints.EcopointsApplication.kt"
+	}
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
