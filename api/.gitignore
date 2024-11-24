@@ -38,3 +38,5 @@ out/
 
 ### Kotlin ###
 .kotlin
+### Enviroments Variables File ###
+.env
