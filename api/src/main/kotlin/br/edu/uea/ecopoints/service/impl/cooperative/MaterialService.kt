@@ -20,6 +20,8 @@ class MaterialService (
         throw DomainException("Material com id $id não encontrado", ExceptionDetailsStatus.INVALID_INPUT)
     }
 
+    override fun findByName(name: String): TypeOfMaterial? = materialRepository.findByName(name)
+
     override fun findByNameStartingWithIgnoreCase(prefix: String): List<TypeOfMaterial> = this.materialRepository.findByNameStartingWithIgnoreCase(prefix)
     override fun findByType(type: MaterialType): List<TypeOfMaterial> = this.materialRepository.findByType(type)
 

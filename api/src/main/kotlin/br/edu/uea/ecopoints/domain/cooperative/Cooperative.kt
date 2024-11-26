@@ -20,10 +20,10 @@ class Cooperative (
     ) val employees: MutableList<RecyclingSorter> = mutableListOf(),
     @ManyToMany(
         fetch = FetchType.EAGER,
-        cascade = [CascadeType.PERSIST]
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE]
     ) @JoinTable(
         name = "cooperative_material",
         joinColumns = [JoinColumn(name = "cooperative_id")],
         inverseJoinColumns = [JoinColumn(name = "material_id")]
-    ) val material: List<TypeOfMaterial> = mutableListOf()
+    ) val materials: MutableList<TypeOfMaterial> = mutableListOf()
 )

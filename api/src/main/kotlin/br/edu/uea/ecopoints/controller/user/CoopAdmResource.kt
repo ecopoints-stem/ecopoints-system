@@ -6,6 +6,8 @@ import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.dto.cooperative.Material
 import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
 import br.edu.uea.ecopoints.enums.material.MaterialType
+import br.edu.uea.ecopoints.exception.DomainException
+import br.edu.uea.ecopoints.repository.user.CoopAdmRepository
 import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.cooperative.IMaterialService
 import br.edu.uea.ecopoints.service.user.ICoopAdmService
@@ -64,23 +66,25 @@ class CoopAdmResource (
         val coopAdmSaved = coopAdmService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(coopAdmSaved.toAView())
     }
+    @PostMapping("/{id}/material")
+    @Transactional
+    fun addNewMaterial(@PathVariable id: Long, @RequestBody material: TypeOfMaterial) : ResponseEntity<List<TypeOfMaterial>>{
+        val coopAdm = coopAdmService.findById(id)
 
-    @PostMapping("/material")
-    fun createNewMaterial(@RequestBody @Valid dto: Material) : ResponseEntity<TypeOfMaterial>{
-        val material = materialService.save(dto.toEntity())
-        return ResponseEntity.status(HttpStatus.CREATED).body(material)
-    }
+        if (material.id==null){
+            var materialBD = materialService.findByName(material.name)
+            if (materialBD==null){
+                materialBD = materialService.save(material)
+            }
+            coopAdm.cooperative?.materials?.add(materialBD)
+            coopAdmService.save(coopAdm)
+        } else{
+            val materialBD = materialService.findById(material.id)
+            coopAdm.cooperative?.materials?.add(materialBD)
+            coopAdmService.save(coopAdm)
+        }
 
-    @GetMapping("/material")
-    fun findByNameStartingWith(@RequestParam("name") name: String) : ResponseEntity<List<TypeOfMaterial>>{
-        val list = materialService.findByNameStartingWithIgnoreCase(name)
-        return ResponseEntity.status(HttpStatus.OK).body(list)
-    }
-
-    @GetMapping("/material/{type}")
-    fun findByType(@PathVariable type: MaterialType) : ResponseEntity<List<TypeOfMaterial>> {
-        val list = materialService.findByType(type)
-        return ResponseEntity.status(HttpStatus.OK).body(list)
+        return ResponseEntity.status(HttpStatus.CREATED).body(coopAdm.cooperative?.materials)
     }
 
     @DeleteMapping("/{id}")

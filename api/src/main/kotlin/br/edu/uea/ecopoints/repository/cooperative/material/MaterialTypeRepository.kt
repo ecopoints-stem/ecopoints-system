@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MaterialTypeRepository : JpaRepository<TypeOfMaterial, Long> {
+    fun findByName(name: String) : TypeOfMaterial?
     fun findByNameStartingWithIgnoreCase(prefix: String): List<TypeOfMaterial>
     fun findByType(type: MaterialType): List<TypeOfMaterial>
 }

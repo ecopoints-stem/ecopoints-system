@@ -5,33 +5,34 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: ecopoints-api
+    image: ecopoints-api:1.0
     ports:
       - "8080:8080"
     env_file:
       - .env
     depends_on:
-      - db
+      - ecopointsdb
     networks:
-      - app-network
+      - ecopoints-network
 
-  db:
+  ecopointsdb:
     image: postgres:14
     container_name: ecopoints-db
     environment:
-      POSTGRES_DB: ${PGDATABASE}
-      POSTGRES_USER: ${PGUSER}
-      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ecopoints-postgres-data:/var/lib/postgresql/data
     networks:
-      - app-network
+      - ecopoints-network
 
 volumes:
-  postgres-data:
+  ecopoints-postgres-data:
     driver: local
 
 networks:
-  app-network:
+  ecopoints-network:
     driver: bridge
