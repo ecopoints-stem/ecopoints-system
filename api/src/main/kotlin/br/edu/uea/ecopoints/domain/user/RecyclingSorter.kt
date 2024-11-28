@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany
 
 @Entity
 class RecyclingSorter (
+    id : Long?=null,
     name: String,
     phone: String?,
     email: String,
@@ -31,7 +32,7 @@ class RecyclingSorter (
         cascade = [CascadeType.PERSIST,CascadeType.REFRESH],
         fetch = FetchType.LAZY
     ) var records: MutableList<AttendanceRecord> = mutableListOf()
-) : EcoUser(id = null, name, phone, email, password, role = ROLE_EMPLOYEE) {
+) : EcoUser(id = id, name, phone, email, password, role = ROLE_EMPLOYEE) {
     fun toRView() = RecyclingSorterView(
         id = this.id!!,
         name=this.name,

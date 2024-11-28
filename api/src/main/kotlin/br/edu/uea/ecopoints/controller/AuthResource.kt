@@ -135,8 +135,8 @@ class AuthResource (
                         name = coopAdmRegister.cooperativeName,
                         cnpj = coopAdmRegister.cooperativeCnpj,
                         adm = null,
-                        employees = mutableListOf(),
-                        materials = mutableListOf()
+                        employees = mutableSetOf(),
+                        materials = mutableSetOf()
                     )
                 coopAdm.cooperative = cooperative
                 cooperative.adm = coopAdm

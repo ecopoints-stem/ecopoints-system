@@ -18,5 +18,5 @@ class TypeOfMaterial(
     val type: MaterialType,
     @JsonIgnore
     @ManyToMany(mappedBy = "materials", fetch = FetchType.LAZY)
-    val cooperatives : List<Cooperative> = mutableListOf()
+    val cooperatives : Set<Cooperative> = mutableSetOf()
 )

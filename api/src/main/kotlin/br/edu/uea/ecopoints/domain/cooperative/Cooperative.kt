@@ -17,7 +17,7 @@ class Cooperative (
     var adm: CooperativeAdministrator? = null,
     @OneToMany(fetch = FetchType.LAZY,
         mappedBy = "cooperative"
-    ) val employees: MutableList<RecyclingSorter> = mutableListOf(),
+    ) val employees: MutableSet<RecyclingSorter> = mutableSetOf(),
     @ManyToMany(
         fetch = FetchType.EAGER,
         cascade = [CascadeType.PERSIST, CascadeType.MERGE]
@@ -25,5 +25,5 @@ class Cooperative (
         name = "cooperative_material",
         joinColumns = [JoinColumn(name = "cooperative_id")],
         inverseJoinColumns = [JoinColumn(name = "material_id")]
-    ) val materials: MutableList<TypeOfMaterial> = mutableListOf()
+    ) val materials: MutableSet<TypeOfMaterial> = mutableSetOf()
 )

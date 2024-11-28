@@ -8,6 +8,7 @@ import jakarta.persistence.*
 
 @Entity
 class Driver (
+    id: Long? = null,
     name: String,
     phone: String?,
     email: String,
@@ -22,7 +23,7 @@ class Driver (
         cascade = [CascadeType.PERSIST,
             CascadeType.REMOVE])
     val pickupRequests: MutableList<RecyclingPickupRequest> = mutableListOf()
-) : EcoUser(id = null, name, phone, email, password, role = ROLE_DRIVER) {
+) : EcoUser(id = id, name, phone, email, password, role = ROLE_DRIVER) {
     fun toDView() = DriverView(
         id = this.id!!,
         name = this.name,

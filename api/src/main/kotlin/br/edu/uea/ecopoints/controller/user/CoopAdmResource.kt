@@ -4,6 +4,7 @@ import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.domain.cooperative.material.TypeOfMaterial
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.dto.cooperative.Material
+import br.edu.uea.ecopoints.dto.user.AdminUpdate
 import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
 import br.edu.uea.ecopoints.enums.material.MaterialType
 import br.edu.uea.ecopoints.exception.DomainException
@@ -84,7 +85,22 @@ class CoopAdmResource (
             coopAdmService.save(coopAdm)
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(coopAdm.cooperative?.materials)
+        return ResponseEntity.status(HttpStatus.CREATED).body(coopAdm.cooperative?.materials?.toList())
+    }
+
+    @PatchMapping
+    @Transactional
+    fun updateAdmin(
+        @RequestParam(value = "adminId") id: Long,
+        @RequestBody @Valid dto: AdminUpdate
+    ) : ResponseEntity<CoopAdmView> {
+        val adm = coopAdmService.findById(id)
+        val adminUp = dto.toEntity(adm)
+        adminUp.password = encoder.encode(dto.password)
+        adminUp.cooperative = adm.cooperative
+        adminUp.pickupRequests.addAll(adm.pickupRequests)
+        val adminUpdate = coopAdmService.save(adminUp)
+        return ResponseEntity.status(HttpStatus.OK).body(adminUpdate.toAView())
     }
 
     @DeleteMapping("/{id}")

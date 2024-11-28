@@ -9,6 +9,7 @@ import jakarta.persistence.*
 
 @Entity
 class CooperativeAdministrator (
+    id: Long?=null,
     name: String,
     phone: String?,
     email: String,
@@ -25,7 +26,7 @@ class CooperativeAdministrator (
         cascade = [CascadeType.PERSIST,
             CascadeType.REMOVE]
     ) val pickupRequests: MutableList<RecyclingPickupRequest> = mutableListOf()
-) : EcoUser(id = null, name, phone, email, password, role = ROLE_ADMINISTRATOR) {
+) : EcoUser(id = id, name, phone, email, password, role = ROLE_ADMINISTRATOR) {
     fun toAView() = CoopAdmView(
         id = this.id!!,
         name= this.name,
