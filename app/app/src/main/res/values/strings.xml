@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ecopoints</string>
+    <string name="sp_id">id</string>
+    <string name="sp_role">role</string>
+    <string name="sp_accessToken">accessToken</string>
+    <string name="sp_refreshToken">refreshToken</string>
+    <string name="sp_email">email</string>
+    <string name="sp_password">password</string>
+    <string name="hint_clock">Ponto</string>
+    <string name="hint_employee_home">Materiais</string>
+    <string name="hint_edit_profile">Editar Perfil</string>
+    <string-array name="materials_array">
+        <item>PLASTICS</item>
+        <item>PAPER</item>
+        <item>METALS</item>
+        <item>GLASS</item>
+        <item>EXPANDED_POLYSTYRENE</item>
+        <item>WASTE</item>
+    </string-array>
+</resources>

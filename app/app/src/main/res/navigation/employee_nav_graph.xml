@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/employee_nav_graph.xml"
+    app:startDestination="@id/recycledItemsFragment">
+
+    <fragment
+        android:id="@+id/recycledItemsFragment"
+        android:name="br.edu.uea.ecopoints.screen.home.employee.fragment.RecycledItemsFragment"
+        android:label="RecycledItemsFragment" />
+    <fragment
+        android:id="@+id/clockInOutFragment"
+        android:name="br.edu.uea.ecopoints.screen.home.employee.fragment.ClockInOutFragment"
+        android:label="ClockInOutFragment" />
+    <fragment
+        android:id="@+id/editProfileEmployeeFragment"
+        android:name="br.edu.uea.ecopoints.screen.home.employee.fragment.EditProfileEmployeeFragment"
+        android:label="EditProfileEmployeeFragment" />
+</navigation>

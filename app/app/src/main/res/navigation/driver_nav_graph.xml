@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/driver_nav_graph.xml"
+    app:startDestination="@id/appointmentFragment">
+
+    <fragment
+        android:id="@+id/appointmentFragment"
+        android:name="br.edu.uea.ecopoints.screen.home.driver.fragment.AppointmentFragment"
+        android:label="AppointmentFragment" />
+    <fragment
+        android:id="@+id/editProfileDriverFragment"
+        android:name="br.edu.uea.ecopoints.screen.home.driver.fragment.EditProfileDriverFragment"
+        android:label="EditProfileDriverFragment" />
+    <fragment
+        android:id="@+id/pickUpRequestFragment"
+        android:name="br.edu.uea.ecopoints.screen.home.driver.fragment.PickUpRequestFragment"
+        android:label="PickUpRequestFragment" />
+</navigation>

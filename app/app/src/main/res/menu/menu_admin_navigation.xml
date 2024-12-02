@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/pickUpRequestFragment"
+        android:icon="@drawable/delivery_icon"
+        android:title="Entrega" />
+
+    <item
+        android:id="@+id/createNewMaterialFragment"
+        android:icon="@drawable/add_material"
+        android:title="Adiciona Material" />
+
+    <item
+        android:id="@+id/reportFragment"
+        android:icon="@drawable/report_icon"
+        android:title="Relatório" />
+
+    <item
+        android:id="@+id/editProfileAdminFragment"
+        android:icon="@drawable/edit_profile_icon"
+        android:title="Editar Perfil" />
+</menu>

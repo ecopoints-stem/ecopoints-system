@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="16dp"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvRecycledItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCardContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvMaterialType"
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Metal" />
+
+            <ImageView
+                android:id="@+id/ivMaterialIcon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMaterialType"
+                tools:src="@drawable/metals" />
+
+            <ImageView
+                android:id="@+id/ivKg"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="48dp"
+                android:src="@drawable/kg"
+                app:layout_constraintStart_toEndOf="@id/ivMaterialIcon"
+                app:layout_constraintTop_toTopOf="@id/ivMaterialIcon" />
+
+            <ImageView
+                android:id="@+id/ivDate"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/date"
+                app:layout_constraintBottom_toBottomOf="@id/ivMaterialIcon"
+                app:layout_constraintStart_toEndOf="@id/ivMaterialIcon"
+                app:layout_constraintTop_toBottomOf="@id/ivKg" />
+
+            <TextView
+                android:id="@+id/tvKg"
+                android:layout_width="150dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="4dp"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/ivKg"
+                app:layout_constraintStart_toEndOf="@id/ivKg"
+                app:layout_constraintTop_toTopOf="@id/ivKg"
+                tools:text="45.32" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="170dp"
+                android:layout_height="25dp"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:layout_marginStart="4dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/ivDate"
+                app:layout_constraintStart_toEndOf="@id/ivDate"
+                app:layout_constraintTop_toTopOf="@id/ivDate"
+                tools:text="20/03/2023 19:00" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

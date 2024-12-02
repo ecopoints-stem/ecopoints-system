@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvClockIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Entrada"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivClockIn"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:src="@drawable/clock_in"
+        app:layout_constraintEnd_toEndOf="@id/tvClockIn"
+        app:layout_constraintStart_toStartOf="@id/tvClockIn"
+        app:layout_constraintTop_toBottomOf="@id/tvClockIn" />
+
+    <TextView
+        android:id="@+id/tvClockOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Saída"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@id/tvClockIn"
+        app:layout_constraintStart_toStartOf="@id/tvClockIn"
+        app:layout_constraintTop_toBottomOf="@id/ivClockIn" />
+
+    <ImageView
+        android:id="@+id/ivClockOut"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:src="@drawable/clock_out"
+        app:layout_constraintEnd_toEndOf="@id/tvClockOut"
+        app:layout_constraintStart_toStartOf="@id/tvClockOut"
+        app:layout_constraintTop_toBottomOf="@id/tvClockOut" />
+
+    <TextView
+        android:id="@+id/tvMessageResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ivClockOut"
+        app:layout_constraintStart_toStartOf="@id/ivClockOut"
+        app:layout_constraintTop_toBottomOf="@id/ivClockOut"
+        tools:text="Deu certo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
