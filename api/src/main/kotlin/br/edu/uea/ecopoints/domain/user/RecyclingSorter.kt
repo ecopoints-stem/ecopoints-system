@@ -31,7 +31,7 @@ class RecyclingSorter (
         mappedBy = "recyclingSorter",
         cascade = [CascadeType.PERSIST,CascadeType.REFRESH],
         fetch = FetchType.LAZY
-    ) var records: MutableList<AttendanceRecord> = mutableListOf()
+    ) var records: MutableSet<AttendanceRecord> = mutableSetOf()
 ) : EcoUser(id = id, name, phone, email, password, role = ROLE_EMPLOYEE) {
     fun toRView() = RecyclingSorterView(
         id = this.id!!,

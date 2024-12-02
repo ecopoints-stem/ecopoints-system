@@ -3,6 +3,7 @@ package br.edu.uea.ecopoints.domain.cooperative
 import br.edu.uea.ecopoints.domain.cooperative.material.TypeOfMaterial
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
+import br.edu.uea.ecopoints.view.cooperative.CooperativeView
 import jakarta.persistence.*
 
 @Entity
@@ -26,4 +27,13 @@ class Cooperative (
         joinColumns = [JoinColumn(name = "cooperative_id")],
         inverseJoinColumns = [JoinColumn(name = "material_id")]
     ) val materials: MutableSet<TypeOfMaterial> = mutableSetOf()
-)
+) {
+    fun toView() : CooperativeView = CooperativeView(
+        id = this.id!!,
+        name = this.name,
+        cnpj = this.cnpj,
+        adminId = this.adm?.id,
+        employeesId = this.employees.map { employee -> employee.id!! },
+        materialsId = this.materials.map { material -> material.id!! }
+    )
+}

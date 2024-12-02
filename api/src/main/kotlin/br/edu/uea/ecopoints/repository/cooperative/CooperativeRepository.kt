@@ -5,11 +5,20 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.util.*
 
 @Repository
 interface CooperativeRepository  : JpaRepository<Cooperative, Long>{
     fun findByCnpj(cnpj: String) : Cooperative?
     @Query("SELECT c FROM Cooperative c LEFT JOIN FETCH c.employees WHERE c.cnpj = :cnpj")
     fun findByCnpjWithEmployees(@Param("cnpj") cnpj: String) : Cooperative?
+    @Query("""
+        SELECT c 
+        FROM Cooperative c
+        LEFT JOIN FETCH c.employees e
+        LEFT JOIN FETCH c.materials m
+        WHERE c.id = :id
+    """)
+    fun findByCnpjWithEmployeesAndMaterials(@Param("id") id: Long): Optional<Cooperative>
     fun existsByCnpj(cnpj: String) : Boolean
 }

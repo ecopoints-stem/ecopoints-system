@@ -29,6 +29,6 @@ class AttendanceRecord (
     @JoinColumn(name = "recycling_sorter_id", nullable = false)
     @ManyToOne(optional = false,
         fetch = FetchType.LAZY,
-        cascade = [CascadeType.PERSIST]
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE]
     ) val recyclingSorter: RecyclingSorter
 )

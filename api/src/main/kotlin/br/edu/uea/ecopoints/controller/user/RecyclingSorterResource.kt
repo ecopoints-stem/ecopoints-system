@@ -69,7 +69,7 @@ class RecyclingSorterResource (
 
     @PostMapping("/{id}/attendance")
     fun saveAttendanceRecord(@PathVariable id: Long, @RequestBody info: AttendanceRegister) : ResponseEntity<AttendanceRecord?>{
-        val employee = recyclingSorterService.findById(id)
+        /*val employee = recyclingSorterService.findById(id)
         val lastAttendance = attendanceRecordService.findLastByEmployeeId(employee.id!!)
         var attendanceRecord: AttendanceRecord? = null
         //TODO: Criar coisas aqui
@@ -77,9 +77,9 @@ class RecyclingSorterResource (
             throw DomainException("Você não está associado a uma cooperativa para conseguir bater ponto, verifique com Adm",ExceptionDetailsStatus.INVALID_INPUT)
         if(lastAttendance==null){
             // Primeiro registro de trabalho do employee nessa cooperativa
-            attendanceRecord = attendanceRecordService.save(
-                AttendanceRecord(id=null, pDate = info.personDate ,entryTime = info.entryTime, exitTime = info.exitTime, status = info.status, cooperative = employee.cooperative!!, recyclingSorter = employee)
-            )
+            val _cooperative = cooperativeService.findByCnpjWithEmployees(employeecooperative?.cnpj)
+            attendanceRecord = AttendanceRecord(id=null, pDate = info.personDate ,entryTime = info.entryTime, exitTime = info.exitTime, status = info.status, cooperative = employee.cooperative!! , recyclingSorter = employee)
+            attendanceRecordService.save(attendanceRecord)
         } else{
             if(info.personDate.isBefore(lastAttendance.pDate) && lastAttendance.exitTime==null){
                 lastAttendance.status = AttendanceRecordStatus.ABSENT
@@ -99,7 +99,8 @@ class RecyclingSorterResource (
                 )
             }
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceRecord)
+        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceRecord)*/
+        return ResponseEntity.status(HttpStatus.CREATED).body(null)
     }
 
     @DeleteMapping("/{id}")
