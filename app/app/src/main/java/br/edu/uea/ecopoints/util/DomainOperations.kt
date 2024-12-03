@@ -10,3 +10,12 @@ fun String.toMaterialType() : MaterialType = when(this){
     "ISOPOR" -> MaterialType.EXPANDED_POLYSTYRENE
     else -> MaterialType.WASTE
 }
+
+fun MaterialType.toMaterialString(): String = when (this) {
+    MaterialType.PLASTICS -> "PLÁSTICO"
+    MaterialType.PAPER -> "PAPEL"
+    MaterialType.METALS -> "METAL"
+    MaterialType.GLASS -> "VIDRO"
+    MaterialType.EXPANDED_POLYSTYRENE -> "ISOPOR"
+    else -> "LIXO"
+}

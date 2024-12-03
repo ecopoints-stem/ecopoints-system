@@ -11,6 +11,7 @@ import br.edu.uea.ecopoints.data.api.exception.ExceptionDetails
 import br.edu.uea.ecopoints.domain.entity.Material
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
 import br.edu.uea.ecopoints.screen.state.register.AdminRegisterState
+import br.edu.uea.ecopoints.util.toMaterialString
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +58,7 @@ class CreateNewMaterialViewModel @Inject constructor(
                                 response.body()
                                     ?.sortedBy { it.name }
                                     ?.joinToString(separator = "\n") {
-                                        "NOME: ${it.name} TIPO: ${it.type}"
+                                        "NOME: ${it.name} TIPO: ${it.type.toMaterialString()}"
                                     }
                             )
                         } else{
