@@ -29,22 +29,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Nome"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tvRegisterTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -58,22 +60,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="CNPJ"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edCnpj"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="number"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -87,22 +91,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Nome da Empresa"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilCnpj">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edCompanyName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -116,22 +122,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Pergunta de Segurança"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilCompanyName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edSecurityQuestion"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -145,22 +153,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Resposta de Segurança"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilSecurityQuestion">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edSecurityResponse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -188,22 +198,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Telefone"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilSecurityResponse">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edPhone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="phone"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -217,22 +229,24 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Email"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilPhone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -246,23 +260,25 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Senha"
+        android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
         app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="4dp"
         app:endIconMode="password_toggle"
+        app:hintTextColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tilEmail">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
