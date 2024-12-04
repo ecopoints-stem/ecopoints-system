@@ -72,17 +72,19 @@
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:boxStrokeColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/tilPassword">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_edittext"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -103,7 +105,10 @@
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/white"
+        app:boxStrokeWidth="4dp"
+        app:boxStrokeColor="@color/white"
         app:endIconMode="password_toggle"
         app:layout_constraintBottom_toTopOf="@id/clCreateAccountText">
 
@@ -111,7 +116,6 @@
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/rounded_edittext"
             android:hint="Senha"
             android:inputType="textPassword"
             android:maxLines="1"
