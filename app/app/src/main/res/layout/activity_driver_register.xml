@@ -107,7 +107,7 @@
             android:layout_height="match_parent"
             android:inputType="number"
             android:maxLines="1"
-            android:textColor="@color/blue"
+            android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
