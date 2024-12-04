@@ -10,6 +10,8 @@
     <string name="hint_employee_home">Materiais</string>
     <string name="hint_edit_profile">Editar Perfil</string>
     <string name="hint_add">Adiciona novo material coletado</string>
+    <string name="tb_item_client">Clientes</string>
+    <string name="tb_item_control">Controle</string>
     <string-array name="materials_array">
         <item>PLASTICS</item>
         <item>PAPER</item>
