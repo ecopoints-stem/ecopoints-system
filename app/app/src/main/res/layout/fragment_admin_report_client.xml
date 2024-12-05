@@ -120,9 +120,9 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tilStartDate"
         app:layout_constraintEnd_toEndOf="@id/tilEndDate"
-        app:layout_constraintStart_toStartOf="@id/tilStartDate" />
+        app:layout_constraintStart_toStartOf="@id/tilStartDate"
+        app:layout_constraintTop_toBottomOf="@id/tilStartDate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
