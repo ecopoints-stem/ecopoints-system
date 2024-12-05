@@ -36,73 +36,43 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilStartDate"
-        android:layout_width="150dp"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStartDate"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:hint="Data de início"
-        android:textColorHint="@color/white"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/white"
-        app:boxStrokeWidth="4dp"
-        app:hintTextColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@id/tilEndDate"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Data de Início"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/btnEndDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilCnpj">
+        app:layout_constraintTop_toBottomOf="@id/tilCnpj" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtStartDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEndDate"
-        android:layout_width="150dp"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnEndDate"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:hint="Data final"
-        android:textColorHint="@color/white"
-        app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
-        app:boxCornerRadiusBottomStart="16dp"
-        app:boxCornerRadiusTopEnd="16dp"
-        app:boxCornerRadiusTopStart="16dp"
-        app:boxStrokeColor="@color/white"
-        app:boxStrokeWidth="4dp"
-        app:hintTextColor="@color/white"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Data Final"
+        android:textColor="@color/black"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tilStartDate"
-        app:layout_constraintTop_toBottomOf="@id/tilCnpj">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtEndDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:maxLines="1"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintStart_toEndOf="@id/btnStartDate"
+        app:layout_constraintTop_toBottomOf="@id/tilCnpj"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btEditProfile"
@@ -112,17 +82,17 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/blue"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:text="Gerar"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/tilEndDate"
-        app:layout_constraintStart_toStartOf="@id/tilStartDate"
-        app:layout_constraintTop_toBottomOf="@id/tilStartDate" />
+        app:layout_constraintEnd_toEndOf="@id/btnEndDate"
+        app:layout_constraintStart_toStartOf="@id/btnStartDate"
+        app:layout_constraintTop_toBottomOf="@id/btnStartDate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
