@@ -14,6 +14,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -25,7 +27,7 @@ class ClientFragment :  Fragment() {
     private lateinit var btnStartDate: MaterialButton
     private lateinit var btnEndDate: MaterialButton
     private lateinit var edtCnpj : TextInputEditText
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     private val clientViewModel: ClientViewModel by viewModels()
 
     override fun onCreateView(
@@ -43,18 +45,35 @@ class ClientFragment :  Fragment() {
         btnStartDate.setOnClickListener {
             showDatePicker { selectedDate ->
                 btnStartDate.text = selectedDate
+                if(btnEndDate.text.contains("/") && edtCnpj.text?.isNotBlank()==true){
+                    try {
+                        val start = LocalDate.parse(selectedDate, formatter)
+                        val end = LocalDate.parse(btnEndDate.text.toString(),formatter)
+                        if (start != null && end != null && start.isAfter(end)) {
+                            Toast.makeText(requireContext(), "Data de início deve ser antes da data de fim", Toast.LENGTH_SHORT).show()
+                        } else if(edtCnpj.text?.isNotBlank()==true){
+                            Toast.makeText(requireContext(), "Campos de data validados, pode gerar", Toast.LENGTH_SHORT).show()
+                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),start, end)
+                        } else {
+                            Toast.makeText(requireContext(), "Campos CNPJ em branco", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (ex: Exception){
+                        Toast.makeText(requireContext(), "Erro ao validar datas", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
         btnEndDate.setOnClickListener {
             showDatePicker { selectedDate ->
                 try {
                     if(btnStartDate.text.contains("/")){
-                        val start = dateFormat.parse(btnStartDate.text.toString())
-                        val end = dateFormat.parse(selectedDate)
-                        if (start != null && end != null && start.after(end)) {
+                        val start = LocalDate.parse(btnStartDate.text.toString(), formatter)
+                        val end = LocalDate.parse(selectedDate, formatter)
+                        if (start != null && end != null && start.isAfter(end)) {
                             Toast.makeText(requireContext(), "Data de início deve ser antes da data de fim", Toast.LENGTH_SHORT).show()
                         } else if (edtCnpj.text?.isNotBlank()==true){
                             Toast.makeText(requireContext(), "Campos de data validados, pode gerar", Toast.LENGTH_SHORT).show()
+                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),start, end)
                         } else{
                             Toast.makeText(requireContext(), "Campos CNPJ em branco", Toast.LENGTH_SHORT).show()
                         }
