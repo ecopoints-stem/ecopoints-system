@@ -90,7 +90,7 @@ class PickupResource (
         }
         return ResponseEntity.status(HttpStatus.OK).body(listUpdated)
     }
-    @GetMapping("/driver/{driverId}")
+    @GetMapping("/driver/{driverId}/date")
     fun getByDate(
         @PathVariable driverId: Long,
         @RequestParam("personDate") personDate: LocalDate,
