@@ -4,7 +4,7 @@ import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.cooperative.CooperativeRepository
-import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
+import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -25,7 +25,9 @@ class CooperativeService (
 
     override fun findByCnpj(cnpj: String): Cooperative = cooperativeRepository.findByCnpj(cnpj) ?: throw DomainException("Cooperativa com cnpj $cnpj não encontrado", ExceptionDetailsStatus.INVALID_INPUT)
     override fun findByCnpjWithEmployees(cnpj: String): Cooperative = cooperativeRepository.findByCnpjWithEmployees(cnpj) ?: throw DomainException("Cooperativa com cnpj $cnpj não encontrado", ExceptionDetailsStatus.INVALID_INPUT)
-
+    override fun findByCnpjWithAdministrator(cnpj: String): Cooperative = cooperativeRepository.findByCnpjWithAdministrator(cnpj).orElseThrow {
+        throw DomainException("Cooperativa com cnpj $cnpj não encontrado", ExceptionDetailsStatus.INVALID_INPUT)
+    }
     override fun existsById(id: Long): Boolean = cooperativeRepository.existsById(id)
 
     override fun existsByCpnj(cpnj: String): Boolean = cooperativeRepository.existsByCnpj(cpnj)

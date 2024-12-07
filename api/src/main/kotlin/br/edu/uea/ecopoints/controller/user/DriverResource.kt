@@ -2,7 +2,7 @@ package br.edu.uea.ecopoints.controller.user
 
 import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.dto.user.DriverRegister
-import br.edu.uea.ecopoints.service.user.IDriverService
+import br.edu.uea.ecopoints.service.interf.user.IDriverService
 import br.edu.uea.ecopoints.view.user.DriverView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid

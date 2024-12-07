@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.service.cooperative
+package br.edu.uea.ecopoints.service.interf.cooperative
 
 import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import java.time.LocalDate

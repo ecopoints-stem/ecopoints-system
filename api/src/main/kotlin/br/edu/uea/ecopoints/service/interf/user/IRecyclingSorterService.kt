@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.service.user
+package br.edu.uea.ecopoints.service.interf.user
 
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 

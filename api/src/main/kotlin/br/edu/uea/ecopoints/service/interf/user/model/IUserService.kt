@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.service.user.model
+package br.edu.uea.ecopoints.service.interf.user.model
 
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
 

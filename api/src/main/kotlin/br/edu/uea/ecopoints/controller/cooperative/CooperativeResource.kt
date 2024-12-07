@@ -1,13 +1,11 @@
 package br.edu.uea.ecopoints.controller.cooperative
 
-import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.dto.cooperative.CooperativeRegister
-import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
-import br.edu.uea.ecopoints.service.user.ICoopAdmService
-import br.edu.uea.ecopoints.service.user.IRecyclingSorterService
+import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
+import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
+import br.edu.uea.ecopoints.service.interf.user.IRecyclingSorterService
 import br.edu.uea.ecopoints.view.cooperative.CooperativeView
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

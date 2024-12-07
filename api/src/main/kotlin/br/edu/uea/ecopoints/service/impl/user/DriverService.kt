@@ -4,7 +4,7 @@ import br.edu.uea.ecopoints.domain.user.Driver
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.user.DriverRepository
-import br.edu.uea.ecopoints.service.user.IDriverService
+import br.edu.uea.ecopoints.service.interf.user.IDriverService
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -17,6 +17,9 @@ class DriverService (
     override fun findById(id: Long): Driver = driverRepository.findById(id).orElseThrow {
         throw DomainException("Usuário do tipo Driver com id $id não encontrado", ExceptionDetailsStatus.USER_NOT_FOUND)
     }
+
+    override fun findByEmail(email: String): Driver = driverRepository.findByEmail(email) ?: throw DomainException("Usuário do tipo Driver com email $email não encontrado", ExceptionDetailsStatus.USER_NOT_FOUND)
+
     override fun existsById(id: Long): Boolean = driverRepository.existsById(id)
     override fun deleteById(id: Long) {
         driverRepository.deleteById(id)

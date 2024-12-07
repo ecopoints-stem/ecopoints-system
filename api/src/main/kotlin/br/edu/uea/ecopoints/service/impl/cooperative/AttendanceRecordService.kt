@@ -2,7 +2,7 @@ package br.edu.uea.ecopoints.service.impl.cooperative
 
 import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import br.edu.uea.ecopoints.repository.cooperative.AttendanceRecordRepository
-import br.edu.uea.ecopoints.service.cooperative.IAttendanceRecordService
+import br.edu.uea.ecopoints.service.interf.cooperative.IAttendanceRecordService
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.LocalDate

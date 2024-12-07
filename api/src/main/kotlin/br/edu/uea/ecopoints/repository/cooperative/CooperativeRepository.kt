@@ -20,5 +20,12 @@ interface CooperativeRepository  : JpaRepository<Cooperative, Long>{
         WHERE c.id = :id
     """)
     fun findByCnpjWithEmployeesAndMaterials(@Param("id") id: Long): Optional<Cooperative>
+    @Query("""
+        SELECT c 
+        FROM Cooperative c 
+        LEFT JOIN FETCH c.adm 
+        WHERE c.cnpj = :cnpj
+    """)
+    fun findByCnpjWithAdministrator(@Param("cnpj") cnpj: String): Optional<Cooperative>
     fun existsByCnpj(cnpj: String) : Boolean
 }

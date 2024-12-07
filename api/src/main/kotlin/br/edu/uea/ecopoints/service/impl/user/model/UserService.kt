@@ -4,7 +4,7 @@ import br.edu.uea.ecopoints.domain.user.model.EcoUser
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.user.model.EcoUserRepository
-import br.edu.uea.ecopoints.service.user.model.IUserService
+import br.edu.uea.ecopoints.service.interf.user.model.IUserService
 import jakarta.transaction.Transactional
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service

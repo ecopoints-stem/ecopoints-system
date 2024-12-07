@@ -5,7 +5,7 @@ import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.enums.material.MaterialType
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.cooperative.material.MaterialTypeRepository
-import br.edu.uea.ecopoints.service.cooperative.IMaterialService
+import br.edu.uea.ecopoints.service.interf.cooperative.IMaterialService
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 

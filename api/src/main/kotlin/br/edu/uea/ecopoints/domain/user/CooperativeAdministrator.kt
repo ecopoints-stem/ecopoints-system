@@ -1,6 +1,6 @@
 package br.edu.uea.ecopoints.domain.user
 
-import br.edu.uea.ecopoints.domain.RecyclingPickupRequest
+import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
 import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.model.EcoUser
 import br.edu.uea.ecopoints.enums.user.UserTypeRole.ROLE_ADMINISTRATOR

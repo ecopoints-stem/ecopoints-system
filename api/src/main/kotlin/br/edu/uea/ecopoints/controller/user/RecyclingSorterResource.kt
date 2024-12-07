@@ -5,12 +5,11 @@ import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.dto.cooperative.AttendanceRegister
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
-import br.edu.uea.ecopoints.enums.AttendanceRecordStatus
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
-import br.edu.uea.ecopoints.service.cooperative.IAttendanceRecordService
-import br.edu.uea.ecopoints.service.cooperative.ICooperativeService
-import br.edu.uea.ecopoints.service.user.IRecyclingSorterService
+import br.edu.uea.ecopoints.service.interf.cooperative.IAttendanceRecordService
+import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
+import br.edu.uea.ecopoints.service.interf.user.IRecyclingSorterService
 import br.edu.uea.ecopoints.view.user.RecyclingSorterView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -69,37 +68,6 @@ class RecyclingSorterResource (
 
     @PostMapping("/{id}/attendance")
     fun saveAttendanceRecord(@PathVariable id: Long, @RequestBody info: AttendanceRegister) : ResponseEntity<AttendanceRecord?>{
-        /*val employee = recyclingSorterService.findById(id)
-        val lastAttendance = attendanceRecordService.findLastByEmployeeId(employee.id!!)
-        var attendanceRecord: AttendanceRecord? = null
-        //TODO: Criar coisas aqui
-        if (employee.cooperative==null)
-            throw DomainException("Você não está associado a uma cooperativa para conseguir bater ponto, verifique com Adm",ExceptionDetailsStatus.INVALID_INPUT)
-        if(lastAttendance==null){
-            // Primeiro registro de trabalho do employee nessa cooperativa
-            val _cooperative = cooperativeService.findByCnpjWithEmployees(employeecooperative?.cnpj)
-            attendanceRecord = AttendanceRecord(id=null, pDate = info.personDate ,entryTime = info.entryTime, exitTime = info.exitTime, status = info.status, cooperative = employee.cooperative!! , recyclingSorter = employee)
-            attendanceRecordService.save(attendanceRecord)
-        } else{
-            if(info.personDate.isBefore(lastAttendance.pDate) && lastAttendance.exitTime==null){
-                lastAttendance.status = AttendanceRecordStatus.ABSENT
-                attendanceRecordService.save(lastAttendance)
-                throw DomainException(message = "Você não bateu o horário de saída em ${lastAttendance.pDate}",ExceptionDetailsStatus.INVALID_INPUT)
-            } else if(info.personDate==lastAttendance.pDate){
-                //As datas coincidem, como já tinha um desse com a mesma data só pode ser o registro de saída
-                if(lastAttendance.exitTime==null && info.entryTime==lastAttendance.entryTime && info.exitTime!=null){
-                    lastAttendance.exitTime = info.exitTime
-                    attendanceRecordService.save(lastAttendance)
-                } else {
-                    throw DomainException("Apenas um registro de trabalho por dia, tente novament amanhã", ExceptionDetailsStatus.INVALID_INPUT)
-                }
-            } else{
-                attendanceRecord = attendanceRecordService.save(
-                    AttendanceRecord(id=null, pDate = info.personDate ,entryTime = info.entryTime, exitTime = info.exitTime, status = info.status, cooperative = employee.cooperative!!, recyclingSorter = employee)
-                )
-            }
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceRecord)*/
         return ResponseEntity.status(HttpStatus.CREATED).body(null)
     }
 

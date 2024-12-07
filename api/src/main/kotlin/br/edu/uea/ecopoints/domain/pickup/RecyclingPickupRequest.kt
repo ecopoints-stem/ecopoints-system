@@ -1,10 +1,11 @@
-package br.edu.uea.ecopoints.domain
+package br.edu.uea.ecopoints.domain.pickup
 
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.domain.user.Driver
 import br.edu.uea.ecopoints.enums.PickupRequestStatus
 import br.edu.uea.ecopoints.enums.PickupRequestStatus.IN_PROGRESS
 import br.edu.uea.ecopoints.enums.material.MaterialType
+import br.edu.uea.ecopoints.view.pickup.RecyclingPickupRequestView
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -29,4 +30,16 @@ class RecyclingPickupRequest(
     var driver: Driver? = null,
     @ManyToOne(optional = false) @JoinColumn(name = "requester_id", nullable = false)
     val requester: CooperativeAdministrator
-)
+) {
+    fun toView() : RecyclingPickupRequestView = RecyclingPickupRequestView(
+        id = this.id!!,
+        materialType = this.materialType,
+        quantity = this.quantity,
+        unitPrice = this.unitPrice,
+        address = this.address,
+        requestDate = this.pDate,
+        status = this.status,
+        driverId = this.driver?.id,
+        requesterId = this.requester.id!!
+    )
+}

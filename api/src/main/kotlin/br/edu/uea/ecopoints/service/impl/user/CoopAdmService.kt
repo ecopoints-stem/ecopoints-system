@@ -4,7 +4,7 @@ import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.user.CoopAdmRepository
-import br.edu.uea.ecopoints.service.user.ICoopAdmService
+import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
