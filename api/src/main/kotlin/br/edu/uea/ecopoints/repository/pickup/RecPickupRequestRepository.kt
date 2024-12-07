@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 import java.util.*
 
 @Repository
@@ -55,4 +56,26 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
         WHERE r.requester.id = :requesterId
     """)
     fun countByRequesterId(@Param("requesterId") requesterId: Long): Long
+    @Query("""
+        SELECT r
+        FROM RecyclingPickupRequest r
+        LEFT JOIN FETCH r.driver d
+        JOIN FETCH r.requester a
+        WHERE r.pDate = :spcDate AND d.id = :driverId
+    """)
+    fun findAllByDateAndDriverIdWithDriverAndRequester(
+        @Param("spcDate") spcDate: LocalDate,
+        @Param("driverId") driverId: Long
+    ) : List<RecyclingPickupRequest>
+
+    @Query("""
+        SELECT COUNT(r)
+        FROM RecyclingPickupRequest r
+        LEFT JOIN r.driver d
+        WHERE r.pDate = :spcDate AND d.id = :driverId
+    """)
+    fun countByDateAndDriverId(
+        @Param("spcDate") spcDate: LocalDate,
+        @Param("driverId") driverId: Long
+    ): Long
 }

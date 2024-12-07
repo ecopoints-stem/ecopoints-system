@@ -19,14 +19,14 @@ class RecyclingPickupRequest(
     @Column(nullable = false)
     val quantity: Double,
     @Column(nullable = false, scale = 3, precision = 10)
-    val unitPrice: BigDecimal,
+    var unitPrice: BigDecimal,
     @Column(nullable = false, length = 120)
     val address: String,
     @Column(nullable = false)
-    val pDate: LocalDate,
+    var pDate: LocalDate,
     @Column(nullable = false) @Enumerated(EnumType.STRING)
     var status: PickupRequestStatus = IN_PROGRESS,
-    @ManyToOne(optional = true) @JoinColumn(name = "driver_id", nullable = true)
+    @ManyToOne(optional = true, cascade = [CascadeType.MERGE]) @JoinColumn(name = "driver_id", nullable = true)
     var driver: Driver? = null,
     @ManyToOne(optional = false) @JoinColumn(name = "requester_id", nullable = false)
     val requester: CooperativeAdministrator

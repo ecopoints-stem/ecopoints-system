@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class PickupRequestService (
@@ -35,6 +36,18 @@ class PickupRequestService (
         val pageable = PageRequest.of(page, size)
         val requests = repo.findAllByRequesterIdWithDriverAndRequester(requesterId)
         val total = repo.countByRequesterId(requesterId)
+        return PageImpl(requests, pageable, total)
+    }
+
+    override fun findAllByDateAndDriverId(
+        pkDate: LocalDate,
+        driverId: Long,
+        page: Int,
+        size: Int
+    ): Page<RecyclingPickupRequest> {
+        val pageable = PageRequest.of(page, size)
+        val requests = repo.findAllByDateAndDriverIdWithDriverAndRequester(pkDate, driverId)
+        val total = repo.countByDateAndDriverId(pkDate, driverId)
         return PageImpl(requests, pageable, total)
     }
 
