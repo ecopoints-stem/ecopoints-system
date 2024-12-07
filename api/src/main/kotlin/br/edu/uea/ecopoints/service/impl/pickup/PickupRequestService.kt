@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.service.impl
+package br.edu.uea.ecopoints.service.impl.pickup
 
 import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus

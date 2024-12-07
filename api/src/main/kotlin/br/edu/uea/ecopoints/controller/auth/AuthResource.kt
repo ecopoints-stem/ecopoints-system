@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.controller
+package br.edu.uea.ecopoints.controller.auth
 
 import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.config.security.authentication.request.LoginRequest
