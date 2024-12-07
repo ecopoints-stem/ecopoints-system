@@ -10,12 +10,10 @@ import br.edu.uea.ecopoints.service.interf.user.IDriverService
 import br.edu.uea.ecopoints.view.pickup.RecyclingPickupRequestView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/pickup")
@@ -43,5 +41,30 @@ class PickupResource (
         val pickUpId = pickUpService.save(pickUp).id ?: -1
         val pickUpSaved = pickUpService.findByIdWithDriverAndRequester(pickUpId)
         return ResponseEntity.status(HttpStatus.CREATED).body(pickUpSaved.toView())
+    }
+
+    @GetMapping("/driver/{driverId}")
+    fun getRequestsByDriverId(
+        @PathVariable driverId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<RecyclingPickupRequestView> {
+        return pickUpService.findAllByDriverId(driverId, page, size).map { pickup -> pickup.toView() }
+    }
+
+    @GetMapping("/requester/{requesterId}")
+    fun getRequestsByRequesterId(
+        @PathVariable requesterId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<RecyclingPickupRequestView> {
+        return pickUpService.findAllByRequesterId(requesterId, page, size).map { pickup -> pickup.toView() }
+    }
+    @PostMapping("/{id}/status")
+    fun updatePickUpRequestStatus(@PathVariable id: Long, @RequestParam("newStatus") newStatus: PickupRequestStatus) : ResponseEntity<RecyclingPickupRequestView>{
+        val pickup = pickUpService.findById(id)
+        pickup.status = newStatus
+        val pickupUpdated = pickUpService.save(pickup)
+        return ResponseEntity.status(HttpStatus.OK).body(pickupUpdated.toView())
     }
 }

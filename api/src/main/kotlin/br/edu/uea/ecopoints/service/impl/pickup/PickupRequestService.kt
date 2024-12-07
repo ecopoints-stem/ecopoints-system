@@ -5,6 +5,9 @@ import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.pickup.RecPickupRequestRepository
 import br.edu.uea.ecopoints.service.interf.pickup.IPickupRequestService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,6 +22,20 @@ class PickupRequestService (
 
     override fun findByIdWithDriverAndRequester(id: Long): RecyclingPickupRequest = repo.findByIdWithDriverAndRequester(id).orElseThrow{
         throw DomainException(message = "Pedido de requisição com id $id não encontrado", type = ExceptionDetailsStatus.INVALID_INPUT)
+    }
+
+    override fun findAllByDriverId(driverId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
+        val pageable = PageRequest.of(page, size)
+        val requests = repo.findAllByDriverIdWithDriverAndRequester(driverId)
+        val total = repo.countByDriverId(driverId)
+        return PageImpl(requests, pageable, total)
+    }
+
+    override fun findAllByRequesterId(requesterId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
+        val pageable = PageRequest.of(page, size)
+        val requests = repo.findAllByRequesterIdWithDriverAndRequester(requesterId)
+        val total = repo.countByRequesterId(requesterId)
+        return PageImpl(requests, pageable, total)
     }
 
     override fun existsById(id: Long): Boolean = repo.existsById(id)
