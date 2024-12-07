@@ -17,6 +17,6 @@ data class RecyclingPickupRequestRegister(
     @field:NotNull val address: String,
     @field:NotNull val materialType: MaterialType,
     @field:NotNull val quantity: Double,
-    @field:NotNull @field:Digits(integer = 7, fraction = 2) val unitPrice: BigDecimal,
+    @field:NotNull @field:Digits(integer = 10, fraction = 3) val unitPrice: BigDecimal,
     @field:NotNull @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy") val requestDate : LocalDate
 )

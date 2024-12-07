@@ -18,7 +18,7 @@ class RecyclingPickupRequest(
     val materialType: MaterialType,
     @Column(nullable = false)
     val quantity: Double,
-    @Column(nullable = false, scale = 7, precision = 2)
+    @Column(nullable = false, scale = 3, precision = 10)
     val unitPrice: BigDecimal,
     @Column(nullable = false, length = 120)
     val address: String,
