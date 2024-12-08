@@ -22,6 +22,7 @@ hiltVersion = "2.48"
 workVersion = "2.8.1"
 glide = "4.14.2"
 ksp = "1.9.0-1.0.13"
+paging = "3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +30,7 @@ androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:na
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpandroidchart" }
 retrofit = {group="com.squareup.retrofit2", name="retrofit", version.ref="retrofitVersion"}
+paging = {group="androidx.paging", name="paging-runtime-ktx", version.ref="paging"}
 hilt-android = {group="com.google.dagger", name="hilt-android", version.ref="hiltVersion"}
 hilt-android-compiler = {group="com.google.dagger", name="hilt-android-compiler", version.ref="hiltVersion"}
 hilt-work = {group="androidx.hilt", name="hilt-work", version="1.0.0"}

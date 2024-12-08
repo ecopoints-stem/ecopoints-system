@@ -26,8 +26,9 @@ class ClientFragment :  Fragment() {
 
     private lateinit var btnStartDate: MaterialButton
     private lateinit var btnEndDate: MaterialButton
+    private lateinit var btnGenerate: MaterialButton
     private lateinit var edtCnpj : TextInputEditText
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    private val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     private val clientViewModel: ClientViewModel by viewModels()
 
     override fun onCreateView(
@@ -53,7 +54,6 @@ class ClientFragment :  Fragment() {
                             Toast.makeText(requireContext(), "Data de início deve ser antes da data de fim", Toast.LENGTH_SHORT).show()
                         } else if(edtCnpj.text?.isNotBlank()==true){
                             Toast.makeText(requireContext(), "Campos de data validados, pode gerar", Toast.LENGTH_SHORT).show()
-                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),start, end)
                         } else {
                             Toast.makeText(requireContext(), "Campos CNPJ em branco", Toast.LENGTH_SHORT).show()
                         }
@@ -73,7 +73,6 @@ class ClientFragment :  Fragment() {
                             Toast.makeText(requireContext(), "Data de início deve ser antes da data de fim", Toast.LENGTH_SHORT).show()
                         } else if (edtCnpj.text?.isNotBlank()==true){
                             Toast.makeText(requireContext(), "Campos de data validados, pode gerar", Toast.LENGTH_SHORT).show()
-                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),start, end)
                         } else{
                             Toast.makeText(requireContext(), "Campos CNPJ em branco", Toast.LENGTH_SHORT).show()
                         }
@@ -86,12 +85,35 @@ class ClientFragment :  Fragment() {
                 btnEndDate.text = selectedDate
             }
         }
+        btnGenerate.setOnClickListener {
+            try {
+                if(edtCnpj.text?.isNotBlank()==true){
+                    if(btnStartDate.text!!.contains("/") && btnEndDate.text!!.contains("/")){
+                        val startDate = LocalDate.parse(btnStartDate.text.toString(),formatter)
+                        val endDate = LocalDate.parse(btnEndDate.text.toString(),formatter)
+                        if(startDate.isAfter(endDate)){
+                            Toast.makeText(requireContext(),"Intervalo entre datas inválido, favor verificar novamente",Toast.LENGTH_SHORT).show()
+                        } else{
+                            Toast.makeText(requireContext(),"Campos validados, gerar documento excel", Toast.LENGTH_SHORT).show()
+                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),startDate, endDate)
+                        }
+                    } else {
+                        Toast.makeText(requireContext(),"Campos de data de início ou término não preenchidos",Toast.LENGTH_SHORT).show()
+                    }
+                } else{
+                    Toast.makeText(requireContext(),"CNPJ é campo obrigatório", Toast.LENGTH_SHORT).show()
+                }
+            } catch (ex: Exception){
+                Toast.makeText(requireContext(), "Erro ao validar datas", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupView() {
         btnStartDate = binding.btnStartDate
         btnEndDate = binding.btnEndDate
         edtCnpj = binding.edtCnpj
+        btnGenerate = binding.btnGenerate
     }
 
     private fun showDatePicker(onDateSelected: (String) -> Unit) {

@@ -4,6 +4,7 @@ import br.edu.uea.ecopoints.domain.entity.CoopAdmin
 import br.edu.uea.ecopoints.domain.entity.Driver
 import br.edu.uea.ecopoints.domain.entity.Employee
 import br.edu.uea.ecopoints.domain.entity.Material
+import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
 import br.edu.uea.ecopoints.domain.entity.model.UserApp
 import br.edu.uea.ecopoints.domain.network.request.AdminRegister
@@ -13,11 +14,13 @@ import br.edu.uea.ecopoints.domain.network.request.DriverRegister
 import br.edu.uea.ecopoints.domain.network.request.EmployeeRegister
 import br.edu.uea.ecopoints.domain.network.request.MaterialRegister
 import br.edu.uea.ecopoints.domain.network.request.MessageEmailSendNewPassword
+import br.edu.uea.ecopoints.domain.network.request.PickUpRegister
 import br.edu.uea.ecopoints.domain.network.request.ResetPasswordRequest
 import br.edu.uea.ecopoints.domain.network.request.UserLogin
 import br.edu.uea.ecopoints.domain.network.response.AttendanceRecord
 import br.edu.uea.ecopoints.domain.network.response.UserId
 import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
+import br.edu.uea.ecopoints.domain.network.response.page.PageResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,6 +28,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.time.LocalDate
 
 interface EcoApi {
     // Rotas para /auth
@@ -60,4 +64,27 @@ interface EcoApi {
     suspend fun addNewMaterialForCooperative(@Path("id") id: Long,@Body material: Material) : Response<List<Material>>
     @PATCH("/admin")
     suspend fun updateAdmin(@Query("adminId") adminId: Long, @Body adminUpdate: AdminUpdate) : Response<CoopAdmin>
+
+    // Rotas para /pickup
+    @POST("/pickup")
+    suspend fun createPickUpRequest(@Body pickup: PickUpRegister) : Response<PickUpRequest>
+    @GET("/pickup/requester/{requesterId}")
+    suspend fun getAllRequestsByRequesterId(
+        @Path("requesterId") requesterId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PageResponse<PickUpRequest>>
+    @GET("/pickup/{driverId}")
+    suspend fun getAllRequestsByDriverId(
+        @Path("driverId") driverId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PageResponse<PickUpRequest>>
+    @GET("/pickup/driver/{driverId}/date")
+    suspend fun getAllRequestsByDateAndDriverId(
+        @Path("driverId") driverId: Long,
+        @Query("personDate") personDate: LocalDate,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PageResponse<PickUpRequest>>
 }
