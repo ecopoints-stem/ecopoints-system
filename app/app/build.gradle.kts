@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.retrofit)
     implementation(libs.paging)
+    implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.logging.interceptor)
     implementation(libs.jackson)
     implementation(libs.jackson.annotations)

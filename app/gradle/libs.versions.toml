@@ -23,6 +23,7 @@ workVersion = "2.8.1"
 glide = "4.14.2"
 ksp = "1.9.0-1.0.13"
 paging = "3.3.0"
+swipe = "1.2.0-alpha01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +48,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swipe" }
 navigation-fragment-ktx={group="androidx.navigation", name="navigation-fragment-ktx", version.ref="navigation"}
 navigation-fragment-ui-ktx={group="androidx.navigation", name="navigation-ui-ktx", version.ref="navigation"}
 room-runtime={group="androidx.room", name="room-runtime", version.ref="room"}
