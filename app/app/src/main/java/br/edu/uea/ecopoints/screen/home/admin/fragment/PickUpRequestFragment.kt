@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Spinner
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +16,10 @@ import br.edu.uea.ecopoints.databinding.FragmentPickUpRequestBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.screen.home.admin.fragment.recyclerview.PickUpAdapter
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.PickUpRequestViewModel
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +31,23 @@ class PickUpRequestFragment : Fragment() {
     private val adapter = PickUpAdapter()
     private val pickupViewModel: PickUpRequestViewModel by viewModels()
     private lateinit var rc: RecyclerView
+    private lateinit var btnAddPickUpRequest: FloatingActionButton
+
+    //Propriedades da segunda tela
+    private lateinit var edtCnpj: TextInputEditText
+    private lateinit var tilCnpj: TextInputLayout
+    private lateinit var edtEmailDriver: TextInputEditText
+    private lateinit var tilEmailDriver: TextInputLayout
+    private lateinit var edtPickUpAddress: TextInputEditText
+    private lateinit var tilPickUpAddress: TextInputLayout
+    private lateinit var spinnerMaterialType: Spinner
+    private lateinit var edtQuantity: TextInputEditText
+    private lateinit var tilQuantity: TextInputLayout
+    private lateinit var edtUnitPrice: TextInputEditText
+    private lateinit var tilUnitPrice: TextInputLayout
+    private lateinit var btnDateCollect: MaterialButton
+    private lateinit var btnSave: MaterialButton
+    private lateinit var btnCancel: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +57,7 @@ class PickUpRequestFragment : Fragment() {
         _binding = FragmentPickUpRequestBinding.inflate(inflater,container,false)
         setupView()
         setupListeners()
+        activateFirstScreen()
         return binding.root
     }
 
@@ -49,11 +73,64 @@ class PickUpRequestFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        btnAddPickUpRequest.setOnClickListener{
+            activateSecondScreen()
+        }
+        btnCancel.setOnClickListener {
+            activateFirstScreen()
+        }
+    }
 
+    private fun activateFirstScreen() {
+        //Desativa segunda tela e ativa primeira tela
+        tilCnpj.isVisible = false
+        tilEmailDriver.isVisible = false
+        tilPickUpAddress.isVisible = false
+        tilQuantity.isVisible = false
+        tilUnitPrice.isVisible = false
+        btnDateCollect.isVisible = false
+        btnSave.isVisible = false
+        btnCancel.isVisible = false
+        spinnerMaterialType.isVisible = false
+
+        rc.isVisible = true
+        btnAddPickUpRequest.isVisible = true
+    }
+
+    private fun activateSecondScreen() {
+        //Desativa primeira tela e ativa segunda tela
+        rc.isVisible = false
+        btnAddPickUpRequest.isVisible = false
+
+        tilCnpj.isVisible = true
+        tilEmailDriver.isVisible = true
+        tilPickUpAddress.isVisible = true
+        tilQuantity.isVisible = true
+        tilUnitPrice.isVisible = true
+        btnDateCollect.isVisible = true
+        spinnerMaterialType.isVisible = true
+        btnSave.isVisible = true
+        btnCancel.isVisible = true
     }
 
     private fun setupView() {
         rc = binding.rvPickupItems
+        btnAddPickUpRequest = binding.fabAdd
+        //Segunda tela
+        edtCnpj = binding.edtCnpj
+        tilCnpj = binding.tilCnpj
+        edtEmailDriver = binding.edtEmailDriver
+        tilEmailDriver = binding.tilEmailDriver
+        edtPickUpAddress = binding.edtPickUpAddress
+        tilPickUpAddress = binding.tilPickUpAddress
+        spinnerMaterialType = binding.spMaterialType
+        edtQuantity = binding.edtQuantity
+        tilQuantity = binding.tilQuantity
+        edtUnitPrice = binding.edtUnitPrice
+        tilUnitPrice = binding.tilUnitPrice
+        btnDateCollect = binding.btnDateCollect
+        btnSave = binding.btnSave
+        btnCancel = binding.btnCancel
     }
 
     override fun onDestroyView() {
