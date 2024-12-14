@@ -1,8 +1,10 @@
 package br.edu.uea.ecopoints.config.email.service
 
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.core.io.ByteArrayResource
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,5 +29,16 @@ class EmailService (
         resetPasswordMessage.text=text!!.format(name,password)
         resetPasswordMessage.setTo(targetEmail)
         emailSender.send(resetPasswordMessage)
+    }
+
+    fun sendExcelReport(targetEmail: String, subject: String, body: String, attachment: ByteArray, filename: String) {
+        val message = emailSender.createMimeMessage()
+
+        val helper = MimeMessageHelper(message, true)
+        helper.setTo(targetEmail)
+        helper.setSubject(subject)
+        helper.setText(body)
+        helper.addAttachment(filename, ByteArrayResource(attachment))
+        emailSender.send(message)
     }
 }

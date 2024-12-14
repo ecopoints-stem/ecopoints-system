@@ -18,10 +18,10 @@ class CooperativeAdministrator (
     var securityQuestion: String? = null,
     @Column(nullable = true, length = 60)
     var securityResponse: String? = null,
-    @OneToOne(mappedBy = "adm", fetch = FetchType.LAZY, optional = true, cascade =[CascadeType.PERSIST, CascadeType.MERGE])
+    @OneToOne(mappedBy = "adm", fetch = FetchType.EAGER, optional = true, cascade =[CascadeType.PERSIST, CascadeType.MERGE]) // ERA LAZY, modifiquei
     var cooperative: Cooperative? = null,
     @OneToMany(
-        fetch = FetchType.LAZY,
+        fetch = FetchType.EAGER, // AQUI ERA LAZY, modifiquei
         mappedBy = "requester",
         cascade = [CascadeType.PERSIST,
             CascadeType.REMOVE]

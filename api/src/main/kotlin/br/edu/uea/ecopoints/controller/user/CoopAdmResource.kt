@@ -7,6 +7,7 @@ import br.edu.uea.ecopoints.dto.user.AdminUpdate
 import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
 import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.cooperative.IMaterialService
+import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
 import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
 import br.edu.uea.ecopoints.view.user.CoopAdmView
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -27,7 +28,8 @@ class CoopAdmResource (
     private val cooperativeService: ICooperativeService,
     private val materialService: IMaterialService,
     private val encoder: PasswordEncoder,
-    private val emailService: EmailService
+    private val emailService: EmailService,
+    private val reportService: IReportService,
 ){
     @PostMapping
     @Transactional
@@ -56,6 +58,17 @@ class CoopAdmResource (
             }
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(coopAdmSaved?.toAView())
+    }
+
+    @GetMapping("/{id}/excel")
+    @Transactional
+    fun getReportExcel(@PathVariable id: Long) : ResponseEntity<String>{
+        val adm = coopAdmService.findById(id)
+
+            val excel: ByteArray = reportService.generateAdminReport(adm)
+            emailService.sendExcelReport(adm.email,"","",excel,"relatorio.xlsx")
+
+        return ResponseEntity.status(HttpStatus.OK).body("OK")
     }
 
     @GetMapping("/{id}")
