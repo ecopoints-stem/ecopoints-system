@@ -74,7 +74,7 @@ interface EcoApi {
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<PickUpRequest>>
-    @GET("/pickup/{driverId}")
+    @GET("/pickup/driver/{driverId}")
     suspend fun getAllRequestsByDriverId(
         @Path("driverId") driverId: Long,
         @Query("page") page: Int,
@@ -83,7 +83,7 @@ interface EcoApi {
     @GET("/pickup/driver/{driverId}/date")
     suspend fun getAllRequestsByDateAndDriverId(
         @Path("driverId") driverId: Long,
-        @Query("personDate") personDate: LocalDate,
+        @Query("personDate") personDate: String,
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<PickUpRequest>>

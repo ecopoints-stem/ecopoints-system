@@ -1,4 +1,4 @@
-package br.edu.uea.ecopoints.screen.home.admin.fragment.adapter
+package br.edu.uea.ecopoints.screen.home.admin.fragment.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
