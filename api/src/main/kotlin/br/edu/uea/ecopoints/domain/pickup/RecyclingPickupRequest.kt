@@ -23,7 +23,7 @@ class RecyclingPickupRequest(
     @Column(nullable = false, length = 120)
     val address: String,
     @Column(nullable = false)
-    var pDate: LocalDate,
+    var pickDate: LocalDate,
     @Column(nullable = false) @Enumerated(EnumType.STRING)
     var status: PickupRequestStatus = IN_PROGRESS,
     @ManyToOne(optional = true, cascade = [CascadeType.MERGE]) @JoinColumn(name = "driver_id", nullable = true)
@@ -37,7 +37,7 @@ class RecyclingPickupRequest(
         quantity = this.quantity,
         unitPrice = this.unitPrice,
         address = this.address,
-        requestDate = this.pDate,
+        requestDate = this.pickDate,
         status = this.status,
         driverId = this.driver?.id,
         requesterId = this.requester.id!!

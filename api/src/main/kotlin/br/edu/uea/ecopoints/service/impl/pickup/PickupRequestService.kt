@@ -8,6 +8,7 @@ import br.edu.uea.ecopoints.service.interf.pickup.IPickupRequestService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -24,6 +25,15 @@ class PickupRequestService (
     override fun findByIdWithDriverAndRequester(id: Long): RecyclingPickupRequest = repo.findByIdWithDriverAndRequester(id).orElseThrow{
         throw DomainException(message = "Pedido de requisição com id $id não encontrado", type = ExceptionDetailsStatus.INVALID_INPUT)
     }
+
+    override fun findAllByDateAndDriverId(
+        pickDate: LocalDate,
+        driverId: Long,
+        pageable: Pageable
+    ): Page<RecyclingPickupRequest> = repo.findAllByPickDateAndDriver_Id(pickDate, driverId, pageable)
+
+    override fun findAllByRequesterId(requesterId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByRequester_IdOrderByPickDateDesc(requesterId, pageable)
+    override fun findAllByDriverId(driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdOrderByPickDateDesc(driverId, pageable)
 
     /*override fun findAllByDriverId(driverId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
         val pageable = PageRequest.of(page, size)

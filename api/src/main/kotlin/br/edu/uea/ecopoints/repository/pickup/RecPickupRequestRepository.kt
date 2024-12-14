@@ -1,6 +1,7 @@
 package br.edu.uea.ecopoints.repository.pickup
 
 import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -19,6 +20,9 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
         WHERE r.id = :id
     """)
     fun findByIdWithDriverAndRequester(@Param("id") id: Long): Optional<RecyclingPickupRequest>
+    fun findAllByPickDateAndDriver_Id(pickDate: LocalDate, driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest>
+    fun findAllByRequester_IdOrderByPickDateDesc(requesterId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
+    fun findAllByDriver_IdOrderByPickDateDesc(driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     /*@Query("""
         SELECT r 
         FROM RecyclingPickupRequest r 
@@ -78,4 +82,16 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
         @Param("spcDate") spcDate: LocalDate,
         @Param("driverId") driverId: Long
     ): Long*/
+
+
+    /*
+    * OLHA ESSE EXEMPLO
+    * public interface UserRepository extends JpaRepository<User, Long> {
+
+  @NativeQuery(value = "SELECT * FROM USERS WHERE LASTNAME = ?1",
+    countQuery = "SELECT count(*) FROM USERS WHERE LASTNAME = ?1")
+  Page<User> findByLastname(String lastname, Pageable pageable);
+}
+    *
+    * */
 }

@@ -11,12 +11,15 @@ import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
 import br.edu.uea.ecopoints.service.interf.user.IDriverService
 import br.edu.uea.ecopoints.view.pickup.RecyclingPickupRequestView
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RestController
 @RequestMapping("/pickup")
@@ -36,7 +39,7 @@ class PickupResource (
         val pickUp = RecyclingPickupRequest(
             id = null, materialType = dto.materialType,
             quantity = dto.quantity, unitPrice = dto.unitPrice,
-            address = dto.address, pDate = dto.requestDate,
+            address = dto.address, pickDate = dto.requestDate,
             status = PickupRequestStatus.IN_PROGRESS,
             driver = driver, requester = adminRequester
         )
@@ -44,6 +47,27 @@ class PickupResource (
         val pickUpId = pickUpService.save(pickUp).id ?: -1
         val pickUpSaved = pickUpService.findByIdWithDriverAndRequester(pickUpId)
         return ResponseEntity.status(HttpStatus.CREATED).body(pickUpSaved.toView())
+    }
+    @GetMapping("/requester/{requesterId}")
+    @Transactional
+    fun getRequestByRequesterId(
+        @PathVariable requesterId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<RecyclingPickupRequestView> {
+        val pageable = PageRequest.of(page, size)
+        return pickUpService.findAllByRequesterId(requesterId, pageable).map { pick -> pick.toView()}
+    }
+
+    @GetMapping("/driver/{driverId}")
+    @Transactional
+    fun getRequestByDriverId(
+        @PathVariable driverId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<RecyclingPickupRequestView> {
+        val pageable = PageRequest.of(page, size)
+        return pickUpService.findAllByDriverId(driverId, pageable).map { pick -> pick.toView()}
     }
 
     /*@GetMapping("/driver/{driverId}")
@@ -84,19 +108,23 @@ class PickupResource (
             }
             pickup.status = item.status
             pickup.unitPrice = item.unitPrice
-            pickup.pDate = item.requestDate
+            pickup.pickDate = item.requestDate
             val pickupUpdated = pickUpService.save(pickup)
             listUpdated.add(pickupUpdated.toView())
         }
         return ResponseEntity.status(HttpStatus.OK).body(listUpdated)
     }
-    /*@GetMapping("/driver/{driverId}/date")
-    fun getByDate(
+    @GetMapping("/driver/{driverId}/date")
+    @Transactional
+    fun getRequestsDriverByDate(
         @PathVariable driverId: Long,
-        @RequestParam("personDate") personDate: LocalDate,
+        @RequestParam("pickDate") pickDate: String,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "5") size: Int
     ) : Page<RecyclingPickupRequestView>{
-        return pickUpService.findAllByDateAndDriverId(personDate, driverId, page, size).map { r -> r.toView() }
-    }*/
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val dPickDate = LocalDate.parse(pickDate, formatter)
+        val pageable = PageRequest.of(page, size)
+        return pickUpService.findAllByDateAndDriverId(dPickDate,driverId,pageable).map{pick -> pick.toView()}
+    }
 }
