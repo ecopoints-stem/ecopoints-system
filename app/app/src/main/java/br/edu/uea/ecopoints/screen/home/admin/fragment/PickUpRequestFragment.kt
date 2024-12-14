@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.FragmentPickUpRequestBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
@@ -47,6 +48,7 @@ class PickUpRequestFragment : Fragment() {
     private val homeViewModel: HomeAdminViewModel by activityViewModels()
     private lateinit var rc: RecyclerView
     private lateinit var btnAddPickUpRequest: FloatingActionButton
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     //Propriedades da segunda tela
     private lateinit var edtCnpj: TextInputEditText
@@ -97,6 +99,10 @@ class PickUpRequestFragment : Fragment() {
             } else{
                 homeViewModel.state.value = HomeState.Success("Deu certo")
             }
+        }
+        swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+            swipeRefreshLayout.isRefreshing = false
         }
     }
 
@@ -151,12 +157,14 @@ class PickUpRequestFragment : Fragment() {
 
         rc.isVisible = true
         btnAddPickUpRequest.isVisible = true
+        swipeRefreshLayout.isVisible = true
     }
 
     private fun activateSecondScreen() {
         //Desativa primeira tela e ativa segunda tela
         rc.isVisible = false
         btnAddPickUpRequest.isVisible = false
+        swipeRefreshLayout.isVisible = false
 
         tilCnpj.isVisible = true
         tilEmailDriver.isVisible = true
@@ -172,6 +180,7 @@ class PickUpRequestFragment : Fragment() {
     private fun setupView() {
         rc = binding.rvPickupItems
         btnAddPickUpRequest = binding.fabAdd
+        swipeRefreshLayout = binding.swpItems
         //Segunda tela
         edtCnpj = binding.edtCnpj
         tilCnpj = binding.tilCnpj
