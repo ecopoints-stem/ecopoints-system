@@ -9,12 +9,15 @@ import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.PickupItemBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType.*
+import br.edu.uea.ecopoints.util.formatedPersonDate
+import br.edu.uea.ecopoints.util.toMaterialString
+import br.edu.uea.ecopoints.util.toStatusString
 
 class PickUpAdapter : PagingDataAdapter<PickUpRequest,PickUpAdapter.PickUpViewHolder>(PickUpDiffCallback()) {
 
     override fun onBindViewHolder(holder: PickUpViewHolder, position: Int) {
         val pickup = getItem(position)
-        holder.materialType.text = pickup?.materialType.toString()
+        holder.materialType.text = pickup?.materialType?.toMaterialString()
         holder.materialIcon.setImageResource(
             when(pickup?.materialType){
                 PLASTICS -> R.drawable.plastics
@@ -27,9 +30,9 @@ class PickUpAdapter : PagingDataAdapter<PickUpRequest,PickUpAdapter.PickUpViewHo
             }
         )
         holder.kg.text = pickup?.quantity.toString()
-        holder.personDate.text = pickup?.requestDate.toString()
+        holder.personDate.text = pickup?.requestDate?.formatedPersonDate()
         holder.address.text = pickup?.address
-        holder.status.text = pickup?.status.toString()
+        holder.status.text = pickup?.status?.toStatusString()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PickUpViewHolder {
