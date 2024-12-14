@@ -46,7 +46,7 @@ class PickupResource (
         return ResponseEntity.status(HttpStatus.CREATED).body(pickUpSaved.toView())
     }
 
-    @GetMapping("/driver/{driverId}")
+    /*@GetMapping("/driver/{driverId}")
     fun getRequestsByDriverId(
         @PathVariable driverId: Long,
         @RequestParam(defaultValue = "0") page: Int,
@@ -62,7 +62,7 @@ class PickupResource (
         @RequestParam(defaultValue = "5") size: Int
     ) : Page<RecyclingPickupRequestView> {
         return pickUpService.findAllByRequesterId(requesterId, page, size).map { pickup -> pickup.toView() }
-    }
+    }*/
     @PostMapping("/{id}/status")
     fun updatePickUpRequestStatus(@PathVariable id: Long, @RequestParam("newStatus") newStatus: PickupRequestStatus) : ResponseEntity<RecyclingPickupRequestView>{
         val pickup = pickUpService.findById(id)
@@ -90,7 +90,7 @@ class PickupResource (
         }
         return ResponseEntity.status(HttpStatus.OK).body(listUpdated)
     }
-    @GetMapping("/driver/{driverId}/date")
+    /*@GetMapping("/driver/{driverId}/date")
     fun getByDate(
         @PathVariable driverId: Long,
         @RequestParam("personDate") personDate: LocalDate,
@@ -98,5 +98,5 @@ class PickupResource (
         @RequestParam(defaultValue = "5") size: Int
     ) : Page<RecyclingPickupRequestView>{
         return pickUpService.findAllByDateAndDriverId(personDate, driverId, page, size).map { r -> r.toView() }
-    }
+    }*/
 }

@@ -8,9 +8,9 @@ interface IPickupRequestService {
     fun save(pick: RecyclingPickupRequest) : RecyclingPickupRequest
     fun findById(id: Long) : RecyclingPickupRequest
     fun findByIdWithDriverAndRequester(id: Long) : RecyclingPickupRequest
-    fun findAllByDriverId(driverId: Long, page: Int, size: Int) : Page<RecyclingPickupRequest>
+    /*fun findAllByDriverId(driverId: Long, page: Int, size: Int) : Page<RecyclingPickupRequest>
     fun findAllByRequesterId(requesterId: Long, page: Int, size: Int) : Page<RecyclingPickupRequest>
-    fun findAllByDateAndDriverId(pkDate: LocalDate, driverId: Long, page: Int, size: Int) : Page<RecyclingPickupRequest>
+    fun findAllByDateAndDriverId(pkDate: LocalDate, driverId: Long, page: Int, size: Int) : Page<RecyclingPickupRequest>*/
     fun existsById(id: Long) : Boolean
     fun deleteById(id: Long)
 }

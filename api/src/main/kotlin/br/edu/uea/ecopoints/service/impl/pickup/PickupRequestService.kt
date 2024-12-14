@@ -25,7 +25,7 @@ class PickupRequestService (
         throw DomainException(message = "Pedido de requisição com id $id não encontrado", type = ExceptionDetailsStatus.INVALID_INPUT)
     }
 
-    override fun findAllByDriverId(driverId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
+    /*override fun findAllByDriverId(driverId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
         val pageable = PageRequest.of(page, size)
         val requests = repo.findAllByDriverIdWithDriverAndRequester(driverId)
         val total = repo.countByDriverId(driverId)
@@ -49,7 +49,7 @@ class PickupRequestService (
         val requests = repo.findAllByDateAndDriverIdWithDriverAndRequester(pkDate, driverId)
         val total = repo.countByDateAndDriverId(pkDate, driverId)
         return PageImpl(requests, pageable, total)
-    }
+    }*/
 
     override fun existsById(id: Long): Boolean = repo.existsById(id)
 

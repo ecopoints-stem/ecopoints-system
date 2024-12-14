@@ -19,7 +19,7 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
         WHERE r.id = :id
     """)
     fun findByIdWithDriverAndRequester(@Param("id") id: Long): Optional<RecyclingPickupRequest>
-    @Query("""
+    /*@Query("""
         SELECT r 
         FROM RecyclingPickupRequest r 
         LEFT JOIN FETCH r.driver d 
@@ -77,5 +77,5 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
     fun countByDateAndDriverId(
         @Param("spcDate") spcDate: LocalDate,
         @Param("driverId") driverId: Long
-    ): Long
+    ): Long*/
 }
