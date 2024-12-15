@@ -7,7 +7,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 data class AttendanceRecordRegister(
-    @JsonProperty("personDate") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") val personDate: LocalDate,
+    @JsonProperty("personDate") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy") val personDate: LocalDate,
     @JsonProperty("entryTime") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss") val entryTime: LocalTime,
     @JsonProperty("exitTime") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss") val exitTime: LocalTime? = null,
     @JsonProperty("status") val status: AttendanceRecordStatus,
