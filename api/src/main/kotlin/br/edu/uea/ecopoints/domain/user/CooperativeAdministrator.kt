@@ -18,13 +18,16 @@ class CooperativeAdministrator (
     var securityQuestion: String? = null,
     @Column(nullable = true, length = 60)
     var securityResponse: String? = null,
-    @OneToOne(mappedBy = "adm", fetch = FetchType.EAGER, optional = true, cascade =[CascadeType.PERSIST, CascadeType.MERGE]) // ERA LAZY, modifiquei
-    var cooperative: Cooperative? = null,
+    @OneToOne(
+        mappedBy = "adm",
+        fetch = FetchType.LAZY,
+        optional = true,
+        cascade =[CascadeType.PERSIST, CascadeType.MERGE]
+    ) var cooperative: Cooperative? = null,
     @OneToMany(
-        fetch = FetchType.EAGER, // AQUI ERA LAZY, modifiquei
+        fetch = FetchType.LAZY,
         mappedBy = "requester",
-        cascade = [CascadeType.PERSIST,
-            CascadeType.REMOVE]
+        cascade = [CascadeType.PERSIST, CascadeType.REMOVE]
     ) val pickupRequests: MutableSet<RecyclingPickupRequest> = mutableSetOf()
 ) : EcoUser(id = id, name, phone, email, password, role = ROLE_ADMINISTRATOR) {
     fun toAView() = CoopAdmView(

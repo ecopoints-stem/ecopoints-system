@@ -16,7 +16,7 @@ class Cooperative (
     val cnpj: String = "",
     @OneToOne(fetch = FetchType.LAZY, optional = true)
     var adm: CooperativeAdministrator? = null,
-    @OneToMany(fetch = FetchType.EAGER, // Aqui era LAZY, EU MODIFIQUEi
+    @OneToMany(fetch = FetchType.LAZY,
         mappedBy = "cooperative"
     ) val employees: MutableSet<RecyclingSorter> = mutableSetOf(),
     @ManyToMany(
