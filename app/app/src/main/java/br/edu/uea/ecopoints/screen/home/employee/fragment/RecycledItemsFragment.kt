@@ -8,13 +8,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.DialogAddNewSeparatedMaterialBinding
 import br.edu.uea.ecopoints.databinding.FragmentRecycledItemsBinding
+import br.edu.uea.ecopoints.screen.home.employee.HomeEmployeeViewModel
+import br.edu.uea.ecopoints.screen.home.employee.viewmodel.RecycledItemsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
+@AndroidEntryPoint
 class RecycledItemsFragment : Fragment() {
     private var _binding: FragmentRecycledItemsBinding? = null
     private val binding get() = _binding!!
@@ -22,6 +30,9 @@ class RecycledItemsFragment : Fragment() {
     private lateinit var fabAddNewSeparatedMaterial: FloatingActionButton
     private lateinit var rcSeparatedMaterial: RecyclerView
     private lateinit var swpRefreshLayout: SwipeRefreshLayout
+
+    private val homeViewModel : HomeEmployeeViewModel by activityViewModels()
+    private val recycledItemsViewModel: RecycledItemsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, group: ViewGroup?, saved: Bundle?): View {
         _binding = FragmentRecycledItemsBinding.inflate(inflater,group, false)
@@ -55,6 +66,13 @@ class RecycledItemsFragment : Fragment() {
                         Toast.makeText(requireContext(),"Campos vazios", Toast.LENGTH_SHORT).show()
                         dialogInterface.dismiss()
                     } else{
+                        val nowDate = LocalDateTime.now()
+                        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+                        recycledItemsViewModel.createNewSeparatedMaterial(
+                            lldate = nowDate.format(formatter),
+                            materialName = dialogBinding.edtMaterialName.text?.toString() ?: "",
+                            quantity = dialogBinding.edtQuantity.text?.toString()?.toDouble() ?: 0.0
+                        )
                         Toast.makeText(requireContext(),"Salvou",Toast.LENGTH_SHORT).show()
                     }
                 }.create()

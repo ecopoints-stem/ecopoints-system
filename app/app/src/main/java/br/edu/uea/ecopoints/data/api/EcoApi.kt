@@ -97,4 +97,10 @@ interface EcoApi {
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<PickUpRequest>>
+
+    // Rotas para /material
+    @GET("/material/list")
+    suspend fun getMaterialStartingWithName(
+        @Query("name") name: String
+    ) : Response<List<Material>>
 }
