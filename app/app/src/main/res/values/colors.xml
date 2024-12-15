@@ -4,5 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="app_background">#44C384</color>
     <color name="red">#EA1271</color>
+    <color name="green_text">#3e7a1e</color>
     <color name="blue">#12ABED</color>
 </resources>
