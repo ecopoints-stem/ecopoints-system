@@ -9,6 +9,7 @@ import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.cooperative.IMaterialService
 import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
 import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
+import br.edu.uea.ecopoints.utils.EmailTexts
 import br.edu.uea.ecopoints.view.user.CoopAdmView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.Transactional
@@ -61,13 +62,19 @@ class CoopAdmResource (
     }
 
     @GetMapping("/{id}/excel")
-    @Transactional
     fun getReportExcel(@PathVariable id: Long) : ResponseEntity<String>{
-        val adm = coopAdmService.findById(id)
-
-            val excel: ByteArray = reportService.generateAdminReport(adm)
-            emailService.sendExcelReport(adm.email,"","",excel,"relatorio.xlsx")
-
+        val adm = coopAdmService.findWithCooperative(id)
+        adm.cooperative?.let {
+            val cooperative = cooperativeService.findByIdWithEmployeesAndMaterials(it.id!!)
+            thread (start = true){
+                val excel = reportService.generateAdminReport(cooperative)
+                emailService.sendExcelReport(adm.email,
+                    EmailTexts.EXCEL_ADMIN_REPORT_SUBJECT,
+                    EmailTexts.EXCEL_ADMIN_REPORT_BODY, excel,
+                    "relatorio.xlsx"
+                )
+            }
+        }
         return ResponseEntity.status(HttpStatus.OK).body("OK")
     }
 

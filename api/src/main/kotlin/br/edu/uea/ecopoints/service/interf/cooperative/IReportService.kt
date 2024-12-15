@@ -1,7 +1,7 @@
 package br.edu.uea.ecopoints.service.interf.cooperative
 
-import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
+import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 
 interface IReportService {
-    fun generateAdminReport(administrator: CooperativeAdministrator) : ByteArray
+    fun generateAdminReport(cooperative: Cooperative) : ByteArray
 }

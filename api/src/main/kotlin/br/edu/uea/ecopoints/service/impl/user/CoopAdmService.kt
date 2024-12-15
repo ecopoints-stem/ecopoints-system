@@ -19,6 +19,10 @@ class CoopAdmService (
         throw DomainException("Usuário do tipo CooperativeAdministrator com id $id não encontrado",ExceptionDetailsStatus.USER_NOT_FOUND)
     }
 
+    override fun findWithCooperative(id: Long): CooperativeAdministrator = admRepository.findWithCooperative(id).orElseThrow {
+        throw DomainException("Usuário do tipo CooperativeAdministrator com id $id não encontrado",ExceptionDetailsStatus.USER_NOT_FOUND)
+    }
+
     override fun existsById(id: Long): Boolean = admRepository.existsById(id)
 
     override fun deleteById(id: Long) {

@@ -1,22 +1,22 @@
 package br.edu.uea.ecopoints.service.impl.cooperative
 
+import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.HorizontalAlignment
-import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
 
 @Service
 class ReportService : IReportService {
-    override fun generateAdminReport(administrator: CooperativeAdministrator): ByteArray {
+    override fun generateAdminReport(cooperative: Cooperative): ByteArray {
         val workbook = XSSFWorkbook()
         val materialsSheet = workbook.createSheet("materiais")
-        createMaterialSheet(materialsSheet, administrator, workbook)
+        createMaterialSheet(materialsSheet, cooperative, workbook)
         val cooperativeSheet = workbook.createSheet("cooperativa")
-        createCooperativeSheet(cooperativeSheet, administrator, workbook)
+        createCooperativeSheet(cooperativeSheet, cooperative, workbook)
         val outputStream = ByteArrayOutputStream()
         workbook.write(outputStream)
         workbook.close()
@@ -25,7 +25,7 @@ class ReportService : IReportService {
 
     private fun createMaterialSheet(
         materialsSheet: org.apache.poi.ss.usermodel.Sheet,
-        administrator: CooperativeAdministrator,
+        cooperative: Cooperative,
         workbook: XSSFWorkbook
     ) {
         val headerStyle = workbook.createCellStyle().apply {
@@ -39,7 +39,7 @@ class ReportService : IReportService {
             cell.setCellValue(title)
             cell.cellStyle = headerStyle
         }
-        administrator.cooperative?.materials?.forEachIndexed { index, material ->
+        cooperative.materials.forEachIndexed { index, material ->
             val row = materialsSheet.createRow(index + 1)
             row.createCell(0,CellType.NUMERIC).setCellValue(material.id!!.toDouble())
             row.createCell(1,CellType.STRING).setCellValue(material.type.toString())
@@ -50,7 +50,7 @@ class ReportService : IReportService {
 
     private fun createCooperativeSheet(
         cooperativeSheet: org.apache.poi.ss.usermodel.Sheet,
-        administrator: CooperativeAdministrator,
+        cooperative: Cooperative,
         workbook: XSSFWorkbook
     ) {
         val headerStyle = workbook.createCellStyle().apply {
@@ -65,7 +65,7 @@ class ReportService : IReportService {
             cell.setCellValue(title)
             cell.cellStyle = headerStyle
         }
-        administrator.cooperative?.employees?.forEachIndexed { index, employee ->
+        cooperative.employees.forEachIndexed { index, employee ->
             val row = cooperativeSheet.createRow(index + 1)
             row.createCell(0,CellType.NUMERIC).setCellValue(employee.id!!.toDouble())
             row.createCell(1,CellType.STRING).setCellValue(employee.name)
