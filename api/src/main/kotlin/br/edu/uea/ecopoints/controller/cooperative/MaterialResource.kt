@@ -29,7 +29,7 @@ class MaterialResource (
         return ResponseEntity.status(HttpStatus.OK).body(material)
     }
 
-    @GetMapping
+    @GetMapping("/list")
     fun findByNameStartingWith(@RequestParam("name") name: String) : ResponseEntity<List<TypeOfMaterial>> {
         val list = materialService.findByNameStartingWithIgnoreCase(name)
         return ResponseEntity.status(HttpStatus.OK).body(list)
