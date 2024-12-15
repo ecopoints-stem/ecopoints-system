@@ -4,12 +4,16 @@ import br.edu.uea.ecopoints.config.email.service.EmailService
 import br.edu.uea.ecopoints.domain.cooperative.AttendanceRecord
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.dto.cooperative.AttendanceRegister
+import br.edu.uea.ecopoints.dto.cooperative.SeparatedMaterialRegister
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.service.interf.cooperative.IAttendanceRecordService
 import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
+import br.edu.uea.ecopoints.service.interf.cooperative.IMaterialService
+import br.edu.uea.ecopoints.service.interf.cooperative.ISeparatedMaterialService
 import br.edu.uea.ecopoints.service.interf.user.IRecyclingSorterService
+import br.edu.uea.ecopoints.view.cooperative.SeparatedMaterialView
 import br.edu.uea.ecopoints.view.user.RecyclingSorterView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -26,6 +30,8 @@ class RecyclingSorterResource (
     private val recyclingSorterService: IRecyclingSorterService,
     private val cooperativeService: ICooperativeService,
     private val attendanceRecordService: IAttendanceRecordService,
+    private val materialService: IMaterialService,
+    private val materialSeparatedService: ISeparatedMaterialService,
     private val encoder: PasswordEncoder,
     private val emailService: EmailService
 ) {
@@ -69,6 +75,28 @@ class RecyclingSorterResource (
     @PostMapping("/{id}/attendance")
     fun saveAttendanceRecord(@PathVariable id: Long, @RequestBody info: AttendanceRegister) : ResponseEntity<AttendanceRecord?>{
         return ResponseEntity.status(HttpStatus.CREATED).body(null)
+    }
+
+    @PostMapping("/{id}/separated")
+    fun saveSeparatedMaterial(@PathVariable id: Long, @RequestBody register: SeparatedMaterialRegister) : ResponseEntity<SeparatedMaterialView>{
+        val separatedMaterial = register.toEntity()
+
+        val typeOfMaterial = materialService.findById(register.materialId)
+        val employee = recyclingSorterService.findById(id)
+
+        separatedMaterial.employee = employee
+        separatedMaterial.typeOfMaterial = typeOfMaterial
+        val db = materialSeparatedService.save(separatedMaterial)
+        val view = SeparatedMaterialView(
+            id = db.id!!,
+            separatedDate = db.separatedDate,
+            employeeId = id,
+            materialId = typeOfMaterial.id!!,
+            materialType = typeOfMaterial.type,
+            materialName = typeOfMaterial.name,
+            quantity = db.quantity
+        )
+        return ResponseEntity.status(HttpStatus.CREATED).body(view)
     }
 
     @DeleteMapping("/{id}")
