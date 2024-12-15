@@ -23,66 +23,6 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
     fun findAllByPickDateAndDriver_Id(pickDate: LocalDate, driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest>
     fun findAllByRequester_IdOrderByPickDateDesc(requesterId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriver_IdOrderByPickDateDesc(driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
-    /*@Query("""
-        SELECT r 
-        FROM RecyclingPickupRequest r 
-        LEFT JOIN FETCH r.driver d 
-        JOIN FETCH r.requester a 
-        WHERE d.id = :driverId
-        ORDER BY r.pDate DESC
-    """)
-    fun findAllByDriverIdWithDriverAndRequester(
-        @Param("driverId") driverId: Long
-    ): List<RecyclingPickupRequest>
-
-    @Query("""
-        SELECT COUNT(r)
-        FROM RecyclingPickupRequest r
-        WHERE r.driver.id = :driverId
-    """)
-    fun countByDriverId(@Param("driverId") driverId: Long): Long
-
-    @Query("""
-        SELECT r
-        FROM RecyclingPickupRequest r
-        LEFT JOIN FETCH r.driver d
-        JOIN FETCH r.requester a
-        WHERE a.id = :requesterId
-        ORDER BY r.pDate DESC
-    """)
-    fun findAllByRequesterIdWithDriverAndRequester(
-        @Param("requesterId") requesterId: Long
-    ): List<RecyclingPickupRequest>
-
-    @Query("""
-        SELECT COUNT(r)
-        FROM RecyclingPickupRequest r
-        WHERE r.requester.id = :requesterId
-    """)
-    fun countByRequesterId(@Param("requesterId") requesterId: Long): Long
-    @Query("""
-        SELECT r
-        FROM RecyclingPickupRequest r
-        LEFT JOIN FETCH r.driver d
-        JOIN FETCH r.requester a
-        WHERE r.pDate = :spcDate AND d.id = :driverId
-    """)
-    fun findAllByDateAndDriverIdWithDriverAndRequester(
-        @Param("spcDate") spcDate: LocalDate,
-        @Param("driverId") driverId: Long
-    ) : List<RecyclingPickupRequest>
-
-    @Query("""
-        SELECT COUNT(r)
-        FROM RecyclingPickupRequest r
-        LEFT JOIN r.driver d
-        WHERE r.pDate = :spcDate AND d.id = :driverId
-    """)
-    fun countByDateAndDriverId(
-        @Param("spcDate") spcDate: LocalDate,
-        @Param("driverId") driverId: Long
-    ): Long*/
-
 
     /*
     * OLHA ESSE EXEMPLO

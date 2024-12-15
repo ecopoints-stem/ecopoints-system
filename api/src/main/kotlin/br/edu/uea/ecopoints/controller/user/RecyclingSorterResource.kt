@@ -17,6 +17,8 @@ import br.edu.uea.ecopoints.view.cooperative.SeparatedMaterialView
 import br.edu.uea.ecopoints.view.user.RecyclingSorterView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -97,6 +99,27 @@ class RecyclingSorterResource (
             quantity = db.quantity
         )
         return ResponseEntity.status(HttpStatus.CREATED).body(view)
+    }
+    @GetMapping("/materials")
+    fun getSeparatedMaterials(
+        @RequestParam("employeeId") employeeId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<SeparatedMaterialView> {
+        val pageable = PageRequest.of(page, size)
+        val pgResult = materialSeparatedService.findAllByEmployeeId(employeeId,pageable)
+        val pgResultView = pgResult.map { spMaterial ->
+            SeparatedMaterialView(
+                id = spMaterial.id!!,
+                separatedDate = spMaterial.separatedDate,
+                employeeId = employeeId,
+                materialId = spMaterial.typeOfMaterial!!.id!!,
+                materialType = spMaterial.typeOfMaterial!!.type,
+                materialName = spMaterial.typeOfMaterial!!.name,
+                quantity = spMaterial.quantity
+            )
+        }
+        return pgResultView
     }
 
     @DeleteMapping("/{id}")
