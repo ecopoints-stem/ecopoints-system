@@ -11,11 +11,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MediatorLiveData
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.data.api.exception.ExceptionDetails
 import br.edu.uea.ecopoints.databinding.FragmentCreateNewMaterialBinding
-import br.edu.uea.ecopoints.screen.home.admin.HomeAdminViewModel
+import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.CreateNewMaterialViewModel
 import br.edu.uea.ecopoints.screen.state.home.HomeState
 import br.edu.uea.ecopoints.util.toMaterialType
@@ -30,7 +29,7 @@ class CreateNewMaterialFragment : Fragment() {
     private lateinit var spinnerNewMaterial: Spinner
     private lateinit var btnSave: MaterialButton
     private lateinit var edtMaterialName: TextInputEditText
-    private val homeViewModel: HomeAdminViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private val newMaterialViewModel: CreateNewMaterialViewModel by viewModels()
 
     override fun onCreateView(

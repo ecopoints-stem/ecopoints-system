@@ -11,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import br.edu.uea.ecopoints.databinding.FragmentEditProfileAdminBinding
 import br.edu.uea.ecopoints.domain.entity.CoopAdmin
-import br.edu.uea.ecopoints.screen.home.admin.HomeAdminViewModel
+import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.admin.state.EditProfileAdminState
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.EditProfileAdminViewModel
 import br.edu.uea.ecopoints.screen.state.home.HomeState
@@ -36,7 +36,7 @@ class EditProfileAdminFragment : Fragment() {
     private lateinit var btnRegister: MaterialButton
 
     private val editProfileAdminViewModel: EditProfileAdminViewModel by viewModels()
-    private val homeViewModel : HomeAdminViewModel by activityViewModels()
+    private val homeViewModel : HomeViewModel by activityViewModels()
 
     @Inject lateinit var shared: SharedPreferences
 

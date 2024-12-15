@@ -10,15 +10,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.DialogAddNewSeparatedMaterialBinding
 import br.edu.uea.ecopoints.databinding.FragmentRecycledItemsBinding
+import br.edu.uea.ecopoints.domain.entity.SeparatedMaterial
+import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.employee.HomeEmployeeViewModel
+import br.edu.uea.ecopoints.screen.home.employee.fragment.recyclerview.SeparatedMaterialAdapter
 import br.edu.uea.ecopoints.screen.home.employee.viewmodel.RecycledItemsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -30,8 +38,9 @@ class RecycledItemsFragment : Fragment() {
     private lateinit var fabAddNewSeparatedMaterial: FloatingActionButton
     private lateinit var rcSeparatedMaterial: RecyclerView
     private lateinit var swpRefreshLayout: SwipeRefreshLayout
+    private val adapter = SeparatedMaterialAdapter()
 
-    private val homeViewModel : HomeEmployeeViewModel by activityViewModels()
+    private val homeViewModel : HomeViewModel by activityViewModels()
     private val recycledItemsViewModel: RecycledItemsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, group: ViewGroup?, saved: Bundle?): View {
@@ -39,6 +48,21 @@ class RecycledItemsFragment : Fragment() {
         setupView()
         setupListeners()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rcSeparatedMaterial.adapter = adapter
+        rcSeparatedMaterial.layoutManager = LinearLayoutManager(requireContext())
+        lifecycleScope.launch {
+            recycledItemsViewModel.recycledMaterials.collectLatest { paging: PagingData<SeparatedMaterial> ->
+                adapter.submitData(paging)
+            }
+        }
+        swpRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+            swpRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun setupView() {

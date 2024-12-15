@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import br.edu.uea.ecopoints.R
@@ -16,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeAdminActivity : AppCompatActivity() {
     private val binding: ActivityHomeAdminBinding by lazy { ActivityHomeAdminBinding.inflate(layoutInflater) }
-    private val viewModel: HomeAdminViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)

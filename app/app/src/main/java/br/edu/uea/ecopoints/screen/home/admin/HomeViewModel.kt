@@ -7,6 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeAdminViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
     val state = MutableLiveData<HomeState>()
 }

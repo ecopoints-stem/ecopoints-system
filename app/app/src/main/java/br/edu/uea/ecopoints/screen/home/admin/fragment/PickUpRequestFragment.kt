@@ -22,7 +22,7 @@ import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.FragmentPickUpRequestBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
-import br.edu.uea.ecopoints.screen.home.admin.HomeAdminViewModel
+import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.admin.fragment.recyclerview.PickUpAdapter
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.PickUpRequestViewModel
 import br.edu.uea.ecopoints.screen.state.home.HomeState
@@ -45,7 +45,7 @@ class PickUpRequestFragment : Fragment() {
     private val binding get() = _binding!!
     private val adapter = PickUpAdapter()
     private val pickupViewModel: PickUpRequestViewModel by viewModels()
-    private val homeViewModel: HomeAdminViewModel by activityViewModels()
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private lateinit var rc: RecyclerView
     private lateinit var btnAddPickUpRequest: FloatingActionButton
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
