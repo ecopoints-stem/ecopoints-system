@@ -23,6 +23,7 @@ import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.employee.HomeEmployeeViewModel
 import br.edu.uea.ecopoints.screen.home.employee.fragment.recyclerview.SeparatedMaterialAdapter
 import br.edu.uea.ecopoints.screen.home.employee.viewmodel.RecycledItemsViewModel
+import br.edu.uea.ecopoints.screen.state.home.HomeState
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -57,6 +58,19 @@ class RecycledItemsFragment : Fragment() {
         lifecycleScope.launch {
             recycledItemsViewModel.recycledMaterials.collectLatest { paging: PagingData<SeparatedMaterial> ->
                 adapter.submitData(paging)
+            }
+        }
+        recycledItemsViewModel.state.observe(viewLifecycleOwner) { state ->
+            if (state.isErrorMessageVisible) {
+                homeViewModel.state.value =
+                    HomeState.Failed(state.errorDetails, state.errorMessage ?: "Erro")
+            } else {
+                homeViewModel.state.value = HomeState.Success("Deu certo")
+            }
+            if (state.isProgressVisible) {
+                homeViewModel.state.value = HomeState.Loading
+            } else{
+                homeViewModel.state.value = HomeState.Success("Deu certo")
             }
         }
         swpRefreshLayout.setOnRefreshListener {

@@ -10,7 +10,7 @@ data class SeparatedMaterial(
     @JsonProperty("separatedDate")
     @JsonFormat(
         shape = JsonFormat.Shape.STRING,
-        pattern = "dd/MM/yyyy HH:mm:ss"
+        pattern = "yyyy-MM-dd'T'HH:mm:ss"
     ) val separatedDate: LocalDateTime,
     @JsonProperty("employeeId") val employeeId: Long,
     @JsonProperty("materialId") val materialId: Long,
