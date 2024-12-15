@@ -3,6 +3,7 @@ package br.edu.uea.ecopoints.util
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
 import br.edu.uea.ecopoints.domain.entity.enums.PickupRequestStatus
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
@@ -41,6 +42,11 @@ fun PickupRequestStatus.toStatusString() : String = when(this){
 
 fun LocalDate.formatedPersonDate() : String {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return this.format(formatter)
+}
+
+fun LocalDateTime.formatedPersonDateTime() : String {
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
     return this.format(formatter)
 }
 

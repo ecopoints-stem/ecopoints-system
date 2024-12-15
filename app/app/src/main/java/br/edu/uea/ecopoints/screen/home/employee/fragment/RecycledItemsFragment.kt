@@ -38,7 +38,6 @@ class RecycledItemsFragment : Fragment() {
 
     private fun setupListeners() {
         fabAddNewSeparatedMaterial.setOnClickListener{
-            Log.i("ECO","Clicou no FAB")
             val dialogBinding = DialogAddNewSeparatedMaterialBinding.inflate(
                 LayoutInflater.from(requireContext())
             )
