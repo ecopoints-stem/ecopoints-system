@@ -5,6 +5,7 @@ import br.edu.uea.ecopoints.domain.entity.Driver
 import br.edu.uea.ecopoints.domain.entity.Employee
 import br.edu.uea.ecopoints.domain.entity.Material
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
+import br.edu.uea.ecopoints.domain.entity.SeparatedMaterial
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
 import br.edu.uea.ecopoints.domain.entity.model.UserApp
 import br.edu.uea.ecopoints.domain.network.request.AdminRegister
@@ -16,6 +17,7 @@ import br.edu.uea.ecopoints.domain.network.request.MaterialRegister
 import br.edu.uea.ecopoints.domain.network.request.MessageEmailSendNewPassword
 import br.edu.uea.ecopoints.domain.network.request.PickUpRegister
 import br.edu.uea.ecopoints.domain.network.request.ResetPasswordRequest
+import br.edu.uea.ecopoints.domain.network.request.SeparatedMaterialRegister
 import br.edu.uea.ecopoints.domain.network.request.UserLogin
 import br.edu.uea.ecopoints.domain.network.response.AttendanceRecord
 import br.edu.uea.ecopoints.domain.network.response.UserId
@@ -52,6 +54,14 @@ interface EcoApi {
     suspend fun findEmployeeById(@Path("id") id: Long) : Response<Employee>
     @POST("/employee/{id}/attendance")
     suspend fun clockInClockOut(@Path("id") id: Long, @Body hr: AttendanceRecordRegister) : Response<AttendanceRecord>
+    @POST("/employee/{id}/separated")
+    suspend fun createNewSeparatedMaterial(@Path("id") id: Long, @Body spMaterial: SeparatedMaterialRegister) : Response<SeparatedMaterial>
+    @GET("/employee/materials")
+    suspend fun getAllSpMaterialByEmployeeId(
+        @Query("employeeId") employeeId: Long,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PageResponse<SeparatedMaterial>>
 
     // Rotas para /driver
     @GET("/driver/{id}")
