@@ -15,11 +15,12 @@ interface CooperativeRepository  : JpaRepository<Cooperative, Long>{
     @Query("""
         SELECT c 
         FROM Cooperative c
+        LEFT JOIN FETCH c.adm a
         LEFT JOIN FETCH c.employees e
         LEFT JOIN FETCH c.materials m
         WHERE c.id = :id
     """)
-    fun findByCnpjWithEmployeesAndMaterials(@Param("id") id: Long): Optional<Cooperative>
+    fun findByIdWithAdminEmployeesAndMaterials(@Param("id") id: Long): Optional<Cooperative>
     @Query("""
         SELECT c 
         FROM Cooperative c 

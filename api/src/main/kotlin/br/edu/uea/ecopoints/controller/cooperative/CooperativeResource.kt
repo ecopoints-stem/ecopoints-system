@@ -27,13 +27,13 @@ class CooperativeResource (
             cooperative.employees.addAll(dto.employeesId.map { id -> employeeService.findById(id) })
         }
         cooperativeService.save(cooperative)
-        val cooperativeSaved = cooperativeService.findByIdWithEmployeesAndMaterials(cooperative.id!!)
+        val cooperativeSaved = cooperativeService.findByIdWithAdminEmployeesAndMaterials(cooperative.id!!)
         return ResponseEntity.status(HttpStatus.CREATED).body(cooperativeSaved.toView())
     }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long) : ResponseEntity<CooperativeView>{
-        val cooperative = cooperativeService.findByIdWithEmployeesAndMaterials(id)
+        val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(id)
         return ResponseEntity.status(HttpStatus.OK).body(cooperative.toView())
     }
 

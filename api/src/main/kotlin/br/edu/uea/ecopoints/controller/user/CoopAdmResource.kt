@@ -65,7 +65,7 @@ class CoopAdmResource (
     fun getReportExcel(@PathVariable id: Long) : ResponseEntity<String>{
         val adm = coopAdmService.findWithCooperative(id)
         adm.cooperative?.let {
-            val cooperative = cooperativeService.findByIdWithEmployeesAndMaterials(it.id!!)
+            val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(it.id!!)
             thread (start = true){
                 val excel = reportService.generateAdminReport(cooperative)
                 emailService.sendExcelReport(adm.email,
