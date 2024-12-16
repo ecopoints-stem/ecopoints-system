@@ -13,6 +13,7 @@ import br.edu.uea.ecopoints.domain.network.request.AdminUpdate
 import br.edu.uea.ecopoints.domain.network.request.AttendanceRecordRegister
 import br.edu.uea.ecopoints.domain.network.request.DriverRegister
 import br.edu.uea.ecopoints.domain.network.request.EmployeeRegister
+import br.edu.uea.ecopoints.domain.network.request.EmployeeUpdate
 import br.edu.uea.ecopoints.domain.network.request.MaterialRegister
 import br.edu.uea.ecopoints.domain.network.request.MessageEmailSendNewPassword
 import br.edu.uea.ecopoints.domain.network.request.PickUpRegister
@@ -62,6 +63,8 @@ interface EcoApi {
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<SeparatedMaterial>>
+    @PATCH("/employee")
+    suspend fun updateEmployee(@Query("employeeId") employeeId: Long, @Body employeeUpdate: EmployeeUpdate) : Response<Employee>
 
     // Rotas para /driver
     @GET("/driver/{id}")
