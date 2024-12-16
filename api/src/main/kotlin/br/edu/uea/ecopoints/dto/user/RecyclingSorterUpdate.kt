@@ -9,7 +9,7 @@ data class RecyclingSorterUpdate(
     @field:NotNull(message = "Nome obrigatório") val name: String,
     @field:Email(message = "Email inválido") val email: String,
     @field:Nullable val phone: String?,
-    @field:Nullable val cpnjCooperative: String?,
+    @field:Nullable val cnpjCooperative: String?,
     @field:NotNull val password: String
 ) {
     fun toEntity(employee: RecyclingSorter) = RecyclingSorter(

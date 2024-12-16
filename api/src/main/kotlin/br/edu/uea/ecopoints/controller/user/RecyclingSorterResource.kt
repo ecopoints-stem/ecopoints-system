@@ -133,8 +133,8 @@ class RecyclingSorterResource (
         val employee = recyclingSorterService.findById(id)
         val employeeUp = dto.toEntity(employee)
         employeeUp.password = encoder.encode(dto.password)
-        if(dto.cpnjCooperative!=null){
-            val cooperative = cooperativeService.findByCnpj(dto.cpnjCooperative)
+        if(dto.cnpjCooperative!=null){
+            val cooperative = cooperativeService.findByCnpj(dto.cnpjCooperative)
             employeeUp.cooperative = cooperative
             employeeUp.records.addAll(employee.records)
         }
