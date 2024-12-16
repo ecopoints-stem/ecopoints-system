@@ -1,6 +1,7 @@
 package br.edu.uea.ecopoints.data.api
 
 import br.edu.uea.ecopoints.domain.entity.CoopAdmin
+import br.edu.uea.ecopoints.domain.entity.Cooperative
 import br.edu.uea.ecopoints.domain.entity.Driver
 import br.edu.uea.ecopoints.domain.entity.Employee
 import br.edu.uea.ecopoints.domain.entity.Material
@@ -106,4 +107,8 @@ interface EcoApi {
     suspend fun getMaterialStartingWithName(
         @Query("name") name: String
     ) : Response<List<Material>>
+
+    // Rotas para /cooperative
+    @GET("/cooperative/{id}")
+    suspend fun getCooperativeById(@Path("id") cooperativeId: Long) : Response<Cooperative>
 }
