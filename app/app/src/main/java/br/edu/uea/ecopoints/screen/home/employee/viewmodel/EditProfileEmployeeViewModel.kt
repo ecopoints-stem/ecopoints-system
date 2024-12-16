@@ -27,4 +27,8 @@ class EditProfileEmployeeViewModel @Inject constructor(
     ) {
 
     }
+
+    fun successAfter(){
+        _state.value = EditProfileEmployeeState.SuccessAfter
+    }
 }
