@@ -6,6 +6,7 @@ import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import br.edu.uea.ecopoints.dto.cooperative.AttendanceRegister
 import br.edu.uea.ecopoints.dto.cooperative.SeparatedMaterialRegister
 import br.edu.uea.ecopoints.dto.user.RecyclingSorterRegister
+import br.edu.uea.ecopoints.dto.user.RecyclingSorterUpdate
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.service.interf.cooperative.IAttendanceRecordService
@@ -16,6 +17,7 @@ import br.edu.uea.ecopoints.service.interf.user.IRecyclingSorterService
 import br.edu.uea.ecopoints.view.cooperative.SeparatedMaterialView
 import br.edu.uea.ecopoints.view.user.RecyclingSorterView
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -120,6 +122,24 @@ class RecyclingSorterResource (
             )
         }
         return pgResultView
+    }
+
+    @PatchMapping
+    @Transactional
+    fun updateRecyclingSorter(
+        @RequestParam(value = "employeeId") id: Long,
+        @RequestBody @Valid dto: RecyclingSorterUpdate
+    ) : ResponseEntity<RecyclingSorterView> {
+        val employee = recyclingSorterService.findById(id)
+        val employeeUp = dto.toEntity(employee)
+        employeeUp.password = encoder.encode(dto.password)
+        if(dto.cpnjCooperative!=null){
+            val cooperative = cooperativeService.findByCnpj(dto.cpnjCooperative)
+            employeeUp.cooperative = cooperative
+            employeeUp.records.addAll(employee.records)
+        }
+        val employeeUpdated = recyclingSorterService.save(employeeUp)
+        return ResponseEntity.status(HttpStatus.OK).body(employeeUpdated.toRView())
     }
 
     @DeleteMapping("/{id}")
