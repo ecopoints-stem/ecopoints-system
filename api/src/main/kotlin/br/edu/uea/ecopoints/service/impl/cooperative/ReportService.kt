@@ -1,22 +1,41 @@
 package br.edu.uea.ecopoints.service.impl.cooperative
 
 import br.edu.uea.ecopoints.domain.cooperative.Cooperative
+import br.edu.uea.ecopoints.domain.cooperative.material.SeparatedMaterial
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
+import br.edu.uea.ecopoints.enums.material.MaterialType
+import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
 
 @Service
-class ReportService : IReportService {
-    override fun generateAdminReport(cooperative: Cooperative): ByteArray {
+class ReportService (
+    private val cooperativeService: ICooperativeService
+): IReportService {
+    override fun generateAdminReport(cooperativeId: Long, startDate: LocalDateTime, endDate: LocalDateTime): ByteArray {
+        val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(cooperativeId)
         val workbook = XSSFWorkbook()
         val materialsSheet = workbook.createSheet("materiais")
         createMaterialSheet(materialsSheet, cooperative, workbook)
         val cooperativeSheet = workbook.createSheet("cooperativa")
         createCooperativeSheet(cooperativeSheet, cooperative, workbook)
+        val materialsSeparatedSheet = workbook.createSheet("quantitativo")
+        val map = HashMap<String, Double>()
+        for (employee in cooperative.employees){
+            val listSeparated : List<SeparatedMaterial> = cooperativeService.findAllByEmployeeIdAndSeparatedDateBetween(employeeId = employee.id!!, startDate = startDate, endDate = endDate)
+            println(listSeparated)
+            listSeparated.forEach { separatedMaterial ->
+                val materialName = separatedMaterial.typeOfMaterial?.name ?: return@forEach
+                val currentQuantity = map[materialName] ?: 0.0
+                map[materialName] = currentQuantity + separatedMaterial.quantity
+            }
+        }
+        createSeparatedSheet(materialsSeparatedSheet, map, workbook)
         val outputStream = ByteArrayOutputStream()
         workbook.write(outputStream)
         workbook.close()
@@ -72,5 +91,31 @@ class ReportService : IReportService {
             row.createCell(2,CellType.STRING).setCellValue(employee.email)
         }
         headers.indices.forEach { cooperativeSheet.autoSizeColumn(it) }
+    }
+
+    private fun createSeparatedSheet(
+        separatedMaterialsSheet: org.apache.poi.ss.usermodel.Sheet,
+        separatedMaterials: Map<String, Double>,
+        workbook: XSSFWorkbook
+    ) {
+        val headerStyle = workbook.createCellStyle().apply {
+            alignment = HorizontalAlignment.CENTER
+            setFont(workbook.createFont().apply { bold = true })
+        }
+        val headerRow = separatedMaterialsSheet.createRow(0)
+        val headers = listOf("Nome do Material", "Quantidade (Toneladas)")
+        headers.forEachIndexed { index, title ->
+            val cell = headerRow.createCell(index, CellType.STRING)
+            cell.setCellValue(title)
+            cell.cellStyle = headerStyle
+        }
+        var count = 0
+        separatedMaterials.forEach { (materialName: String, quantity: Double) ->
+            val row = separatedMaterialsSheet.createRow(count + 1)
+            row.createCell(0,CellType.STRING).setCellValue(materialName)
+            row.createCell(1,CellType.NUMERIC).setCellValue(quantity/1000)
+            count++
+        }
+        headers.indices.forEach { separatedMaterialsSheet.autoSizeColumn(it) }
     }
 }

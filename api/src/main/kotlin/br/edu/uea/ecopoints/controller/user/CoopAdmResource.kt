@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 import kotlin.concurrent.thread
 
 
@@ -61,13 +62,13 @@ class CoopAdmResource (
         return ResponseEntity.status(HttpStatus.CREATED).body(coopAdmSaved?.toAView())
     }
 
-    @GetMapping("/{id}/excel")
-    fun getReportExcel(@PathVariable id: Long) : ResponseEntity<String>{
+    @GetMapping("/{id}/report")
+    fun getReportExcel(@PathVariable id: Long, @RequestParam("startDate") startDate: LocalDateTime) : ResponseEntity<String>{
         val adm = coopAdmService.findWithCooperative(id)
         adm.cooperative?.let {
             val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(it.id!!)
             thread (start = true){
-                val excel = reportService.generateAdminReport(cooperative)
+                val excel = reportService.generateAdminReport(id, startDate, startDate.minusMonths(1))
                 emailService.sendExcelReport(adm.email,
                     EmailTexts.EXCEL_ADMIN_REPORT_SUBJECT,
                     EmailTexts.EXCEL_ADMIN_REPORT_BODY, excel,
