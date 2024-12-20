@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="@id/tvEditProfileAdmin"
         app:layout_constraintStart_toStartOf="@id/tvEditProfileAdmin"
         app:layout_constraintTop_toBottomOf="@id/tvEditProfileAdmin"
-        tools:src="@drawable/admin_icon" />
+        android:src="@drawable/admin_icon" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
