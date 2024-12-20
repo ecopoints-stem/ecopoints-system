@@ -35,7 +35,52 @@ class EditProfileEmployeeViewModel @Inject constructor(
         phone: String?, cnpjCooperative: String?,
         password: String
     ) {
-
+        viewModelScope.launch (Dispatchers.IO){
+            _state.postValue(EditProfileEmployeeState.Loading)
+            _state.postValue(
+                runCatching {
+                    val employeeId : Long = shared.getLong("id", -1L)
+                    ecoApi.updateEmployee(
+                        employeeId,
+                        EmployeeUpdate(
+                            name = name, email = email,
+                            phone = phone, cnpjCooperative = cnpjCooperative,
+                            password = password
+                        )
+                    )
+                }.fold(
+                    onFailure = { error ->
+                        EditProfileEmployeeState.Failed(error.message ?: "Erro requisição para API",null)
+                    }, onSuccess = { response: Response<Employee> ->
+                        if(response.isSuccessful){
+                            val newEmployee = response.body()
+                            Log.i("ECO","updated response $newEmployee")
+                            newEmployee?.let { emp ->
+                                with(shared.edit()){
+                                    putString("email",emp.email)
+                                    putString("password",password)
+                                    commit()
+                                }
+                            }
+                            EditProfileEmployeeState.Success(newEmployee)
+                        } else {
+                            val errorBodyString = response.errorBody()?.string()
+                            Log.e("ECO","Error body $errorBodyString")
+                            val errorDetails = if(errorBodyString!=null){
+                                try {
+                                    mapper.readValue(errorBodyString, ExceptionDetails::class.java)
+                                } catch (ex: Exception){
+                                    null
+                                }
+                            } else {
+                                null
+                            }
+                            EditProfileEmployeeState.Failed("Servidor deu erro: ${response.code()}", errorDetails)
+                        }
+                    }
+                )
+            )
+        }
     }
 
     fun successAfter(){
