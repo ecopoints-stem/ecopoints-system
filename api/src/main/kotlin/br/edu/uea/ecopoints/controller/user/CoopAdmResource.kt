@@ -63,12 +63,12 @@ class CoopAdmResource (
     }
 
     @GetMapping("/{id}/report")
-    fun getReportExcel(@PathVariable id: Long, @RequestParam("startDate") startDate: LocalDateTime) : ResponseEntity<String>{
+    fun getReportExcel(@PathVariable id: Long, @RequestParam("endDate") endDate: LocalDateTime) : ResponseEntity<String>{
         val adm = coopAdmService.findWithCooperative(id)
         adm.cooperative?.let {
             val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(it.id!!)
             thread (start = true){
-                val excel = reportService.generateAdminReport(id, startDate, startDate.minusMonths(1))
+                val excel = reportService.generateAdminReport(id, endDate.minusMonths(1), endDate)
                 emailService.sendExcelReport(adm.email,
                     EmailTexts.EXCEL_ADMIN_REPORT_SUBJECT,
                     EmailTexts.EXCEL_ADMIN_REPORT_BODY, excel,
