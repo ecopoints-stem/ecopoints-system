@@ -12,12 +12,12 @@
         android:layout_marginTop="32dp"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="32sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Control" />
+        tools:text="Cooperativa de Manaus" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/bcHistogram"
@@ -28,5 +28,26 @@
         android:layout_marginEnd="16dp"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tvCooperativeName" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGenerateReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Gerar Relatório"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bcHistogram" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
