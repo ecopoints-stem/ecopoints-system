@@ -10,6 +10,7 @@ import br.edu.uea.ecopoints.service.interf.cooperative.IMaterialService
 import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
 import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
 import br.edu.uea.ecopoints.utils.EmailTexts
+import br.edu.uea.ecopoints.view.cooperative.BarData
 import br.edu.uea.ecopoints.view.user.CoopAdmView
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.transaction.Transactional
@@ -77,6 +78,10 @@ class CoopAdmResource (
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body("OK")
+    }
+    @GetMapping("/{id}/bar")
+    fun getBarData(@PathVariable id: Long) : ResponseEntity<BarData> {
+
     }
 
     @GetMapping("/{id}")
