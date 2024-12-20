@@ -86,11 +86,15 @@ class RecyclingSorterResource (
         val separatedMaterial = register.toEntity()
 
         val typeOfMaterial = materialService.findById(register.materialId)
-        val employee = recyclingSorterService.findById(id)
-
+        val employee = recyclingSorterService.findByIdWithCooperative(id)
+        val cooperative = if(employee.cooperative?.id!=null){
+            cooperativeService.findById(employee.cooperative!!.id!!)
+        } else {
+            null
+        }
         separatedMaterial.employee = employee
         separatedMaterial.typeOfMaterial = typeOfMaterial
-        //TODO: adicionar a associação com cooperativa
+        separatedMaterial.cooperative = cooperative
         val db = materialSeparatedService.save(separatedMaterial)
         val view = SeparatedMaterialView(
             id = db.id!!,

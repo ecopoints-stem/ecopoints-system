@@ -79,10 +79,10 @@ class CoopAdmResource (
         }
         return ResponseEntity.status(HttpStatus.OK).body("OK")
     }
-    @GetMapping("/{id}/bar")
+    /*@GetMapping("/{id}/bar")
     fun getBarData(@PathVariable id: Long) : ResponseEntity<BarData> {
 
-    }
+    }*/
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long) : ResponseEntity<CoopAdmView>{
