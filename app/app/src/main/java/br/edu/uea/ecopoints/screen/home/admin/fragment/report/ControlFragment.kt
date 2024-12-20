@@ -11,6 +11,7 @@ import br.edu.uea.ecopoints.databinding.FragmentAdminReportControlBinding
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.ReportViewModel
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.report.ControlViewModel
 import com.github.mikephil.charting.charts.BarChart
+import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +21,7 @@ class ControlFragment : Fragment() {
 
     private lateinit var tvCooperativeName: TextView
     private lateinit var barChartMaterials: BarChart
+    private lateinit var btnReport: MaterialButton
     private val controlViewModel : ControlViewModel by viewModels()
 
     override fun onCreateView(
@@ -34,11 +36,14 @@ class ControlFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        btnReport.setOnClickListener {
 
+        }
     }
 
     private fun setupView() {
         tvCooperativeName = binding.tvCooperativeName
         barChartMaterials = binding.bcHistogram
+        btnReport = binding.btnGenerateReport
     }
 }
