@@ -28,7 +28,6 @@ class ReportService (
         val map = HashMap<String, Double>()
         for (employee in cooperative.employees){
             val listSeparated : List<SeparatedMaterial> = cooperativeService.findAllByEmployeeIdAndSeparatedDateBetween(employeeId = employee.id!!, startDate = startDate, endDate = endDate)
-            println(listSeparated)
             listSeparated.forEach { separatedMaterial ->
                 val materialName = separatedMaterial.typeOfMaterial?.name ?: return@forEach
                 val currentQuantity = map[materialName] ?: 0.0
