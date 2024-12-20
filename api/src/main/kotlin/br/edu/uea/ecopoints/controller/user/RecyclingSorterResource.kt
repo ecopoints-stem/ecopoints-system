@@ -90,6 +90,7 @@ class RecyclingSorterResource (
 
         separatedMaterial.employee = employee
         separatedMaterial.typeOfMaterial = typeOfMaterial
+        //TODO: adicionar a associação com cooperativa
         val db = materialSeparatedService.save(separatedMaterial)
         val view = SeparatedMaterialView(
             id = db.id!!,

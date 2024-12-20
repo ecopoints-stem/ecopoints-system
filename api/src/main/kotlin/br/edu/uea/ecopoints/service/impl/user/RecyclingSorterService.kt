@@ -19,6 +19,10 @@ class RecyclingSorterService(
         throw DomainException("Usuário do tipo RecyclingSorter com id $id não encontrado", ExceptionDetailsStatus.USER_NOT_FOUND)
     }
 
+    override fun findByIdWithCooperative(id: Long): RecyclingSorter = this.recyclingSorterRepository.findByIdWithCooperative(id).orElseThrow{
+        throw DomainException("Usuário do tipo RecyclingSorter com id $id não encontrado", ExceptionDetailsStatus.USER_NOT_FOUND)
+    }
+
     override fun existsById(id: Long): Boolean = this.recyclingSorterRepository.existsById(id)
 
     override fun deleteById(id: Long) {

@@ -1,5 +1,6 @@
 package br.edu.uea.ecopoints.domain.cooperative.material
 
+import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.user.RecyclingSorter
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
@@ -27,6 +28,14 @@ class SeparatedMaterial (
         name = "material_id",
         nullable = true
     ) var typeOfMaterial: TypeOfMaterial? = null,
+    @ManyToOne(
+        optional = false,
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST,CascadeType.MERGE]
+    ) @JoinColumn(
+        name = "cooperative_id",
+        nullable = true
+    ) var cooperative: Cooperative? = null,
     @NotNull
     val quantity: Double
 )
