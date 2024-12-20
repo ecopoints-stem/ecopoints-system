@@ -62,7 +62,7 @@ class EditProfileEmployeeViewModel @Inject constructor(
                                     commit()
                                 }
                             }
-                            EditProfileEmployeeState.Success(newEmployee)
+                            EditProfileEmployeeState.Success(newEmployee, true)
                         } else {
                             val errorBodyString = response.errorBody()?.string()
                             Log.e("ECO","Error body $errorBodyString")
@@ -110,7 +110,7 @@ class EditProfileEmployeeViewModel @Inject constructor(
                     }, onSuccess = { response: Response<Employee> ->
                         if(response.isSuccessful){
                             val employee = response.body()
-                            EditProfileEmployeeState.Success(employee)
+                            EditProfileEmployeeState.Success(employee, false)
                         } else{
                             val errorBodyString = response.errorBody()?.string()
                             Log.e("ECO","Error body $errorBodyString")

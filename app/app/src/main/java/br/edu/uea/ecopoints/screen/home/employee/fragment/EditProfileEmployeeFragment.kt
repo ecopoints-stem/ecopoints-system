@@ -70,7 +70,7 @@ class EditProfileEmployeeFragment : Fragment() {
             if(state.isErrorMessageVisible && state.errorDetails!=null){
                 homeViewModel.state.value = HomeState.InconsistentInput(state.errorDetails!!,state.errorMessage!!)
             }
-            if(state.employeeUpdated!=null){
+            if(state.employeeUpdated!=null && state.first){
                 homeViewModel.state.value = HomeState.Success(state.employeeUpdated!!)
                 AlertDialog.Builder(requireContext()).setTitle(
                     "SUCESSO"

@@ -14,9 +14,12 @@ sealed interface EditProfileEmployeeState {
         get() = errorMessage!= null
     val errorDetails: ExceptionDetails?
         get() = null
+    val first : Boolean
+        get() = false
 
     data class Success(
-        override val employeeUpdated: Employee?
+        override val employeeUpdated: Employee?,
+        override val first: Boolean
     ) : EditProfileEmployeeState
 
     data object Loading : EditProfileEmployeeState {
