@@ -1,6 +1,9 @@
 package br.edu.uea.ecopoints.screen.home.employee.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +11,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import br.edu.uea.ecopoints.data.api.EcoApi
+import br.edu.uea.ecopoints.data.api.exception.ExceptionDetails
 import br.edu.uea.ecopoints.domain.entity.Material
 import br.edu.uea.ecopoints.domain.entity.SeparatedMaterial
 import br.edu.uea.ecopoints.domain.network.request.SeparatedMaterialRegister
@@ -18,6 +22,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -62,7 +67,18 @@ class RecycledItemsViewModel @Inject constructor(
                             RecycledItemsState.Failed("Material não encontrado", null)
                         }
                     } else {
-                        RecycledItemsState.Failed("Servidor deu erro: ${listResponse.code()}", null)
+                        val errorBodyString = listResponse.errorBody()?.string()
+                        Log.e("ECO","Error body $errorBodyString")
+                        val errorDetails = if(errorBodyString!=null){
+                            try {
+                                mapper.readValue(errorBodyString, ExceptionDetails::class.java)
+                            } catch (ex: Exception){
+                                null
+                            }
+                        } else {
+                            null
+                        }
+                        RecycledItemsState.Failed("Servidor deu erro: ${listResponse.code()}", errorDetails)
                     }
                 }
             )
@@ -93,7 +109,19 @@ class RecycledItemsViewModel @Inject constructor(
                 if (response.isSuccessful) {
                     RecycledItemsState.Success
                 } else {
-                    RecycledItemsState.Failed("Servidor deu erro: ${response.code()}", null)
+                    //Faz um try catch
+                    val errorBodyString = response.errorBody()?.string()
+                    Log.e("ECO","Error body $errorBodyString")
+                    val errorDetails = if(errorBodyString!=null){
+                        try {
+                            mapper.readValue(errorBodyString, ExceptionDetails::class.java)
+                        } catch (ex: Exception){
+                            null
+                        }
+                    } else {
+                        null
+                    }
+                    RecycledItemsState.Failed("Servidor deu erro: ${response.code()}", errorDetails)
                 }
             }
         )
