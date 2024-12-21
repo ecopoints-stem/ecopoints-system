@@ -22,6 +22,7 @@ import br.edu.uea.ecopoints.domain.network.request.ResetPasswordRequest
 import br.edu.uea.ecopoints.domain.network.request.SeparatedMaterialRegister
 import br.edu.uea.ecopoints.domain.network.request.UserLogin
 import br.edu.uea.ecopoints.domain.network.response.AttendanceRecord
+import br.edu.uea.ecopoints.domain.network.response.BarData
 import br.edu.uea.ecopoints.domain.network.response.UserId
 import br.edu.uea.ecopoints.domain.network.response.UserLoginTokens
 import br.edu.uea.ecopoints.domain.network.response.page.PageResponse
@@ -78,6 +79,10 @@ interface EcoApi {
     suspend fun addNewMaterialForCooperative(@Path("id") id: Long,@Body material: Material) : Response<List<Material>>
     @PATCH("/admin")
     suspend fun updateAdmin(@Query("adminId") adminId: Long, @Body adminUpdate: AdminUpdate) : Response<CoopAdmin>
+    @GET("/admin/{id}/bar")
+    suspend fun getBarData(@Path("id") id: Long, @Query("endDate") endDate: String) : Response<BarData>
+    @GET("/admin/{id}/report")
+    suspend fun adminReport(@Path("id") id: Long, @Query("endDate") endDate: String) : Response<Unit>
 
     // Rotas para /pickup
     @POST("/pickup")
