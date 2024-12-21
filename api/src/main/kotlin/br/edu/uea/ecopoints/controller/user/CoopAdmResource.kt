@@ -66,7 +66,8 @@ class CoopAdmResource (
     }
 
     @GetMapping("/{id}/report")
-    fun getReportExcel(@PathVariable id: Long, @RequestParam("endDate") endDate: LocalDateTime) : ResponseEntity<String>{
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun getReportExcel(@PathVariable id: Long, @RequestParam("endDate") endDate: LocalDateTime) {
         val adm = coopAdmService.findWithCooperative(id)
         adm.cooperative?.let {
             val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(it.id!!)
@@ -79,7 +80,6 @@ class CoopAdmResource (
                 )
             }
         }
-        return ResponseEntity.status(HttpStatus.OK).body("OK")
     }
     @GetMapping("/{id}/bar")
     fun getBarData(@PathVariable id: Long, @RequestParam("endDate") endDate: LocalDateTime) : ResponseEntity<BarData> {
