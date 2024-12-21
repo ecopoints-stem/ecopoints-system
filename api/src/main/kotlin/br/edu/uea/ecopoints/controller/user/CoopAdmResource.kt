@@ -5,6 +5,8 @@ import br.edu.uea.ecopoints.domain.cooperative.material.TypeOfMaterial
 import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
 import br.edu.uea.ecopoints.dto.user.AdminUpdate
 import br.edu.uea.ecopoints.dto.user.CoopAdmRegister
+import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
+import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.cooperative.IMaterialService
 import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
@@ -79,10 +81,16 @@ class CoopAdmResource (
         }
         return ResponseEntity.status(HttpStatus.OK).body("OK")
     }
-    /*@GetMapping("/{id}/bar")
-    fun getBarData(@PathVariable id: Long) : ResponseEntity<BarData> {
-
-    }*/
+    @GetMapping("/{id}/bar")
+    fun getBarData(@PathVariable id: Long, @RequestParam("endDate") endDate: LocalDateTime) : ResponseEntity<BarData> {
+        val adm = coopAdmService.findWithCooperative(id)
+        if(adm.cooperative?.id==null){
+            throw DomainException(message = "Você não possui cooperativa administrada para gerar relatório", type = ExceptionDetailsStatus.INVALID_INPUT)
+        }
+        val cooperative = cooperativeService.findById(adm.cooperative!!.id!!)
+        val barData =  cooperativeService.findBarDataByCooperativeIdAndSeparatedDateBetween(cooperative.id!!, endDate.minusMonths(1), endDate)
+        return ResponseEntity.status(HttpStatus.OK).body(barData)
+    }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long) : ResponseEntity<CoopAdmView>{
