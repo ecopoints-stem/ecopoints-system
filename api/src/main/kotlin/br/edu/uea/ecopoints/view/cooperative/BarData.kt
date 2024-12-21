@@ -4,9 +4,9 @@ import br.edu.uea.ecopoints.enums.material.MaterialType
 import java.time.LocalDate
 
 data class BarData(
-    val totalsEmployees: Int,
-    val cooperativeName: String,
-    val startDate: LocalDate,
-    val endDate: LocalDate,
-    val data: Map<MaterialType, Double>
+    val totalsEmployees: Long = 0,
+    val cooperativeName: String = "",
+    val startDate: LocalDate = LocalDate.now(),
+    val endDate: LocalDate = LocalDate.now(),
+    val data: Map<MaterialType, Double> = emptyMap()
 )

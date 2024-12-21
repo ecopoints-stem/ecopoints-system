@@ -32,8 +32,9 @@ interface SeparatedMaterialRepository : JpaRepository<SeparatedMaterial, Long> {
         SELECT m.type, SUM(sm.quantity) 
         FROM SeparatedMaterial sm 
         JOIN sm.typeOfMaterial tm 
-        WHERE sm.cooperative.id = :cooperativeId 
+        WHERE sm.cooperative.id = :cooperativeId
+            AND sm.separatedDate BETWEEN :startDate AND :endDate
         GROUP BY m.type
     """)
-    fun findMaterialQuantityByCooperativeId(@Param("cooperativeId") cooperativeId: Long): List<Pair<MaterialType, Double>>
+    fun findMaterialQuantityByCooperativeIdAndSeparatedDateBetween(@Param("cooperativeId") cooperativeId: Long, @Param("startDate") startDate: LocalDateTime, @Param("endDate") endDate: LocalDateTime): List<Pair<MaterialType, Double>>
 }

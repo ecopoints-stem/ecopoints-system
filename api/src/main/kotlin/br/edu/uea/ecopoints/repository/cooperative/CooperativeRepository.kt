@@ -28,5 +28,11 @@ interface CooperativeRepository  : JpaRepository<Cooperative, Long>{
         WHERE c.cnpj = :cnpj
     """)
     fun findByCnpjWithAdministrator(@Param("cnpj") cnpj: String): Optional<Cooperative>
+    @Query("""
+        SELECT COUNT(e) 
+        FROM RecyclingSorter e 
+        WHERE e.cooperative.id = :cooperativeId
+    """)
+    fun countEmployeesByCooperativeId(@Param("cooperativeId") cooperativeId: Long): Long
     fun existsByCnpj(cnpj: String) : Boolean
 }
