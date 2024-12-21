@@ -46,7 +46,7 @@ class CooperativeService (
         )
         val data = HashMap<MaterialType, Double>()
         pairMap.forEach {
-            data[it.first] = it.second
+            data[it.type] = it.totalQuantity
         }
         val cooperativeName = cooperativeRepository.findById(cooperativeId).orElseThrow{
             throw DomainException(message = "Cooperativa com id $cooperativeId não encontrado", type = ExceptionDetailsStatus.INVALID_INPUT)

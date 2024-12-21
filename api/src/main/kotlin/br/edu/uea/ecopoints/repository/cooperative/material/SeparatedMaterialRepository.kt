@@ -1,6 +1,7 @@
 package br.edu.uea.ecopoints.repository.cooperative.material
 
 import br.edu.uea.ecopoints.domain.cooperative.material.SeparatedMaterial
+import br.edu.uea.ecopoints.dto.cooperative.MaterialData
 import br.edu.uea.ecopoints.enums.material.MaterialType
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -29,12 +30,12 @@ interface SeparatedMaterialRepository : JpaRepository<SeparatedMaterial, Long> {
     fun findAllByTypeOfMaterialAnEmployeeIdOrderedBySeparatedDate(materialType: MaterialType, employeeId: Long): List<SeparatedMaterial>
 
     @Query("""
-        SELECT m.type, SUM(sm.quantity) 
+        SELECT NEW br.edu.uea.ecopoints.dto.cooperative.MaterialData(tm.type, SUM(sm.quantity))
         FROM SeparatedMaterial sm 
         JOIN sm.typeOfMaterial tm 
         WHERE sm.cooperative.id = :cooperativeId
             AND sm.separatedDate BETWEEN :startDate AND :endDate
-        GROUP BY m.type
+        GROUP BY tm.type
     """)
-    fun findMaterialQuantityByCooperativeIdAndSeparatedDateBetween(@Param("cooperativeId") cooperativeId: Long, @Param("startDate") startDate: LocalDateTime, @Param("endDate") endDate: LocalDateTime): List<Pair<MaterialType, Double>>
+    fun findMaterialQuantityByCooperativeIdAndSeparatedDateBetween(@Param("cooperativeId") cooperativeId: Long, @Param("startDate") startDate: LocalDateTime, @Param("endDate") endDate: LocalDateTime): List<MaterialData>
 }
