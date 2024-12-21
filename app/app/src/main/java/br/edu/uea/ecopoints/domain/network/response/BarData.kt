@@ -10,5 +10,5 @@ data class BarData(
     @JsonProperty("cooperativeName") val cooperativeName: String,
     @JsonProperty("startDate") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") val startDate: LocalDate,
     @JsonProperty("endDate") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") val endDate: LocalDate,
-    @JsonProperty("endDate") val data: Map<MaterialType, Double>
+    @JsonProperty("data") val data: Map<MaterialType, Double>
 )
