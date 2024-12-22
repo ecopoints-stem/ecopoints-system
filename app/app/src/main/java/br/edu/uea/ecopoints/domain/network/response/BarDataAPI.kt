@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
 
-data class BarData(
+data class BarDataAPI(
     @JsonProperty("totalsEmployees") val totalsEmployees: Long,
     @JsonProperty("cooperativeName") val cooperativeName: String,
     @JsonProperty("startDate") @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd") val startDate: LocalDate,

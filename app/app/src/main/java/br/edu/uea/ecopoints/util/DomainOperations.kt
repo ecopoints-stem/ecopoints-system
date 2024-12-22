@@ -6,6 +6,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import android.graphics.Color
 
 fun String.toMaterialType() : MaterialType = when(this){
     "PLÁSTICO" -> MaterialType.PLASTICS
@@ -23,6 +24,15 @@ fun MaterialType.toMaterialString(): String = when (this) {
     MaterialType.GLASS -> "VIDRO"
     MaterialType.EXPANDED_POLYSTYRENE -> "ISOPOR"
     else -> "LIXO"
+}
+
+fun MaterialType.toMaterialColor() : Int = when(this){
+    MaterialType.PLASTICS -> Color.parseColor("#FA8072")
+    MaterialType.PAPER -> Color.parseColor("#87CEEB")
+    MaterialType.METALS -> Color.parseColor("#FFFF00")
+    MaterialType.GLASS -> Color.parseColor("#00FF7F")
+    MaterialType.EXPANDED_POLYSTYRENE -> Color.parseColor("#FF6347")
+    else -> Color.parseColor("#BEBEBE")
 }
 
 fun String.toPickUpStatus() : PickupRequestStatus = when(this){

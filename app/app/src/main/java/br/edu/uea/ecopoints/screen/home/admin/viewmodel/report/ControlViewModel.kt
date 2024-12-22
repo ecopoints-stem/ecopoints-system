@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.data.api.exception.ExceptionDetails
-import br.edu.uea.ecopoints.domain.network.response.BarData
+import br.edu.uea.ecopoints.domain.network.response.BarDataAPI
 import br.edu.uea.ecopoints.screen.home.admin.state.report.DefaultState
 import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +26,8 @@ class ControlViewModel @Inject constructor(
     private val _state = MutableLiveData<DefaultState>()
     val state: LiveData<DefaultState> = _state
 
-    private val _barData = MutableLiveData<BarData?>(null)
-    val barData : LiveData<BarData?> = _barData
+    private val _barDataAPI = MutableLiveData<BarDataAPI?>(null)
+    val barDataAPI : LiveData<BarDataAPI?> = _barDataAPI
 
     fun getBarData(endDate: String) {
         val adminId = shared.getLong("id",-1L)
@@ -38,10 +38,10 @@ class ControlViewModel @Inject constructor(
                    ecoApi.getBarData(adminId, endDate)
                 }.fold(
                     onFailure = { error -> DefaultState.Failed(null,error.message ?: "Erro ao buscar gráfico") },
-                    onSuccess = { response: Response<BarData> ->
+                    onSuccess = { response: Response<BarDataAPI> ->
                         if(response.isSuccessful){
-                            response.body()?.let { data: BarData ->
-                                _barData.postValue(data)
+                            response.body()?.let { data: BarDataAPI ->
+                                _barDataAPI.postValue(data)
                             }
                             DefaultState.Success(response.body() ?: "OK")
                         } else {

@@ -10,14 +10,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import br.edu.uea.ecopoints.databinding.FragmentAdminReportControlBinding
-import br.edu.uea.ecopoints.domain.network.response.BarData
+import br.edu.uea.ecopoints.domain.network.response.BarDataAPI
 import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.admin.state.report.DefaultState
-import br.edu.uea.ecopoints.screen.home.admin.viewmodel.ReportViewModel
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.report.ControlViewModel
 import br.edu.uea.ecopoints.screen.state.home.HomeState
+import br.edu.uea.ecopoints.util.toMaterialColor
+import br.edu.uea.ecopoints.util.toMaterialString
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
@@ -67,7 +69,7 @@ class ControlFragment : Fragment() {
                 homeViewModel.state.value = HomeState.InconsistentInput(state.errorResponseApi!!,state.errorMessage!!)
             }
         }
-        controlViewModel.barData.observe(viewLifecycleOwner){ barChartMaterials: BarData? ->
+        controlViewModel.barDataAPI.observe(viewLifecycleOwner){ barChartMaterials: BarDataAPI? ->
             if(barChartMaterials!=null){
                 populateData(barChartMaterials)
                 homeViewModel.state.value = HomeState.Success(barChartMaterials)
@@ -75,7 +77,7 @@ class ControlFragment : Fragment() {
         }
     }
 
-    private fun populateData(data: BarData) {
+    private fun populateData(data: BarDataAPI) {
         with(barChartMaterials){
             description.isEnabled = false
             setFitBars(true)
@@ -83,24 +85,28 @@ class ControlFragment : Fragment() {
             xAxis.setDrawGridLines(false)
             axisRight.isEnabled = false
             legend.isEnabled = true
+            xAxis.granularity = 1f
+            xAxis.isGranularityEnabled = true
         }
         val entries = data.data.entries.mapIndexed { index, entry ->
             BarEntry(index.toFloat(), entry.value.toFloat())
         }
         val dataSet = BarDataSet(entries, "Materiais")
-        dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
-        dataSet.valueTextColor = Color.BLACK
-        dataSet.valueTextSize = 12f
-        val barData = com.github.mikephil.charting.data.BarData(dataSet)
+        dataSet.colors = getBarColors(data)
+        dataSet.valueTextColor = Color.BLUE
+        dataSet.valueTextSize = 13f
+        val barData = BarData(dataSet)
         barChartMaterials.data = barData
         barChartMaterials.xAxis.valueFormatter = object : ValueFormatter() {
-            private val labels = data.data.keys.map { it.name }
+            private val labels = data.data.keys.map { it.toMaterialString() }
             override fun getFormattedValue(value: Float): String {
                 return labels.getOrNull(value.toInt()) ?: ""
             }
         }
         barChartMaterials.invalidate()
     }
+
+    private fun getBarColors(data: BarDataAPI) : List<Int> = data.data.keys.map { type -> type.toMaterialColor() }
 
     private fun setupListeners() {
         btnReport.setOnClickListener {
