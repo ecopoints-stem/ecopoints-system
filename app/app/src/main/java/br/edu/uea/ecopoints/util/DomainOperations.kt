@@ -40,6 +40,7 @@ fun String.toPickUpStatus() : PickupRequestStatus = when(this){
     "EM ANDAMENTO" -> PickupRequestStatus.IN_PROGRESS
     "COMPLETADO" -> PickupRequestStatus.COMPLETED
     "REJEITADO" -> PickupRequestStatus.REJECTED
+    "NÃO COMPLETADO" -> PickupRequestStatus.NOT_COMPLETED
     else -> PickupRequestStatus.IN_PROGRESS
 }
 
@@ -47,6 +48,7 @@ fun PickupRequestStatus.toStatusString() : String = when(this){
     PickupRequestStatus.ACCEPTED -> "ACEITO"
     PickupRequestStatus.IN_PROGRESS -> "EM ANDAMENTO"
     PickupRequestStatus.COMPLETED -> "COMPLETADO"
+    PickupRequestStatus.NOT_COMPLETED -> "COMPLETADO"
     PickupRequestStatus.REJECTED -> "REJEITADO"
 }
 
