@@ -15,7 +15,7 @@
         android:minHeight="70dp"
         android:visibility="gone"
         android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_admin"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_employee"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
