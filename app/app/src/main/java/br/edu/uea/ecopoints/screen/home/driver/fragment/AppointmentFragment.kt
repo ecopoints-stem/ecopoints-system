@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AppointmentFragment : Fragment() {
+    // Pedidos de HOJE (DRIVER)
     private var _binding:FragmentPickUpDriverRequestTodayBinding? = null
     private val binding get() = _binding!!
 
