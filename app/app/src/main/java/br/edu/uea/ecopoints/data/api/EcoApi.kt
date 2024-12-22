@@ -103,6 +103,14 @@ interface EcoApi {
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<PickUpRequest>>
+    @GET("/pickup/driver/{driverId}/date/status")
+    suspend fun getAllRequestsByDriverIdAnDateAndPickUpStatus(
+        @Path("driverId") driverId: Long,
+        @Query("pickDate") pickDate: String,
+        @Query("statuses") statuses: List<String>,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PageResponse<PickUpRequest>>
 
     // Rotas para /material
     @GET("/material/list")
