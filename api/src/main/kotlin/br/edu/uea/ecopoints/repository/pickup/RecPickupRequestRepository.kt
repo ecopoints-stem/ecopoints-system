@@ -1,6 +1,7 @@
 package br.edu.uea.ecopoints.repository.pickup
 
 import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
+import br.edu.uea.ecopoints.enums.PickupRequestStatus
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -23,15 +24,5 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
     fun findAllByPickDateAndDriver_Id(pickDate: LocalDate, driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest>
     fun findAllByRequester_IdOrderByPickDateDesc(requesterId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriver_IdOrderByPickDateDesc(driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
-
-    /*
-    * OLHA ESSE EXEMPLO
-    * public interface UserRepository extends JpaRepository<User, Long> {
-
-  @NativeQuery(value = "SELECT * FROM USERS WHERE LASTNAME = ?1",
-    countQuery = "SELECT count(*) FROM USERS WHERE LASTNAME = ?1")
-  Page<User> findByLastname(String lastname, Pageable pageable);
-}
-    *
-    * */
+    fun findAllByDriver_IdAndStatusAndPickDateOrderByPickDateDesc(driverId: Long, status: PickupRequestStatus, pickDate: LocalDate, pageable: Pageable) : Page<RecyclingPickupRequest>
 }

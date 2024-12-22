@@ -2,6 +2,7 @@ package br.edu.uea.ecopoints.service.impl.pickup
 
 import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
 import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
+import br.edu.uea.ecopoints.enums.PickupRequestStatus
 import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.pickup.RecPickupRequestRepository
 import br.edu.uea.ecopoints.service.interf.pickup.IPickupRequestService
@@ -34,32 +35,12 @@ class PickupRequestService (
 
     override fun findAllByRequesterId(requesterId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByRequester_IdOrderByPickDateDesc(requesterId, pageable)
     override fun findAllByDriverId(driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdOrderByPickDateDesc(driverId, pageable)
-
-    /*override fun findAllByDriverId(driverId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
-        val pageable = PageRequest.of(page, size)
-        val requests = repo.findAllByDriverIdWithDriverAndRequester(driverId)
-        val total = repo.countByDriverId(driverId)
-        return PageImpl(requests, pageable, total)
-    }
-
-    override fun findAllByRequesterId(requesterId: Long, page: Int, size: Int): Page<RecyclingPickupRequest> {
-        val pageable = PageRequest.of(page, size)
-        val requests = repo.findAllByRequesterIdWithDriverAndRequester(requesterId)
-        val total = repo.countByRequesterId(requesterId)
-        return PageImpl(requests, pageable, total)
-    }
-
-    override fun findAllByDateAndDriverId(
-        pkDate: LocalDate,
+    override fun findAllByDriverIdAndStatus(
         driverId: Long,
-        page: Int,
-        size: Int
-    ): Page<RecyclingPickupRequest> {
-        val pageable = PageRequest.of(page, size)
-        val requests = repo.findAllByDateAndDriverIdWithDriverAndRequester(pkDate, driverId)
-        val total = repo.countByDateAndDriverId(pkDate, driverId)
-        return PageImpl(requests, pageable, total)
-    }*/
+        status: PickupRequestStatus,
+        pickDate: LocalDate,
+        pageable: Pageable
+    ): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdAndStatusAndPickDateOrderByPickDateDesc(driverId, status, pickDate, pageable)
 
     override fun existsById(id: Long): Boolean = repo.existsById(id)
 
