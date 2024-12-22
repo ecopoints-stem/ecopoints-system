@@ -24,5 +24,5 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
     fun findAllByPickDateAndDriver_Id(pickDate: LocalDate, driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest>
     fun findAllByRequester_IdOrderByPickDateDesc(requesterId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriver_IdOrderByPickDateDesc(driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
-    fun findAllByDriver_IdAndStatusAndPickDateOrderByPickDateDesc(driverId: Long, status: PickupRequestStatus, pickDate: LocalDate, pageable: Pageable) : Page<RecyclingPickupRequest>
+    fun findAllByDriver_IdAndStatusInAndPickDateOrderByPickDateDesc(driverId: Long, statuses: List<PickupRequestStatus>, pickDate: LocalDate, pageable: Pageable) : Page<RecyclingPickupRequest>
 }

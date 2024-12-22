@@ -13,7 +13,7 @@ interface IPickupRequestService {
     fun findAllByDateAndDriverId(pickDate: LocalDate, driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByRequesterId(requesterId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriverId(driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
-    fun findAllByDriverIdAndStatus(driverId: Long, status: PickupRequestStatus, pickDate: LocalDate, pageable: Pageable) : Page<RecyclingPickupRequest>
+    fun findAllByDriverIdAndStatusIn(driverId: Long, statuses: List<PickupRequestStatus>, pickDate: LocalDate, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun existsById(id: Long) : Boolean
     fun deleteById(id: Long)
 }

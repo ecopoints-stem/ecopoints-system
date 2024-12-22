@@ -35,12 +35,12 @@ class PickupRequestService (
 
     override fun findAllByRequesterId(requesterId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByRequester_IdOrderByPickDateDesc(requesterId, pageable)
     override fun findAllByDriverId(driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdOrderByPickDateDesc(driverId, pageable)
-    override fun findAllByDriverIdAndStatus(
+    override fun findAllByDriverIdAndStatusIn(
         driverId: Long,
-        status: PickupRequestStatus,
+        statuses: List<PickupRequestStatus>,
         pickDate: LocalDate,
         pageable: Pageable
-    ): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdAndStatusAndPickDateOrderByPickDateDesc(driverId, status, pickDate, pageable)
+    ): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdAndStatusInAndPickDateOrderByPickDateDesc(driverId, statuses, pickDate, pageable)
 
     override fun existsById(id: Long): Boolean = repo.existsById(id)
 

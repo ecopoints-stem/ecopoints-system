@@ -2,6 +2,7 @@ package br.edu.uea.ecopoints.controller.pickup
 
 import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
 import br.edu.uea.ecopoints.domain.user.Driver
+import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestConsultStatus
 import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestRegister
 import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestUpdate
 import br.edu.uea.ecopoints.enums.PickupRequestStatus
@@ -10,7 +11,10 @@ import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
 import br.edu.uea.ecopoints.service.interf.user.IDriverService
 import br.edu.uea.ecopoints.view.pickup.RecyclingPickupRequestView
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.tags.Tag
+import io.swagger.v3.oas.models.media.Schema
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -114,14 +118,18 @@ class PickupResource (
     @GetMapping("/driver/{driverId}/date/status")
     fun getRequestsDriversByDateAndStatus(
         @PathVariable driverId: Long,
-        @RequestParam("pickDate") pickDate: String,
-        @RequestParam("status") status: PickupRequestStatus,
+        @RequestParam pickDate: String,
+        @RequestParam
+        @Parameter(
+            description = "Statuses can be passed as an array",
+            example = "[\"ACCEPTED\", \"IN_PROGRESS\"]"
+        ) statuses: List<PickupRequestStatus>,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "5") size: Int
     ) : Page<RecyclingPickupRequestView> {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val dPickDate = LocalDate.parse(pickDate, formatter)
         val pageable = PageRequest.of(page, size)
-        return pickUpService.findAllByDriverIdAndStatus(driverId, status, dPickDate, pageable).map{pick -> pick.toView()}
+        return pickUpService.findAllByDriverIdAndStatusIn(driverId, statuses, dPickDate, pageable).map{pick -> pick.toView()}
     }
 }
