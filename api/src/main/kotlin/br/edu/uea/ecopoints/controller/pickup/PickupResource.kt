@@ -70,23 +70,6 @@ class PickupResource (
         return pickUpService.findAllByDriverId(driverId, pageable).map { pick -> pick.toView()}
     }
 
-    /*@GetMapping("/driver/{driverId}")
-    fun getRequestsByDriverId(
-        @PathVariable driverId: Long,
-        @RequestParam(defaultValue = "0") page: Int,
-        @RequestParam(defaultValue = "5") size: Int
-    ) : Page<RecyclingPickupRequestView> {
-        return pickUpService.findAllByDriverId(driverId, page, size).map { pickup -> pickup.toView() }
-    }
-
-    @GetMapping("/requester/{requesterId}")
-    fun getRequestsByRequesterId(
-        @PathVariable requesterId: Long,
-        @RequestParam(defaultValue = "0") page: Int,
-        @RequestParam(defaultValue = "5") size: Int
-    ) : Page<RecyclingPickupRequestView> {
-        return pickUpService.findAllByRequesterId(requesterId, page, size).map { pickup -> pickup.toView() }
-    }*/
     @PostMapping("/{id}/status")
     fun updatePickUpRequestStatus(@PathVariable id: Long, @RequestParam("newStatus") newStatus: PickupRequestStatus) : ResponseEntity<RecyclingPickupRequestView>{
         val pickup = pickUpService.findById(id)
@@ -126,5 +109,19 @@ class PickupResource (
         val dPickDate = LocalDate.parse(pickDate, formatter)
         val pageable = PageRequest.of(page, size)
         return pickUpService.findAllByDateAndDriverId(dPickDate,driverId,pageable).map{pick -> pick.toView()}
+    }
+
+    @GetMapping("/driver/{driverId}/date/status")
+    fun getRequestsDriversByDateAndStatus(
+        @PathVariable driverId: Long,
+        @RequestParam("pickDate") pickDate: String,
+        @RequestParam("status") status: PickupRequestStatus,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<RecyclingPickupRequestView> {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val dPickDate = LocalDate.parse(pickDate, formatter)
+        val pageable = PageRequest.of(page, size)
+        return pickUpService.findAllByDriverIdAndStatus(driverId, status, dPickDate, pageable).map{pick -> pick.toView()}
     }
 }
