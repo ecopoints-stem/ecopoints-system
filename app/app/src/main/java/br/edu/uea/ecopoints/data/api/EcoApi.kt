@@ -12,6 +12,7 @@ import br.edu.uea.ecopoints.domain.network.request.AdminRegister
 import br.edu.uea.ecopoints.domain.network.request.AdminUpdate
 import br.edu.uea.ecopoints.domain.network.request.AttendanceRecordRegister
 import br.edu.uea.ecopoints.domain.network.request.DriverRegister
+import br.edu.uea.ecopoints.domain.network.request.DriverUpdate
 import br.edu.uea.ecopoints.domain.network.request.EmployeeRegister
 import br.edu.uea.ecopoints.domain.network.request.EmployeeUpdate
 import br.edu.uea.ecopoints.domain.network.request.MessageEmailSendNewPassword
@@ -68,6 +69,8 @@ interface EcoApi {
     // Rotas para /driver
     @GET("/driver/{id}")
     suspend fun findDriverById(@Path("id") id: Long) : Response<Driver>
+    @PATCH("/driver")
+    suspend fun updateDriver(@Query("driverId") id: Long, driverUpdate: DriverUpdate) : Response<Driver>
 
     // Rotas para /admin
     @GET("/admin/{id}")
