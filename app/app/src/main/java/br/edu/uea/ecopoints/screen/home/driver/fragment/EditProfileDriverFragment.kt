@@ -32,8 +32,7 @@ class EditProfileDriverFragment : Fragment() {
     private val editDriverEmployeeViewModel: EditProfileDriverViewModel by viewModels()
     private val homeViewModel : HomeViewModel by activityViewModels()
 
-    @Inject
-    lateinit var shared: SharedPreferences
+    @Inject lateinit var shared: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, group: ViewGroup?, saved: Bundle?): View {
         _binding = FragmentEditProfileDriverBinding.inflate(inflater,group, false)
@@ -47,7 +46,13 @@ class EditProfileDriverFragment : Fragment() {
     }
 
     private fun setupView() {
+        edtName = binding.edtName
+        edtEmail = binding.edtEmail
+        edtPhone = binding.edtPhone
+        edtCnh = binding.edtCnh
+        edtPassword = binding.edtPassword
 
+        btnUpdate = binding.btEditProfile
     }
 
     override fun onDestroyView() {
