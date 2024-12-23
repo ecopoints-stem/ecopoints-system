@@ -70,7 +70,7 @@ interface EcoApi {
     @GET("/driver/{id}")
     suspend fun findDriverById(@Path("id") id: Long) : Response<Driver>
     @PATCH("/driver")
-    suspend fun updateDriver(@Query("driverId") id: Long, driverUpdate: DriverUpdate) : Response<Driver>
+    suspend fun updateDriver(@Query("driverId") id: Long, @Body driverUpdate: DriverUpdate) : Response<Driver>
 
     // Rotas para /admin
     @GET("/admin/{id}")

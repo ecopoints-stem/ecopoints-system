@@ -44,6 +44,7 @@ class EditProfileDriverViewModel @Inject constructor(
                    )
                }.fold(
                    onFailure = { error ->
+                       Log.i("ECO","Erro ${error.message}")
                        EditProfileDriverState.Failed(error.message ?: "Erro requisição para API",null)
                    },
                    onSuccess = { response: Response<Driver> ->
