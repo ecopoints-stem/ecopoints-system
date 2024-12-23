@@ -1,5 +1,6 @@
 package br.edu.uea.ecopoints.screen.home.driver.fragment
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import br.edu.uea.ecopoints.screen.home.driver.viewmodel.EditProfileDriverViewMo
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EditProfileDriverFragment : Fragment() {
@@ -29,6 +31,9 @@ class EditProfileDriverFragment : Fragment() {
 
     private val editDriverEmployeeViewModel: EditProfileDriverViewModel by viewModels()
     private val homeViewModel : HomeViewModel by activityViewModels()
+
+    @Inject
+    lateinit var shared: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, group: ViewGroup?, saved: Bundle?): View {
         _binding = FragmentEditProfileDriverBinding.inflate(inflater,group, false)
