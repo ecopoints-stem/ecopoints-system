@@ -7,6 +7,7 @@ import br.edu.uea.ecopoints.domain.entity.Employee
 import br.edu.uea.ecopoints.domain.entity.Material
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.SeparatedMaterial
+import br.edu.uea.ecopoints.domain.entity.enums.PickupRequestStatus
 import br.edu.uea.ecopoints.domain.entity.model.UserApp
 import br.edu.uea.ecopoints.domain.network.request.AdminRegister
 import br.edu.uea.ecopoints.domain.network.request.AdminUpdate
@@ -114,6 +115,11 @@ interface EcoApi {
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<PickUpRequest>>
+    @POST("/pickup/{id}/status")
+    suspend fun updatePickUpStatus(
+        @Path("id") pickUpId: Long,
+        @Query("newStatus") newStatus: PickupRequestStatus
+    ) : Response<PickUpRequest>
 
     // Rotas para /material
     @GET("/material/list")
