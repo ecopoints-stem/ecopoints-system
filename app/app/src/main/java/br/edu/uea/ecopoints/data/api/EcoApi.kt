@@ -120,6 +120,14 @@ interface EcoApi {
         @Path("id") pickUpId: Long,
         @Query("newStatus") newStatus: PickupRequestStatus
     ) : Response<PickUpRequest>
+    //Chamar a função abaixo pra listar os pickup request do driver na tela de agendados
+    @GET("/pickup/driver/{driverId}/all")
+    suspend fun getAllRequestsByDriverIdAndPickUpStatusIn(
+        @Path("driverId") driverId: Long,
+        @Query("statuses") statuses: List<String>,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ) : Response<PageResponse<PickUpRequest>>
 
     // Rotas para /material
     @GET("/material/list")
