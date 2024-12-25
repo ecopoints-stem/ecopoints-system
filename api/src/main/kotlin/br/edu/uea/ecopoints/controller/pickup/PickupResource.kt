@@ -2,7 +2,6 @@ package br.edu.uea.ecopoints.controller.pickup
 
 import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
 import br.edu.uea.ecopoints.domain.user.Driver
-import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestConsultStatus
 import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestRegister
 import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestUpdate
 import br.edu.uea.ecopoints.enums.PickupRequestStatus
@@ -12,9 +11,7 @@ import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
 import br.edu.uea.ecopoints.service.interf.user.IDriverService
 import br.edu.uea.ecopoints.view.pickup.RecyclingPickupRequestView
 import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.tags.Tag
-import io.swagger.v3.oas.models.media.Schema
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -130,6 +127,21 @@ class PickupResource (
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val dPickDate = LocalDate.parse(pickDate, formatter)
         val pageable = PageRequest.of(page, size)
-        return pickUpService.findAllByDriverIdAndStatusIn(driverId, statuses, dPickDate, pageable).map{pick -> pick.toView()}
+        return pickUpService.findAllByDriverIdAndStatusInAndPickDate(driverId, statuses, dPickDate, pageable).map{ pick -> pick.toView()}
+    }
+
+    @GetMapping("/driver/{driverId}/all")
+    fun getRequestersByStatus(
+        @PathVariable driverId: Long,
+        @RequestParam
+        @Parameter(
+            description = "Statuses can be passed as an array",
+            example = "[\"ACCEPTED\", \"IN_PROGRESS\"]"
+        ) statuses: List<PickupRequestStatus>,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    ) : Page<RecyclingPickupRequestView> {
+        val pageable = PageRequest.of(page, size)
+        return pickUpService.findAllByDriverIdAndStatusIn(driverId, statuses, pageable).map { pick -> pick.toView() }
     }
 }
