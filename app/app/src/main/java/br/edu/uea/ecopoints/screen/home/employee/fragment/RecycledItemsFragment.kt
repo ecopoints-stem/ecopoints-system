@@ -19,7 +19,9 @@ import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.DialogAddNewSeparatedMaterialBinding
 import br.edu.uea.ecopoints.databinding.FragmentRecycledItemsBinding
 import br.edu.uea.ecopoints.domain.entity.SeparatedMaterial
+import br.edu.uea.ecopoints.screen.home.admin.HomeAdminActivity
 import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
+import br.edu.uea.ecopoints.screen.home.employee.HomeEmployeeActivity
 import br.edu.uea.ecopoints.screen.home.employee.HomeEmployeeViewModel
 import br.edu.uea.ecopoints.screen.home.employee.fragment.recyclerview.SeparatedMaterialAdapter
 import br.edu.uea.ecopoints.screen.home.employee.viewmodel.RecycledItemsViewModel
@@ -76,6 +78,14 @@ class RecycledItemsFragment : Fragment() {
         swpRefreshLayout.setOnRefreshListener {
             adapter.refresh()
             swpRefreshLayout.isRefreshing = false
+        }
+        val activityBinding = (requireActivity() as HomeEmployeeActivity).binding
+        val bottomNavigationView = activityBinding.bottomNavigationEmployee
+        bottomNavigationView.viewTreeObserver?.addOnGlobalLayoutListener {
+            val bottomNavHeight = bottomNavigationView.height
+
+            rcSeparatedMaterial.setPadding(0, 0, 0, bottomNavHeight)
+            rcSeparatedMaterial.clipToPadding = false
         }
     }
 

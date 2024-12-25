@@ -19,6 +19,7 @@ import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.databinding.FragmentPickUpDriverRequestBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.PickupRequestStatus
+import br.edu.uea.ecopoints.screen.home.driver.HomeDriverActivity
 import br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.today.PickUpTodayAdapter
 import br.edu.uea.ecopoints.screen.home.driver.viewmodel.PickUpRequestOthersViewModel
 import br.edu.uea.ecopoints.screen.home.driver.viewmodel.factory.PickUpRequestOthersViewModelFactory
@@ -72,6 +73,14 @@ class PickUpRequestFragment : Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             adapter.refresh()
             swipeRefreshLayout.isRefreshing = false
+        }
+        val activityBinding = (requireActivity() as HomeDriverActivity).binding
+        val bottomNavigationView = activityBinding.bottomNavigationDriver
+        bottomNavigationView.viewTreeObserver?.addOnGlobalLayoutListener {
+            val bottomNavHeight = bottomNavigationView.height
+
+            rc.setPadding(0, 0, 0, bottomNavHeight)
+            rc.clipToPadding = false
         }
     }
 

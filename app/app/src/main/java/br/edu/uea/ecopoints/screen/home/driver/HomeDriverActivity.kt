@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeDriverActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityHomeDriverBinding
+    lateinit var binding: ActivityHomeDriverBinding
     private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

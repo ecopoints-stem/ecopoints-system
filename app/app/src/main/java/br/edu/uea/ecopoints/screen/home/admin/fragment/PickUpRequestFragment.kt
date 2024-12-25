@@ -22,6 +22,7 @@ import br.edu.uea.ecopoints.R
 import br.edu.uea.ecopoints.databinding.FragmentPickUpRequestBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.MaterialType
+import br.edu.uea.ecopoints.screen.home.admin.HomeAdminActivity
 import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.admin.fragment.recyclerview.PickUpAdapter
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.PickUpRequestViewModel
@@ -103,6 +104,14 @@ class PickUpRequestFragment : Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             adapter.refresh()
             swipeRefreshLayout.isRefreshing = false
+        }
+        val activityBinding = (requireActivity() as HomeAdminActivity).binding
+        val bottomNavigationView = activityBinding.bottomNavigationAdmin
+        bottomNavigationView.viewTreeObserver?.addOnGlobalLayoutListener {
+            val bottomNavHeight = bottomNavigationView.height
+
+            rc.setPadding(0, 0, 0, bottomNavHeight)
+            rc.clipToPadding = false
         }
     }
 

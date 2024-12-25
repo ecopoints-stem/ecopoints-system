@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeEmployeeActivity : AppCompatActivity() {
-    private val binding: ActivityHomeEmployeeBinding by lazy { ActivityHomeEmployeeBinding.inflate(layoutInflater) }
+    val binding: ActivityHomeEmployeeBinding by lazy { ActivityHomeEmployeeBinding.inflate(layoutInflater) }
     private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
