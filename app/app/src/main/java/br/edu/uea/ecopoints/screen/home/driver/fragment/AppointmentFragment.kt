@@ -16,13 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import br.edu.uea.ecopoints.data.api.EcoApi
-import br.edu.uea.ecopoints.databinding.FragmentClockInOutBinding
-import br.edu.uea.ecopoints.databinding.FragmentPickUpDriverRequestBinding
 import br.edu.uea.ecopoints.databinding.FragmentPickUpDriverRequestTodayBinding
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.PickupRequestStatus
-import br.edu.uea.ecopoints.screen.home.admin.fragment.recyclerview.PickUpAdapter
-import br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.PickUpTodayAdapter
+import br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.today.PickUpTodayAdapter
 import br.edu.uea.ecopoints.screen.home.driver.viewmodel.PickUpRequestTodayViewModel
 import br.edu.uea.ecopoints.screen.home.driver.viewmodel.factory.PickUpRequestTodayViewModelFactory
 import com.fasterxml.jackson.databind.ObjectMapper

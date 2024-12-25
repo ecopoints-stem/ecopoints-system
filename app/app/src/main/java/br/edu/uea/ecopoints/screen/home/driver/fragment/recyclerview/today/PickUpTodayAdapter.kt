@@ -1,9 +1,8 @@
-package br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview
+package br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.today
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
-import androidx.paging.PagingSource
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.edu.uea.ecopoints.R

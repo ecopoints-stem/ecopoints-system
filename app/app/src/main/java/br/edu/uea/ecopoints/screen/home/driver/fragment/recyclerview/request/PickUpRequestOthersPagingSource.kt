@@ -1,25 +1,22 @@
-package br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview
+package br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.request
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
-import okio.IOException
+import java.io.IOException
 
-class PickUpRequestTodayPagingSource (
+class PickUpRequestOthersPagingSource (
     private val ecoApi: EcoApi,
     private val driverId: Long,
-    private val pickDate: String,
     private val statuses: List<String>
 ) : PagingSource<Int, PickUpRequest>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PickUpRequest> {
         val page = params.key ?: 0
         return try {
-            val response = ecoApi.getAllRequestsByDriverIdAnDateAndPickUpStatus(
-                driverId, pickDate, statuses, page, params.loadSize
-            )
+            val response = ecoApi.getAllRequestsByDriverIdAndPickUpStatusIn(driverId, statuses, page, params.loadSize)
             if (response.isSuccessful && response.body() != null) {
                 Log.i("ECO","Recuperou \n ${response.body()}")
                 val responseBody = response.body()!!

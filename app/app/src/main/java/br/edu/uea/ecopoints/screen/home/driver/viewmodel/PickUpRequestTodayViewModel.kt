@@ -9,11 +9,8 @@ import androidx.paging.cachedIn
 import br.edu.uea.ecopoints.data.api.EcoApi
 import br.edu.uea.ecopoints.domain.entity.PickUpRequest
 import br.edu.uea.ecopoints.domain.entity.enums.PickupRequestStatus
-import br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.PickUpRequestTodayPagingSource
+import br.edu.uea.ecopoints.screen.home.driver.fragment.recyclerview.today.PickUpRequestTodayPagingSource
 import com.fasterxml.jackson.databind.ObjectMapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class PickUpRequestTodayViewModel (
     private val ecoApi: EcoApi,
