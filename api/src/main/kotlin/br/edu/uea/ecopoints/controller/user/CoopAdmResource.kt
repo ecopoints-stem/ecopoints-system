@@ -21,7 +21,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.concurrent.thread
 
 
@@ -81,6 +83,32 @@ class CoopAdmResource (
             }
         }
     }
+
+    @GetMapping("/{id}/client/report")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun getClientReportExcel(
+        @PathVariable id: Long,
+        @RequestParam(required = true) clientCnpj: String,
+        @RequestParam(required = true) startDate: String,
+        @RequestParam(required = true) endDate: String) {
+
+        val cooperative = cooperativeService.findByCnpjWithAdministrator(clientCnpj)
+        val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val entityStartDate = LocalDate.parse(startDate,dateFormatter)
+        val entityEndDate = LocalDate.parse(endDate, dateFormatter)
+        val clientId = if(cooperative.adm!=null) cooperative.adm!!.id else null
+        if(clientId!=null && id!=clientId){
+            thread (start = true){
+                val excel = reportService.generateClientReport(id, clientId, entityStartDate, entityEndDate)
+                emailService.sendExcelReport(cooperative.adm!!.email,
+                    EmailTexts.EXCEL_ADMIN_REPORT_SUBJECT,
+                    EmailTexts.EXCEL_ADMIN_REPORT_BODY, excel,
+                    "relatorio.xlsx"
+                )
+            }
+        }
+    }
+
     @GetMapping("/{id}/bar")
     fun getBarData(@PathVariable id: Long, @RequestParam("endDate") endDate: LocalDateTime) : ResponseEntity<BarData> {
         val adm = coopAdmService.findWithCooperative(id)

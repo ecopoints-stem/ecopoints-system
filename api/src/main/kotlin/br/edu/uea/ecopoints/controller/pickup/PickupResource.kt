@@ -4,7 +4,9 @@ import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
 import br.edu.uea.ecopoints.domain.user.Driver
 import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestRegister
 import br.edu.uea.ecopoints.dto.pickup.RecyclingPickupRequestUpdate
+import br.edu.uea.ecopoints.enums.ExceptionDetailsStatus
 import br.edu.uea.ecopoints.enums.PickupRequestStatus
+import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.service.interf.pickup.IPickupRequestService
 import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.user.ICoopAdmService
@@ -34,15 +36,20 @@ class PickupResource (
     @PostMapping
     fun create(@RequestBody @Valid dto: RecyclingPickupRequestRegister) : ResponseEntity<RecyclingPickupRequestView>{
         val driver = driverService.findByEmail(dto.emailDriver)
-        val adminRequesterId = coopService.findByCnpjWithAdministrator(dto.cnpj).adm?.id ?: -1
+        val adminRequesterId = coopService.findByCnpjWithAdministrator(dto.clientCnpj).adm?.id ?: -1
+        val adminCooperative = admService.findById(dto.cooperativeAdminId)
         val adminRequester = admService.findById(adminRequesterId)
+
+        if(adminCooperative.id!=null && adminRequester.id!= null && adminCooperative.id==adminRequester.id){
+            throw DomainException(message = "Você Não pode solicitar um pedido de coleta para você mesmo", ExceptionDetailsStatus.INVALID_INPUT)
+        }
 
         val pickUp = RecyclingPickupRequest(
             id = null, materialType = dto.materialType,
             quantity = dto.quantity, unitPrice = dto.unitPrice,
             address = dto.address, pickDate = dto.requestDate,
             status = PickupRequestStatus.IN_PROGRESS,
-            driver = driver, requester = adminRequester
+            driver = driver, requester = adminRequester, client = adminCooperative
         )
 
         val pickUpId = pickUpService.save(pickUp).id ?: -1
@@ -58,6 +65,17 @@ class PickupResource (
     ) : Page<RecyclingPickupRequestView> {
         val pageable = PageRequest.of(page, size)
         return pickUpService.findAllByRequesterId(requesterId, pageable).map { pick -> pick.toView()}
+    }
+
+    @GetMapping("/client/{clientId}")
+    @Transactional
+    fun getRequestsByClientId(
+        @PathVariable clientId: Long,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "5") size: Int
+    )  : Page<RecyclingPickupRequestView> {
+        val pageable = PageRequest.of(page, size)
+        return pickUpService.findAllByClientId(clientId, pageable).map { pick -> pick.toView()}
     }
 
     @GetMapping("/driver/{driverId}")

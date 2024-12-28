@@ -12,7 +12,8 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 data class RecyclingPickupRequestRegister(
-    @field:CNPJ val cnpj: String,
+    @field:CNPJ val clientCnpj: String,
+    @field:NotNull val cooperativeAdminId: Long,
     @field:Email val emailDriver: String,
     @field:NotNull val address: String,
     @field:NotNull val materialType: MaterialType,

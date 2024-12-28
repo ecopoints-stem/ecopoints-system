@@ -29,7 +29,9 @@ class RecyclingPickupRequest(
     @ManyToOne(optional = true, cascade = [CascadeType.MERGE]) @JoinColumn(name = "driver_id", nullable = true)
     var driver: Driver? = null,
     @ManyToOne(optional = false) @JoinColumn(name = "requester_id", nullable = false)
-    val requester: CooperativeAdministrator
+    val requester: CooperativeAdministrator,
+    @ManyToOne(optional = false) @JoinColumn(name = "client_id", nullable = false)
+    val client: CooperativeAdministrator
 ) {
     fun toView() : RecyclingPickupRequestView = RecyclingPickupRequestView(
         id = this.id!!,
@@ -40,6 +42,7 @@ class RecyclingPickupRequest(
         requestDate = this.pickDate,
         status = this.status,
         driverId = this.driver?.id,
-        requesterId = this.requester.id!!
+        requesterId = this.requester.id!!,
+        clientId = this.client.id!!
     )
 }

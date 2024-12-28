@@ -15,5 +15,6 @@ data class RecyclingPickupRequestView(
     val requestDate: LocalDate,
     val status: PickupRequestStatus,
     val driverId: Long?,
-    val requesterId: Long
+    val requesterId: Long,
+    val clientId: Long
 )

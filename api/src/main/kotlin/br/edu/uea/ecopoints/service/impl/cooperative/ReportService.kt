@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -39,6 +40,15 @@ class ReportService (
         workbook.write(outputStream)
         workbook.close()
         return outputStream.toByteArray()
+    }
+
+    override fun generateClientReport(
+        id: Long,
+        clientId: Long,
+        entityStartDate: LocalDate,
+        entityEndDate: LocalDate
+    ): ByteArray {
+        TODO("Not yet implemented")
     }
 
     private fun createMaterialSheet(
