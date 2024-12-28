@@ -15,5 +15,6 @@ data class PickUpRequest(
     @JsonProperty("requestDate") val requestDate: LocalDate,
     @JsonProperty("status") val status: PickupRequestStatus,
     @JsonProperty("driverId") val driverId: Long?,
-    @JsonProperty("requesterId") val requesterId: Long
+    @JsonProperty("requesterId") val requesterId: Long,
+    @JsonProperty("clientId") val clientId: Long
 )

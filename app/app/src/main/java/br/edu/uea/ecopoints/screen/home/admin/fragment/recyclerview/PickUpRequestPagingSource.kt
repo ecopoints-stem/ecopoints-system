@@ -1,6 +1,5 @@
 package br.edu.uea.ecopoints.screen.home.admin.fragment.recyclerview
 
-import android.net.http.HttpException
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -15,7 +14,7 @@ class PickUpRequestPagingSource (
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PickUpRequest> {
         val page = params.key ?: 0
         return try {
-            val response = ecoApi.getAllRequestsByRequesterId(
+            val response = ecoApi.getAllRequestsByCooperativeAdminId(
                 requesterId,
                 page = page,
                 size = params.loadSize

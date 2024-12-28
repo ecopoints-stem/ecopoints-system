@@ -40,11 +40,12 @@ class PickUpRequestViewModel @Inject constructor(
         quantity: Double, unitPrice: BigDecimal,
         requestDate: LocalDate
     ) {
+        val adminId = shared.getLong("id",-1L)
         val pickUpRegister = PickUpRegister(
-            cnpj = cnpj, emailDriver = emailDriver,
+            clientCnpj = cnpj, emailDriver = emailDriver,
             address = address, materialType = materialType,
             quantity = quantity, unitPrice = unitPrice,
-            requestDate = requestDate
+            requestDate = requestDate, cooperativeAdminId = adminId
         )
         viewModelScope.launch (Dispatchers.IO){
             state.postValue(PickUpRequestState.Loading)

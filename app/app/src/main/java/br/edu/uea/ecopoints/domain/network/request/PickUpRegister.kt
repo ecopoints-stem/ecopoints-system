@@ -7,8 +7,10 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 data class PickUpRegister (
-    @JsonProperty("cnpj")
-    val cnpj: String,
+    @JsonProperty("clientCnpj")
+    val clientCnpj: String,
+    @JsonProperty("cooperativeAdminId")
+    val cooperativeAdminId: Long,
     @JsonProperty("emailDriver")
     val emailDriver: String,
     @JsonProperty("address")

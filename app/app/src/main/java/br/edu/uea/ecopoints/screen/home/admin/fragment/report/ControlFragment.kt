@@ -2,10 +2,12 @@ package br.edu.uea.ecopoints.screen.home.admin.fragment.report
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,6 +17,7 @@ import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
 import br.edu.uea.ecopoints.screen.home.admin.state.report.DefaultState
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.report.ControlViewModel
 import br.edu.uea.ecopoints.screen.state.home.HomeState
+import br.edu.uea.ecopoints.util.formatedPersonDate
 import br.edu.uea.ecopoints.util.toMaterialColor
 import br.edu.uea.ecopoints.util.toMaterialString
 import com.github.mikephil.charting.charts.BarChart
@@ -71,6 +74,11 @@ class ControlFragment : Fragment() {
         }
         controlViewModel.barDataAPI.observe(viewLifecycleOwner){ barChartMaterials: BarDataAPI? ->
             if(barChartMaterials!=null){
+                if(barChartMaterials.data.isEmpty()){
+                    Toast.makeText(requireContext(),"Ainda sem dados de coleta para essa cooperativa!",Toast.LENGTH_LONG).show()
+                }
+                binding.tvEmployeesQuantity.text = "Empregados ${barChartMaterials.totalsEmployees}"
+                binding.tvCooperativeName.text = "${barChartMaterials.cooperativeName} \n (${barChartMaterials.startDate.formatedPersonDate()} --> ${barChartMaterials.endDate.formatedPersonDate()})"
                 populateData(barChartMaterials)
                 homeViewModel.state.value = HomeState.Success(barChartMaterials)
             }

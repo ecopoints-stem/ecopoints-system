@@ -12,7 +12,7 @@
         android:layout_marginTop="32dp"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +28,20 @@
         android:layout_marginEnd="16dp"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/tvCooperativeName" />
+
+    <TextView
+        android:id="@+id/tvEmployeesQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/bcHistogram"
+        app:layout_constraintStart_toStartOf="@id/bcHistogram"
+        app:layout_constraintTop_toBottomOf="@id/bcHistogram"
+        tools:text="Empregados: 10" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGenerateReport"
@@ -47,7 +61,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bcHistogram" />
+        app:layout_constraintTop_toBottomOf="@id/tvEmployeesQuantity" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
