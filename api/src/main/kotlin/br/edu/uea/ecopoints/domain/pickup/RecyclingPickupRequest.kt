@@ -30,8 +30,8 @@ class RecyclingPickupRequest(
     var driver: Driver? = null,
     @ManyToOne(optional = false) @JoinColumn(name = "requester_id", nullable = false)
     val requester: CooperativeAdministrator,
-    @ManyToOne(optional = false) @JoinColumn(name = "client_id", nullable = false)
-    val client: CooperativeAdministrator
+    @ManyToOne(optional = false) @JoinColumn(name = "coop_id", nullable = false)
+    val coopAdmin: CooperativeAdministrator
 ) {
     fun toView() : RecyclingPickupRequestView = RecyclingPickupRequestView(
         id = this.id!!,
@@ -43,6 +43,6 @@ class RecyclingPickupRequest(
         status = this.status,
         driverId = this.driver?.id,
         requesterId = this.requester.id!!,
-        clientId = this.client.id!!
+        coopAdminId = this.coopAdmin.id!!
     )
 }

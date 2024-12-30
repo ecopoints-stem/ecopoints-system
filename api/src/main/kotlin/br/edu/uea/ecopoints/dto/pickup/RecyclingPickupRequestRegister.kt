@@ -2,17 +2,15 @@ package br.edu.uea.ecopoints.dto.pickup
 
 import br.edu.uea.ecopoints.enums.material.MaterialType
 import com.fasterxml.jackson.annotation.JsonFormat
-import jakarta.annotation.Nonnull
 import jakarta.validation.constraints.Digits
 import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import org.hibernate.validator.constraints.br.CNPJ
 import java.math.BigDecimal
 import java.time.LocalDate
 
 data class RecyclingPickupRequestRegister(
-    @field:CNPJ val clientCnpj: String,
+    @field:CNPJ val requesterCnpj: String,
     @field:NotNull val cooperativeAdminId: Long,
     @field:Email val emailDriver: String,
     @field:NotNull val address: String,

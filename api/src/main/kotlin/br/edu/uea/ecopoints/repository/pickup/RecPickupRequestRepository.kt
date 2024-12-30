@@ -18,13 +18,13 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
         FROM RecyclingPickupRequest r 
         LEFT JOIN FETCH r.driver d 
         JOIN FETCH r.requester a 
-        JOIN FETCH r.client c
+        JOIN FETCH r.coopAdmin c
         WHERE r.id = :id
     """)
     fun findByIdWithDriverAndRequester(@Param("id") id: Long): Optional<RecyclingPickupRequest>
     fun findAllByPickDateAndDriver_Id(pickDate: LocalDate, driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest>
     fun findAllByRequester_IdOrderByPickDateDesc(requesterId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
-    fun findAllByClient_IdOrderByPickDateDesc(cooperativeAdminId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
+    fun findAllByCoopAdmin_IdOrderByPickDateDesc(cooperativeAdminId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriver_IdOrderByPickDateDesc(driverId: Long, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriver_IdAndStatusInAndPickDateOrderByPickDateDesc(driverId: Long, statuses: List<PickupRequestStatus>, pickDate: LocalDate, pageable: Pageable) : Page<RecyclingPickupRequest>
     fun findAllByDriver_IdAndStatusInAndPickDateBetweenOrderByPickDateDesc(
@@ -39,9 +39,8 @@ interface RecPickupRequestRepository : JpaRepository<RecyclingPickupRequest, Lon
         statuses: List<PickupRequestStatus>,
         pageable: Pageable
     ): Page<RecyclingPickupRequest>
-    // A função abaixo gera os dados para criar o excel do cliente
-    fun findAllByRequester_IdAndClient_IdAndStatusInAndPickDateBetween(
-        requesterId: Long, clientId: Long ,
-        statuses: List<PickupRequestStatus>,
-        startDate: LocalDate, endDate: LocalDate) : List<RecyclingPickupRequest>
+    fun findAllByCoopAdmin_IdAndRequester_IdAndStatusInAndPickDateBetween(
+        coopAdminId: Long, requesterId: Long,
+        statuses: List<PickupRequestStatus>, startDate: LocalDate, endDate: LocalDate
+    ) : List<RecyclingPickupRequest>
 }

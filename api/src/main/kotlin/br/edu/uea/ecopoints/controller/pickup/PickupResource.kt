@@ -36,7 +36,7 @@ class PickupResource (
     @PostMapping
     fun create(@RequestBody @Valid dto: RecyclingPickupRequestRegister) : ResponseEntity<RecyclingPickupRequestView>{
         val driver = driverService.findByEmail(dto.emailDriver)
-        val adminRequesterId = coopService.findByCnpjWithAdministrator(dto.clientCnpj).adm?.id ?: -1
+        val adminRequesterId = coopService.findByCnpjWithAdministrator(dto.requesterCnpj).adm?.id ?: -1
         val adminCooperative = admService.findById(dto.cooperativeAdminId)
         val adminRequester = admService.findById(adminRequesterId)
 
@@ -49,7 +49,7 @@ class PickupResource (
             quantity = dto.quantity, unitPrice = dto.unitPrice,
             address = dto.address, pickDate = dto.requestDate,
             status = PickupRequestStatus.IN_PROGRESS,
-            driver = driver, requester = adminRequester, client = adminCooperative
+            driver = driver, requester = adminRequester, coopAdmin = adminCooperative
         )
 
         val pickUpId = pickUpService.save(pickUp).id ?: -1
@@ -67,15 +67,15 @@ class PickupResource (
         return pickUpService.findAllByRequesterId(requesterId, pageable).map { pick -> pick.toView()}
     }
 
-    @GetMapping("/client/{clientId}")
+    @GetMapping("/cooperativeAdmin/{coopAdminId}")
     @Transactional
     fun getRequestsByClientId(
-        @PathVariable clientId: Long,
+        @PathVariable coopAdminId: Long,
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "5") size: Int
     )  : Page<RecyclingPickupRequestView> {
         val pageable = PageRequest.of(page, size)
-        return pickUpService.findAllByClientId(clientId, pageable).map { pick -> pick.toView()}
+        return pickUpService.findAllByCoopAdminId(coopAdminId, pageable).map { pick -> pick.toView()}
     }
 
     @GetMapping("/driver/{driverId}")

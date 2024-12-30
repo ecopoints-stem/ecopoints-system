@@ -84,23 +84,25 @@ class CoopAdmResource (
         }
     }
 
-    @GetMapping("/{id}/client/report")
+    @GetMapping("/{id}/associated/report")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun getClientReportExcel(
         @PathVariable id: Long,
-        @RequestParam(required = true) clientCnpj: String,
+        @RequestParam(required = true) requesterCnpj: String,
         @RequestParam(required = true) startDate: String,
         @RequestParam(required = true) endDate: String) {
 
-        val cooperative = cooperativeService.findByCnpjWithAdministrator(clientCnpj)
+        val requester = cooperativeService.findByCnpjWithAdministrator(requesterCnpj).adm
+        val requesterId = requester?.id
+        val coopAdminId = id
         val dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val entityStartDate = LocalDate.parse(startDate,dateFormatter)
         val entityEndDate = LocalDate.parse(endDate, dateFormatter)
-        val clientId = if(cooperative.adm!=null) cooperative.adm!!.id else null
-        if(clientId!=null && id!=clientId){
+
+        if(requesterId!=null && id!=requesterId){
             thread (start = true){
-                val excel = reportService.generateClientReport(id, clientId, entityStartDate, entityEndDate)
-                emailService.sendExcelReport(cooperative.adm!!.email,
+                val excel = reportService.generateCoopAdminReport(requesterId, coopAdminId, entityStartDate, entityEndDate)
+                emailService.sendExcelReport(requester.email,
                     EmailTexts.EXCEL_ADMIN_REPORT_SUBJECT,
                     EmailTexts.EXCEL_ADMIN_REPORT_BODY, excel,
                     "relatorio.xlsx"

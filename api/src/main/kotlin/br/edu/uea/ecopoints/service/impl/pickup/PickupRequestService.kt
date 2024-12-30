@@ -7,8 +7,6 @@ import br.edu.uea.ecopoints.exception.DomainException
 import br.edu.uea.ecopoints.repository.pickup.RecPickupRequestRepository
 import br.edu.uea.ecopoints.service.interf.pickup.IPickupRequestService
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -34,7 +32,7 @@ class PickupRequestService (
     ): Page<RecyclingPickupRequest> = repo.findAllByPickDateAndDriver_Id(pickDate, driverId, pageable)
 
     override fun findAllByRequesterId(requesterId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByRequester_IdOrderByPickDateDesc(requesterId, pageable)
-    override fun findAllByClientId(cooperativeAdminId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByClient_IdOrderByPickDateDesc(cooperativeAdminId, pageable)
+    override fun findAllByCoopAdminId(cooperativeAdminId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByCoopAdmin_IdOrderByPickDateDesc(cooperativeAdminId, pageable)
 
     override fun findAllByDriverId(driverId: Long, pageable: Pageable): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdOrderByPickDateDesc(driverId, pageable)
     override fun findAllByDriverIdAndStatusInAndPickDate(
@@ -50,13 +48,13 @@ class PickupRequestService (
         pageable: Pageable
     ): Page<RecyclingPickupRequest> = repo.findAllByDriver_IdAndStatusInOrderByPickDateDesc(driverId, statuses, pageable)
 
-    override fun findAllByRequesterIdAndStatusIn(
+    override fun findAllByRequesterIdAndClientIdAndStatusIn(
+        coopAdminId: Long,
         requesterId: Long,
-        clientId : Long,
+        statuses: List<PickupRequestStatus>,
         startDate: LocalDate,
-        endDate: LocalDate,
-        statuses: List<PickupRequestStatus>
-    ): List<RecyclingPickupRequest> = repo.findAllByRequester_IdAndClient_IdAndStatusInAndPickDateBetween(requesterId, clientId, statuses, startDate, endDate)
+        endDate: LocalDate
+    ): List<RecyclingPickupRequest> = repo.findAllByCoopAdmin_IdAndRequester_IdAndStatusInAndPickDateBetween(coopAdminId, requesterId, statuses, startDate, endDate)
 
     override fun existsById(id: Long): Boolean = repo.existsById(id)
 

@@ -2,10 +2,11 @@ package br.edu.uea.ecopoints.service.impl.cooperative
 
 import br.edu.uea.ecopoints.domain.cooperative.Cooperative
 import br.edu.uea.ecopoints.domain.cooperative.material.SeparatedMaterial
-import br.edu.uea.ecopoints.domain.user.CooperativeAdministrator
-import br.edu.uea.ecopoints.enums.material.MaterialType
+import br.edu.uea.ecopoints.domain.pickup.RecyclingPickupRequest
+import br.edu.uea.ecopoints.enums.PickupRequestStatus.COMPLETED
 import br.edu.uea.ecopoints.service.interf.cooperative.ICooperativeService
 import br.edu.uea.ecopoints.service.interf.cooperative.IReportService
+import br.edu.uea.ecopoints.service.interf.pickup.IPickupRequestService
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Service
 class ReportService (
-    private val cooperativeService: ICooperativeService
+    private val cooperativeService: ICooperativeService,
+    private val pickupService: IPickupRequestService
 ): IReportService {
     override fun generateAdminReport(cooperativeId: Long, startDate: LocalDateTime, endDate: LocalDateTime): ByteArray {
         val cooperative = cooperativeService.findByIdWithAdminEmployeesAndMaterials(cooperativeId)
@@ -42,13 +45,60 @@ class ReportService (
         return outputStream.toByteArray()
     }
 
-    override fun generateClientReport(
+    override fun generateCoopAdminReport(
         id: Long,
-        clientId: Long,
+        coopAdminId: Long,
         entityStartDate: LocalDate,
         entityEndDate: LocalDate
     ): ByteArray {
-        TODO("Not yet implemented")
+        val result = pickupService.findAllByRequesterIdAndClientIdAndStatusIn(
+            requesterId = id,
+            coopAdminId = coopAdminId,
+            startDate = entityStartDate,
+            endDate = entityEndDate,
+            statuses =  listOf(COMPLETED)
+        )
+        println("\n\n===Data de início $entityStartDate Data de Fim $entityEndDate===\n\n")
+        println(result)
+        println("\n\n")
+        val workbook = XSSFWorkbook()
+        val collectedMaterialSheet = workbook.createSheet("coletados")
+        createCollectedMaterial(collectedMaterialSheet,result,workbook)
+        val outputStream = ByteArrayOutputStream()
+        workbook.write(outputStream)
+        workbook.close()
+        return outputStream.toByteArray()
+    }
+
+    private fun createCollectedMaterial(
+        materialsSheet: org.apache.poi.ss.usermodel.Sheet,
+        result: List<RecyclingPickupRequest>,
+        workbook: XSSFWorkbook) {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val headerStyle = workbook.createCellStyle().apply {
+            alignment = HorizontalAlignment.CENTER
+            setFont(workbook.createFont().apply { bold = true })
+        }
+        val headerRow = materialsSheet.createRow(0)
+        val headers = listOf("Data", "Quantidade", "Tipo de Material")
+        headers.forEachIndexed { index, title ->
+            val cell = headerRow.createCell(index, CellType.STRING)
+            cell.setCellValue(title)
+            cell.cellStyle = headerStyle
+        }
+        var totalValue = 0.0
+        result.forEachIndexed { index: Int, pickup: RecyclingPickupRequest ->
+            totalValue+=pickup.quantity*pickup.unitPrice.toDouble()
+            val row = materialsSheet.createRow(index + 1)
+            row.createCell(0,CellType.STRING).setCellValue(pickup.pickDate.format(formatter))
+            row.createCell(1,CellType.NUMERIC).setCellValue(pickup.quantity)
+            row.createCell(2,CellType.STRING).setCellValue(pickup.materialType.toString())
+        }
+
+        val row = materialsSheet.createRow(result.size+1)
+        row.createCell(0,CellType.STRING).setCellValue("Total (R$) :")
+        row.createCell(1,CellType.NUMERIC).setCellValue(totalValue)
+        headers.indices.forEach { materialsSheet.autoSizeColumn(it) }
     }
 
     private fun createMaterialSheet(

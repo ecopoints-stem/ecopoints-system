@@ -16,5 +16,5 @@ data class RecyclingPickupRequestView(
     val status: PickupRequestStatus,
     val driverId: Long?,
     val requesterId: Long,
-    val clientId: Long
+    val coopAdminId: Long
 )
