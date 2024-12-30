@@ -42,7 +42,7 @@ class PickUpRequestViewModel @Inject constructor(
     ) {
         val adminId = shared.getLong("id",-1L)
         val pickUpRegister = PickUpRegister(
-            clientCnpj = cnpj, emailDriver = emailDriver,
+            requesterCnpj = cnpj, emailDriver = emailDriver,
             address = address, materialType = materialType,
             quantity = quantity, unitPrice = unitPrice,
             requestDate = requestDate, cooperativeAdminId = adminId

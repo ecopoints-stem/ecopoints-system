@@ -16,5 +16,5 @@ data class PickUpRequest(
     @JsonProperty("status") val status: PickupRequestStatus,
     @JsonProperty("driverId") val driverId: Long?,
     @JsonProperty("requesterId") val requesterId: Long,
-    @JsonProperty("clientId") val clientId: Long
+    @JsonProperty("coopAdminId") val coopAdminId: Long
 )

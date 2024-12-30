@@ -8,7 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientViewModel @Inject constructor() : ViewModel() {
 
-    fun emitExcelDocument(cnpj: String, startDate: LocalDate, endDate: LocalDate) {
+    fun emitExcelDocument(cnpj: String, startDate: String, endDate: String) {
         
     }
 }

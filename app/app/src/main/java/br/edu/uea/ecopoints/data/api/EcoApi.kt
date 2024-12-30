@@ -88,9 +88,9 @@ interface EcoApi {
     // Rotas para /pickup
     @POST("/pickup")
     suspend fun createPickUpRequest(@Body pickup: PickUpRegister) : Response<PickUpRequest>
-    @GET("/pickup/client/{clientId}")
+    @GET("/pickup/cooperativeAdmin/{coopAdminId}")
     suspend fun getAllRequestsByCooperativeAdminId(
-        @Path("clientId") clientId: Long,
+        @Path("coopAdminId") coopAdminId: Long,
         @Query("page") page: Int,
         @Query("size") size: Int
     ) : Response<PageResponse<PickUpRequest>>

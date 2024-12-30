@@ -95,7 +95,7 @@ class ClientFragment :  Fragment() {
                             Toast.makeText(requireContext(),"Intervalo entre datas inválido, favor verificar novamente",Toast.LENGTH_SHORT).show()
                         } else{
                             Toast.makeText(requireContext(),"Campos validados, gerar documento excel", Toast.LENGTH_SHORT).show()
-                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),startDate, endDate)
+                            clientViewModel.emitExcelDocument(edtCnpj.text.toString(),btnStartDate.text.toString(), btnEndDate.text.toString())
                         }
                     } else {
                         Toast.makeText(requireContext(),"Campos de data de início ou término não preenchidos",Toast.LENGTH_SHORT).show()
