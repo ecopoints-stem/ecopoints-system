@@ -84,6 +84,12 @@ interface EcoApi {
     suspend fun getBarData(@Path("id") id: Long, @Query("endDate") endDate: String) : Response<BarDataAPI>
     @GET("/admin/{id}/report")
     suspend fun adminReport(@Path("id") id: Long, @Query("endDate") endDate: String) : Response<Unit>
+    @GET("/admin/{id}/associated/report")
+    suspend fun coopAdminReport(
+        @Path("id") id: Long,
+        @Query("requesterCnpj") requesterCnpj: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String) : Response<Unit>
 
     // Rotas para /pickup
     @POST("/pickup")

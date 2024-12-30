@@ -1,14 +1,65 @@
 package br.edu.uea.ecopoints.screen.home.admin.viewmodel.report
 
+import android.content.SharedPreferences
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import br.edu.uea.ecopoints.data.api.EcoApi
+import br.edu.uea.ecopoints.data.api.exception.ExceptionDetails
+import br.edu.uea.ecopoints.screen.home.admin.state.report.DefaultState
+import com.fasterxml.jackson.databind.ObjectMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class ClientViewModel @Inject constructor() : ViewModel() {
+class ClientViewModel @Inject constructor(
+    private val ecoApi: EcoApi,
+    private val shared: SharedPreferences,
+    private val mapper: ObjectMapper
+) : ViewModel() {
+
+    private val _state = MutableLiveData<DefaultState>()
+    val state: LiveData<DefaultState> = _state
 
     fun emitExcelDocument(cnpj: String, startDate: String, endDate: String) {
-        
+        viewModelScope.launch (Dispatchers.IO){
+            val adminId = shared.getLong("id",-1L)
+            _state.postValue(DefaultState.Loading)
+            _state.postValue(
+                runCatching {
+                    ecoApi.coopAdminReport(
+                        id = adminId,
+                        requesterCnpj = cnpj,
+                        startDate = startDate,
+                        endDate = endDate
+                    )
+                }.fold(
+                    onFailure = { error -> DefaultState.Failed(null,error.message ?: "Erro ao gerar relatório do cliente") },
+                    onSuccess = { response ->
+                        if(response.isSuccessful){
+                            DefaultState.Success("OK")
+                        } else{
+                            val errorBodyString = response.errorBody()?.string()
+                            Log.e("ECO","Error body $errorBodyString")
+                            val errorDetails = if(errorBodyString!=null){
+                                try {
+                                    mapper.readValue(errorBodyString, ExceptionDetails::class.java)
+                                } catch (ex: Exception){
+                                    null
+                                }
+                            } else {
+                                null
+                            }
+                            DefaultState.Failed(errorDetails,"Servidor deu erro: ${response.code()}")
+                        }
+                    }
+                )
+            )
+        }
     }
 }
