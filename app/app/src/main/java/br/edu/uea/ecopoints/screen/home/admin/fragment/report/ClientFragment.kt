@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import br.edu.uea.ecopoints.databinding.FragmentAdminReportClientBinding
+import br.edu.uea.ecopoints.screen.home.admin.HomeViewModel
+import br.edu.uea.ecopoints.screen.home.admin.state.report.DefaultState
 import br.edu.uea.ecopoints.screen.home.admin.viewmodel.report.ClientViewModel
+import br.edu.uea.ecopoints.screen.state.home.HomeState
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +33,7 @@ class ClientFragment :  Fragment() {
     private lateinit var btnGenerate: MaterialButton
     private lateinit var edtCnpj : TextInputEditText
     private val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    private val homeViewModel: HomeViewModel by activityViewModels()
     private val clientViewModel: ClientViewModel by viewModels()
 
     override fun onCreateView(
@@ -40,6 +45,20 @@ class ClientFragment :  Fragment() {
         setupView()
         setupListeners()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        clientViewModel.state.observe(viewLifecycleOwner) { state: DefaultState ->
+            if(state.isProgressVisible){
+                homeViewModel.state.value = HomeState.Loading
+            } else {
+                homeViewModel.state.value = HomeState.NotLoading
+            }
+            if(state.isErrorMessageVisible && state.errorResponseApi!=null){
+                homeViewModel.state.value = HomeState.InconsistentInput(state.errorResponseApi!!,state.errorMessage!!)
+            }
+        }
     }
 
     private fun setupListeners() {
