@@ -68,6 +68,7 @@ class AppointmentFragment : Fragment() {
             showStatusDialog(pickUpRequest)
         }
         rc.adapter = adapter
+        rc.itemAnimator = null
         rc.layoutManager = LinearLayoutManager(requireContext())
         lifecycleScope.launch {
             todayViewModel.pickups.collectLatest { paging: PagingData<PickUpRequest> ->

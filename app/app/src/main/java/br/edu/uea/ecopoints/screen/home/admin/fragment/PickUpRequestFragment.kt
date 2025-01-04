@@ -83,6 +83,7 @@ class PickUpRequestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rc.adapter = adapter
         rc.layoutManager = LinearLayoutManager(requireContext())
+        rc.itemAnimator = null
         lifecycleScope.launch {
             pickupViewModel.pickups.collectLatest { paging: PagingData<PickUpRequest> ->
                 adapter.submitData(paging)

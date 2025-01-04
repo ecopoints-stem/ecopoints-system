@@ -56,6 +56,7 @@ class RecycledItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rcSeparatedMaterial.adapter = adapter
+        rcSeparatedMaterial.itemAnimator = null
         rcSeparatedMaterial.layoutManager = LinearLayoutManager(requireContext())
         lifecycleScope.launch {
             recycledItemsViewModel.recycledMaterials.collectLatest { paging: PagingData<SeparatedMaterial> ->
