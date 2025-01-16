@@ -29,7 +29,7 @@ spring:
           starttls:
             enable: ${MAIL_SENDER_STARTTLS_ENABLE}
 jwt:
-  key: ${JWT-KEY}
+  key: ${JWT_KEY}
   access-token-expiration: 3600000
   refresh-token-expiration: 10800000
 mail-sender:
