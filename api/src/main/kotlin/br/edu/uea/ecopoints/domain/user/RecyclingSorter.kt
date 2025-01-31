@@ -24,7 +24,7 @@ class RecyclingSorter (
     val cpf: String,
     @JoinColumn(name = "cooperative_id", nullable = true)
     @ManyToOne(optional = true,
-        cascade = [CascadeType.PERSIST,CascadeType.MERGE],
+        cascade = [CascadeType.MERGE],
         fetch = FetchType.EAGER
     ) var cooperative: Cooperative? = null,
     @OneToMany(

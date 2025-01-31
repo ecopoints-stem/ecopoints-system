@@ -15,7 +15,7 @@ class SeparatedMaterial (
     @ManyToOne(
         optional = false,
         fetch = FetchType.LAZY,
-        cascade = [CascadeType.PERSIST,CascadeType.MERGE]
+        cascade = [CascadeType.MERGE]
     ) @JoinColumn(
         name = "employee_id",
         nullable = true
@@ -23,7 +23,7 @@ class SeparatedMaterial (
     @ManyToOne(
         optional = false,
         fetch = FetchType.EAGER,
-        cascade = [CascadeType.PERSIST,CascadeType.MERGE]
+        cascade = [CascadeType.MERGE]
     ) @JoinColumn(
         name = "material_id",
         nullable = true
@@ -31,7 +31,7 @@ class SeparatedMaterial (
     @ManyToOne(
         optional = false,
         fetch = FetchType.LAZY,
-        cascade = [CascadeType.PERSIST,CascadeType.MERGE]
+        cascade = [CascadeType.MERGE]
     ) @JoinColumn(
         name = "cooperative_id",
         nullable = true
