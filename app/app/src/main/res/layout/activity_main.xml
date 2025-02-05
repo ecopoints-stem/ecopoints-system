@@ -15,15 +15,15 @@
         android:layout_marginBottom="16dp"
         android:text="PERFIL"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivEmployee"
-        android:layout_width="150dp"
-        android:layout_height="130dp"
+        android:layout_width="80dp"
+        android:layout_height="90dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
@@ -42,15 +42,15 @@
         android:layout_marginTop="8dp"
         android:text="Separador de Material"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="@id/ivEmployee"
         app:layout_constraintStart_toStartOf="@id/ivEmployee"
         app:layout_constraintTop_toBottomOf="@id/ivEmployee" />
 
     <ImageView
         android:id="@+id/ivAdmin"
-        android:layout_width="150dp"
-        android:layout_height="130dp"
+        android:layout_width="80dp"
+        android:layout_height="90dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/admin_icon"
@@ -69,15 +69,15 @@
         android:layout_marginTop="8dp"
         android:text="Administrador"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="@id/ivAdmin"
         app:layout_constraintStart_toStartOf="@id/ivAdmin"
         app:layout_constraintTop_toBottomOf="@id/ivAdmin" />
 
     <ImageView
         android:id="@+id/ivDriver"
-        android:layout_width="150dp"
-        android:layout_height="130dp"
+        android:layout_width="80dp"
+        android:layout_height="90dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:src="@drawable/driver_icon"
@@ -95,7 +95,7 @@
         android:layout_marginTop="8dp"
         android:text="Motorista"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="@id/ivDriver"
         app:layout_constraintStart_toStartOf="@id/ivDriver"
         app:layout_constraintTop_toBottomOf="@id/ivDriver" />

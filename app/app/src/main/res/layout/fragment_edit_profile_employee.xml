@@ -9,20 +9,20 @@
         android:id="@+id/tvEditProfileEmployee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
         android:text="Editar Perfil (Empregado)"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="34sp"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivRole"
-        android:layout_width="150dp"
-        android:layout_height="130dp"
+        android:layout_width="100dp"
+        android:layout_height="95dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="@id/tvEditProfileEmployee"
@@ -35,9 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:hint="Nome"
         android:textColorHint="@color/white"
         app:boxCornerRadiusBottomEnd="16dp"
@@ -57,7 +57,7 @@
             android:maxLines="1"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -67,9 +67,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:hint="Email"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
@@ -89,7 +89,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -99,9 +99,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:hint="Telefone"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
@@ -121,7 +121,7 @@
             android:inputType="phone"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -131,9 +131,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:hint="CNPJ (Contratante)"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
@@ -153,7 +153,7 @@
             android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -163,9 +163,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:hint="Senha"
         android:textColorHint="@color/white"
         app:boxBackgroundMode="outline"
@@ -187,7 +187,7 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -196,9 +196,9 @@
         android:id="@+id/btEditProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
@@ -206,7 +206,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:text="Atualizar"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
