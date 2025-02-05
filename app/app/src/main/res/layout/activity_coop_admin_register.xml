@@ -11,11 +11,11 @@
         android:id="@+id/tvRegisterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:text="Cadastro"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Nome"
         android:textColorHint="@color/white"
@@ -47,7 +47,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="CNPJ"
         android:textColorHint="@color/white"
@@ -78,7 +78,7 @@
             android:inputType="number"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Nome da Empresa"
         android:textColorHint="@color/white"
@@ -109,7 +109,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Pergunta de Segurança"
         android:textColorHint="@color/white"
@@ -140,7 +140,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -150,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Resposta de Segurança"
         android:textColorHint="@color/white"
@@ -171,7 +171,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -195,7 +195,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Telefone"
         android:textColorHint="@color/white"
@@ -216,7 +216,7 @@
             android:inputType="phone"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -226,7 +226,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Email"
         android:textColorHint="@color/white"
@@ -247,7 +247,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -257,7 +257,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:hint="Senha"
         android:textColorHint="@color/white"
@@ -279,7 +279,7 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -289,16 +289,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="@color/white"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         android:text="Cadastrar"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
